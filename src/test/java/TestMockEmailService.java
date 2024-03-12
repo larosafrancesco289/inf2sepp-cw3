@@ -41,4 +41,5 @@ class TestMockEmailService {
         int status = emailService.sendEmail("sender@example.com", null, "Subject", "Content");
         assertEquals(emailService.STATUS_INVALID_RECIPIENT_EMAIL, status, "Null recipient should be considered invalid");
     }
+
 }

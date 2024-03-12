@@ -53,8 +53,8 @@ public class MockAuthenticationService implements AuthenticationService {
     }
 
     @Override
-    public String login(String email, String password) {
-        JSONObject user = users.get(email);
+    public String login(String username, String password) {
+        JSONObject user = users.get(username);
         if (user == null) {
             // This means the email address is not registered, but for security,
             // Error message deliberately does not say it's the email that's wrong

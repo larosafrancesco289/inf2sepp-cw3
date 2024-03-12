@@ -18,8 +18,10 @@ public class TestMockAuthenticationService {
 
     @Test
     public void testValidLogin() {
-        String expected = "{\"username\":\"JackTheRipper\",\"password\":\"catch me if u can\",\"email\":\"jack.tr@hindenburg.ac.uk\",\"role\":\"AdminStaff\"}";
-        String result = authService.login("jack.tr@hindenburg.ac.uk", "catch me if u can");
+        // The order might be different need to fix this
+        String expected = "{\"password\":\"catch me if u can\",\"role\":\"AdminStaff\",\"email\":\"jack.tr@hindenburg.ac.uk\",\"username\":\"JackTheRipper\"}";
+        String result = authService.login("JackTheRipper", "catch me if u can");
+
         assertEquals(expected, result, "Valid login should return user data.");
     }
 
