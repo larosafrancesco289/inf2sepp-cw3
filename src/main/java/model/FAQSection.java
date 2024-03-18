@@ -6,8 +6,9 @@ import java.util.List;
 public class FAQSection {
     private String topic;
     private boolean isPrivate;
-    private List<FAQItem> items;
+    private FAQSection parent;
     private List<FAQSection> subsections;
+    private List<FAQItem> items;
 
     public FAQSection(String topic) {
         this.topic = topic;
@@ -39,12 +40,12 @@ public class FAQSection {
         isPrivate = aPrivate;
     }
 
-    public List<FAQItem> getItems() {
-        return items;
+    public FAQSection getParent() {
+        return parent;
     }
 
-    public void setItems(List<FAQItem> items) {
-        this.items = items;
+    public void setParent(FAQSection parent) {
+        this.parent = parent;
     }
 
     public List<FAQSection> getSubsections() {
@@ -53,5 +54,13 @@ public class FAQSection {
 
     public void setSubsections(List<FAQSection> subsections) {
         this.subsections = subsections;
+    }
+
+    public List<FAQItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<FAQItem> items) {
+        this.items = items;
     }
 }

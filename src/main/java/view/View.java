@@ -1,5 +1,9 @@
 package view;
 
+import model.*;
+
+import java.util.Collection;
+
 public interface View {
     String getInput(String prompt);
     boolean getYesNoInput(String question);

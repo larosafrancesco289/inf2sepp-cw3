@@ -10,11 +10,34 @@ public class MenuController extends Controller{
     private TeachingStaffMainMenuOption teachingStaffMainMenuOptions;
     private AdminStaffMainMenuOption adminMainMenuOptions;
 
+    private InquirerController inquirerController;
+    private StaffController staffController;
+    private AdminStaffController adminStaffController;
+    private TeachingStaffController teachingStaffController;
+    private GuestController guestController;
+    private AuthenticatedUserController authenticatedUserController;
+
     public MenuController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
-    public void selectFromMenu(Collection<T> items, String selection) {
-        // ...
-        return;
+
+    public void mainMenu() {
+
+    }
+
+    private boolean handleGuestMainMenu() {
+        return true;
+    }
+
+    private boolean handleStudentMainMenu() {
+        return true;
+    }
+
+    private boolean handleTeachingStaffMainMenu() {
+        return true;
+    }
+
+    private boolean handleAdminStaffMainMenu() {
+        return true;
     }
 }

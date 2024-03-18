@@ -18,8 +18,8 @@ public abstract class Controller {
         this.emailService = emailService;
     }
 
-    protected <T> selectFromMenu(Collection<T> items, String selection) {
+    protected <T> int selectFromMenu(Collection<T> items, String selection) {
         // ...
-        return;
+        return 0;
     }
 }

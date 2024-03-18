@@ -7,10 +7,6 @@ public class InquirerController extends Controller{
     public InquirerController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
-    public void selectFromMenu(Collection<T> items, String selection) {
-        // ...
-        return;
-    }
 
     public void consultFAQ() {
     }

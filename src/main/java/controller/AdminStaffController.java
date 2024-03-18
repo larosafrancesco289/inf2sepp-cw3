@@ -16,6 +16,7 @@ public class AdminStaffController extends StaffController {
     }
 
     private void addFAQItem(FAQSection section) {
+        sharedContext.getFaq().getSections().add(section);
     }
 
     public void viewAllPages() {

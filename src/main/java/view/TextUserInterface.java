@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Scanner;
 
 public class TextUserInterface implements View {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public TextUserInterface() {
         this.scanner = new Scanner(System.in);

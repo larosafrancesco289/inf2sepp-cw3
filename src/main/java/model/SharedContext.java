@@ -1,9 +1,6 @@
 package model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SharedContext {
     public static final String ADMIN_STAFF_EMAIL = "admin@example.com";
