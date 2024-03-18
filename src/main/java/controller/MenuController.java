@@ -22,10 +22,13 @@ public class MenuController extends Controller{
     }
 
     public void mainMenu() {
-
+        handleGuestMainMenu();
     }
 
     private boolean handleGuestMainMenu() {
+        for (GuestMainMenuOption option : GuestMainMenuOption.values()) {
+            System.out.println(option);
+        }
         return true;
     }
 
