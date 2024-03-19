@@ -22,7 +22,25 @@ public class MenuController extends Controller{
     }
 
     public void mainMenu() {
-        handleGuestMainMenu();
+
+        User currentUser = super.getCurrentUser();
+        
+        switch (currentUser.getRole()) {
+            case "Student":
+                handleStudentMainMenu();
+                break;
+            case "TeachingStaff":
+                handleTeachingStaffMainMenu();
+                break;
+            case "AdminStaff":
+                handleAdminStaffMainMenu();
+                break;
+            case "Guest":
+                handleGuestMainMenu();
+                break;
+            default:
+                break;
+        }
     }
 
     private boolean handleGuestMainMenu() {
@@ -33,14 +51,23 @@ public class MenuController extends Controller{
     }
 
     private boolean handleStudentMainMenu() {
+        for (StudentMainMenuOption option : StudentMainMenuOption.values()) {
+            System.out.println(option);
+        }
         return true;
     }
 
     private boolean handleTeachingStaffMainMenu() {
+        for (TeachingStaffMainMenuOption option : TeachingStaffMainMenuOption.values()) {
+            System.out.println(option);
+        }
         return true;
     }
 
     private boolean handleAdminStaffMainMenu() {
+        for (AdminStaffMainMenuOption option : AdminStaffMainMenuOption.values()) {
+            System.out.println(option);
+        }
         return true;
     }
 }

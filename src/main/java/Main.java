@@ -21,13 +21,13 @@ public class Main {
 
         // Start the menu
         menuController.mainMenu();
-        String username = textUserInterface.getInput("Enter your username: ");
-        String password = textUserInterface.getInput("Enter your password: ");
-        try {
-            String token = authService.login(username, password);
-            menuController.mainMenu();
-        } catch (Exception e) {
-            textUserInterface.displayError(e.getMessage());
-        }
+        // String username = textUserInterface.getInput("Enter your username: ");
+        // String password = textUserInterface.getInput("Enter your password: ");
+        // try {
+        //     String token = authService.login(username, password);
+        //     menuController.mainMenu();
+        // } catch (Exception e) {
+        //     textUserInterface.displayError(e.getMessage());
+        // }
     }
 }

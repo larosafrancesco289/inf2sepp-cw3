@@ -5,7 +5,7 @@ import java.util.*;
 public class SharedContext {
     public static final String ADMIN_STAFF_EMAIL = "admin@example.com";
     private Map<String, Collection<String>> faqTopicUpdateSubscribers;
-    private User currentUser;
+    private User currentUser = new Guest();
     private List<Inquiry> inquiries;
     private FAQ faq;
     private List<Page> pages;

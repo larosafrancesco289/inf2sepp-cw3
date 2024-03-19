@@ -1,7 +1,7 @@
 package controller;
 import external.*;
 import view.*;
-import model.SharedContext;
+import model.*;
 
 import java.util.Collection;
 
@@ -21,5 +21,9 @@ public abstract class Controller {
     protected <T> int selectFromMenu(Collection<T> items, String selection) {
         // ...
         return 0;
+    }
+
+    protected User getCurrentUser() {
+        return sharedContext.getCurrentUser();
     }
 }
