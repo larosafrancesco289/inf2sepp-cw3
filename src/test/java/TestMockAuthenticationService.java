@@ -6,6 +6,8 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestMockAuthenticationService {
 
@@ -16,13 +18,26 @@ public class TestMockAuthenticationService {
         authService = new MockAuthenticationService();
     }
 
+    private Map<String, String> jsonStringToMap(String jsonString) {
+        jsonString = jsonString.replaceAll("[{}]", ""); // Remove {}
+        String[] keyValuePairs = jsonString.split(",");
+        Map<String, String> map = new HashMap<>();
+        for (String pair : keyValuePairs) {
+            String[] entry = pair.split(":");
+            map.put(entry[0].trim().replaceAll("^\"|\"$", ""), // Remove ""
+                    entry[1].trim().replaceAll("^\"|\"$", "")); // Remove ""
+        }
+        return map;
+    }
     @Test
     public void testValidLogin() {
-        // The order might be different need to fix this
         String expected = "{\"password\":\"catch me if u can\",\"role\":\"AdminStaff\",\"email\":\"jack.tr@hindenburg.ac.uk\",\"username\":\"JackTheRipper\"}";
         String result = authService.login("JackTheRipper", "catch me if u can");
 
-        assertEquals(expected, result, "Valid login should return user data.");
+        Map<String, String> expectedMap = jsonStringToMap(expected);
+        Map<String, String> resultMap = jsonStringToMap(result);
+
+        assertEquals(expectedMap, resultMap, "Valid login should return user data.");
     }
 
     @Test
