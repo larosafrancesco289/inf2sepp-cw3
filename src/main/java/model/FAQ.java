@@ -11,10 +11,7 @@ public class FAQ {
         sections = new ArrayList<>();
     }
 
-    public void addSectionItems(String topic, Map<String, String> items) {
-        // Create a new section and add items to it
-        FAQSection section = new FAQSection(topic);
-        items.forEach(section::addItem);
+    public void addSectionItems(FAQSection section) {
         sections.add(section);
     }
 
