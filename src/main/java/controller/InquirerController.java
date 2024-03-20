@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class InquirerController extends Controller{
+public class InquirerController extends Controller {
     public InquirerController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
@@ -34,15 +34,13 @@ public class InquirerController extends Controller{
                 faq = sharedContext.getFaq();
                 view.displayFAQ(faq, currentUser instanceof Guest);
                 view.displayInfo("[-1] to return to the main menu");
-            }
-            else {
+            } else {
                 view.displayFAQSection(currentSection, currentUser instanceof Guest);
                 parent = currentSection.getParent();
 
                 if (parent == null) {
                     view.displayInfo("[-1] to return to the main menu");
-                }
-                else {
+                } else {
                     topic = parent.getTopic();
                     view.displayInfo("[-1] to return to " + topic);
                 }
@@ -50,16 +48,14 @@ public class InquirerController extends Controller{
                 if (currentUser instanceof Guest) {
                     view.displayInfo("[-2] to request updates on this topic");
                     view.displayInfo("[-3] to stop receiving updates on this topic");
-                }
-                else {
+                } else {
                     topic = currentSection.getTopic();
                     subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
 
                     // if current user is in the subscribers list
                     if (subscribers.contains(userEmail)) {
                         view.displayInfo("[-2] to stop receiving updates on this topic");
-                    }
-                    else {
+                    } else {
                         view.displayInfo("[-2] to request updates on this topic");
                     }
                 }
@@ -87,16 +83,14 @@ public class InquirerController extends Controller{
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
                         sections = faq.getSections();
-                    }
-                    else {
+                    } else {
                         sections = parent.getSubsections();
                     }
 
                     // if optionNo out of section bounds
                     if (optionNo > sections.size()) {
                         view.displayError("Invalid option: " + optionNo);
-                    }
-                    else {
+                    } else {
                         currentSection = sections.get(optionNo);
                     }
                 }
@@ -104,8 +98,6 @@ public class InquirerController extends Controller{
                 view.displayError("Invalid option: " + optionNo);
                 return;
             }
-
-
         }
     }
 
@@ -127,7 +119,7 @@ public class InquirerController extends Controller{
         try {
             search = new PageSearch(availablePages);
             // Should be a IOException NEED TO ASK
-        } catch (Exception exception){
+        } catch (Exception exception) {
             view.displayException(exception);
             return;
         }
@@ -149,7 +141,7 @@ public class InquirerController extends Controller{
         }
         Boolean success = sharedContext.registerForFAQUpdates(userEmail, topic);
         if (success) {
-            view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic + "");
+            view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic);
         } else {
             view.displayFailure("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
         }
@@ -161,7 +153,7 @@ public class InquirerController extends Controller{
         }
         Boolean success = sharedContext.unregisterForFAQUpdates(userEmail, topic);
         if (success) {
-            view.displaySuccess("Successfully unregistered " + userEmail + " for updates on " + topic + "");
+            view.displaySuccess("Successfully unregistered " + userEmail + " for updates on " + topic);
         } else {
             view.displayFailure("Failed to unregister " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
         }

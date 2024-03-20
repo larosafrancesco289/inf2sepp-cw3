@@ -21,7 +21,7 @@ public class AdminStaffController extends StaffController {
         Boolean titleExists = availablePages.containsKey(title);
         if (titleExists) {
             Boolean overwrite = view.getYesNoInput("Page " + title + " already exists. Overwrite with new page?");
-            if (overwrite == false) {
+            if (!overwrite) {
                 view.displayInfo("Cancelled adding new page");
                 return;
             }
@@ -35,7 +35,7 @@ public class AdminStaffController extends StaffController {
 
         int status = emailService.sendEmail(currentUser.getEmail(), SharedContext.ADMIN_STAFF_EMAIL, title, "New page added");
         if (status == EmailService.STATUS_SUCCESS) {
-            view.displaySuccess("Added page " + title + "");
+            view.displaySuccess("Added page " + title);
         } else {
             view.displayWarning("Added page " + title + " but failed to send email notification!");
         }
