@@ -15,32 +15,97 @@ public class InquirerController extends Controller{
     }
 
     public void consultFAQ() {
+        FAQ faq;
+        List<FAQSection> sections;
         FAQSection currentSection = null;
+        FAQSection parent = null;
         User currentUser = sharedContext.getCurrentUser();
+        String topic;
+        Collection<String> subscribers;
+        String userEmail = null;
 
         if (currentUser instanceof AuthenticatedUser) {
-            String userEmail = ((AuthenticatedUser) currentUser).getEmail();
+            userEmail = ((AuthenticatedUser) currentUser).getEmail();
         }
 
         int optionNo = -1;
         while (currentSection == null && optionNo == -1) {
             if (currentSection == null) {
-                FAQ faq = sharedContext.getFaq();
+                faq = sharedContext.getFaq();
                 view.displayFAQ(faq, currentUser instanceof Guest);
                 view.displayInfo("[-1] to return to the main menu");
             }
             else {
                 view.displayFAQSection(currentSection, currentUser instanceof Guest);
-                FAQSection parent = currentSection.getParent();
+                parent = currentSection.getParent();
+
                 if (parent == null) {
                     view.displayInfo("[-1] to return to the main menu");
                 }
                 else {
-                    view.displayInfo("[-1] to return to the previous section");
+                    topic = parent.getTopic();
+                    view.displayInfo("[-1] to return to " + topic);
                 }
-                view.displayInfo("[-1] to return to the main menu");
 
+                if (currentUser instanceof Guest) {
+                    view.displayInfo("[-2] to request updates on this topic");
+                    view.displayInfo("[-3] to stop receiving updates on this topic");
+                }
+                else {
+                    topic = currentSection.getTopic();
+                    subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
+
+                    // if current user is in the subscribers list
+                    if (subscribers.contains(userEmail)) {
+                        view.displayInfo("[-2] to stop receiving updates on this topic");
+                    }
+                    else {
+                        view.displayInfo("[-2] to request updates on this topic");
+                    }
+                }
             }
+
+            try {
+                optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
+                topic = currentSection.getTopic();
+
+                if (currentSection != null && currentUser instanceof Guest && optionNo == -2) {
+                    requestFAQUpdates(null, topic);
+                } else if (currentSection != null && currentUser instanceof Guest && optionNo == -3) {
+                    stopFAQUpdates(null, topic);
+                } else if (currentSection != null && optionNo == -2) {
+                    subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
+                    if (subscribers.contains(userEmail)) {
+                        stopFAQUpdates(userEmail, topic);
+                    } else {
+                        requestFAQUpdates(userEmail, topic);
+                    }
+                } else if (currentSection != null && optionNo == -1) {
+                    parent = currentSection.getParent();
+                    currentSection = parent;
+                } else if (optionNo == -1) {
+                    if (currentSection == null) {
+                        faq = sharedContext.getFaq();
+                        sections = faq.getSections();
+                    }
+                    else {
+                        sections = parent.getSubsections();
+                    }
+
+                    // if optionNo out of section bounds
+                    if (optionNo > sections.size()) {
+                        view.displayError("Invalid option: " + optionNo);
+                    }
+                    else {
+                        currentSection = sections.get(optionNo);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                view.displayError("Invalid option: " + optionNo);
+                return;
+            }
+
+
         }
     }
 

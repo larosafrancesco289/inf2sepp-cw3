@@ -24,26 +24,22 @@ public class MenuController extends Controller{
 
     public void mainMenu() {
         User currentUser = sharedContext.getCurrentUser();
+        switch (currentUser.getRole()) {
+            case "Student":
+                handleStudentMainMenu();
+                break;
+            case "TeachingStaff":
+                handleTeachingStaffMainMenu();
+                break;
+            case "AdminStaff":
+                handleAdminStaffMainMenu();
+                break;
 
-            switch (currentUser.getRole()) {
-                case "Student":
-                    handleStudentMainMenu();
-                    break;
-                case "TeachingStaff":
-                    handleTeachingStaffMainMenu();
-                    break;
-                case "AdminStaff":
-                    handleAdminStaffMainMenu();
-                    break;
-
-                case "Guest":
-                    handleGuestMainMenu();
-                default:
-                    break;
-            
+            case "Guest":
+                handleGuestMainMenu();
+            default:
+                break;
         }
-
-        
     }
 
     private boolean handleGuestMainMenu() {
