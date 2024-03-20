@@ -32,7 +32,7 @@ public class PageSearch {
     public PageSearch(HashMap<String, Page> pages) {
         this.analyzer = new StandardAnalyzer();
         this.index = new ByteBuffersDirectory();
-        this.pages = new HashMap<>();
+        this.pages = pages;
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
