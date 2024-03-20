@@ -10,20 +10,21 @@ public class MenuController extends Controller{
     private TeachingStaffMainMenuOption teachingStaffMainMenuOptions;
     private AdminStaffMainMenuOption adminMainMenuOptions;
 
-    // private InquirerController inquirerController;
-    // private StaffController staffController;
-    // private AdminStaffController adminStaffController;
-    // private TeachingStaffController teachingStaffController;
-    // private GuestController guestController;
-    // private AuthenticatedUserController authenticatedUserController;
-    private Controller mainMenuController;
+    private InquirerController inquirerController;
+    private StaffController staffController;
+    private AdminStaffController adminStaffController;
+    private TeachingStaffController teachingStaffController;
+    private GuestController guestController;
+    private AuthenticatedUserController authenticatedUserController;
 
     public MenuController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
 
     public void mainMenu() {
+
         User currentUser = super.getCurrentUser();
+        
         switch (currentUser.getRole()) {
             case "Student":
                 handleStudentMainMenu();
@@ -46,7 +47,6 @@ public class MenuController extends Controller{
         for (GuestMainMenuOption option : GuestMainMenuOption.values()) {
             System.out.println(option);
         }
-        mainMenuController = new GuestController(sharedContext,view, authService, emailService);
         return true;
     }
 
@@ -54,7 +54,6 @@ public class MenuController extends Controller{
         for (StudentMainMenuOption option : StudentMainMenuOption.values()) {
             System.out.println(option);
         }
-        mainMenuController = new AuthenticatedUserController(sharedContext,view, authService, emailService);
         return true;
     }
 
@@ -62,7 +61,6 @@ public class MenuController extends Controller{
         for (TeachingStaffMainMenuOption option : TeachingStaffMainMenuOption.values()) {
             System.out.println(option);
         }
-        mainMenuController = new TeachingStaffController(sharedContext,view, authService, emailService);
         return true;
     }
 
@@ -70,7 +68,6 @@ public class MenuController extends Controller{
         for (AdminStaffMainMenuOption option : AdminStaffMainMenuOption.values()) {
             System.out.println(option);
         }
-        mainMenuController = new AdminStaffController(sharedContext,view, authService, emailService);
         return true;
     }
 }

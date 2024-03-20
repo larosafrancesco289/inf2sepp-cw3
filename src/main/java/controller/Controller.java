@@ -19,6 +19,7 @@ public abstract class Controller {
     }
 
     protected <T> int selectFromMenu(Collection<T> items, String selection) {
+        // ...
         return 0;
     }
 
