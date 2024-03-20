@@ -22,24 +22,24 @@ public class MenuController extends Controller{
     }
 
     public void mainMenu() {
-
-        User currentUser = super.getCurrentUser();
-        
-        switch (currentUser.getRole()) {
-            case "Student":
-                handleStudentMainMenu();
-                break;
-            case "TeachingStaff":
-                handleTeachingStaffMainMenu();
-                break;
-            case "AdminStaff":
-                handleAdminStaffMainMenu();
-                break;
-            case "Guest":
-                handleGuestMainMenu();
-                break;
-            default:
-                break;
+        User currentUser = sharedContext.getCurrentUser();
+        if (currentUser instanceof Guest){
+            handleGuestMainMenu();
+        }
+        else {
+            switch (((AuthenticatedUser) currentUser).getRole()) {
+                case "Student":
+                    handleStudentMainMenu();
+                    break;
+                case "TeachingStaff":
+                    handleTeachingStaffMainMenu();
+                    break;
+                case "AdminStaff":
+                    handleAdminStaffMainMenu();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

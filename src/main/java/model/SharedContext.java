@@ -5,13 +5,14 @@ import java.util.*;
 public class SharedContext {
     public static final String ADMIN_STAFF_EMAIL = "admin@example.com";
     private Map<String, Collection<String>> faqTopicUpdateSubscribers;
-    private User currentUser = new Guest();
+    private User currentUser;
     private List<Inquiry> inquiries;
     private FAQ faq;
     private HashMap<String, Page> pages;
 
 
     public SharedContext() {
+        currentUser = new Guest();
         inquiries = new ArrayList<>();
         pages = new HashMap<>();
         faqTopicUpdateSubscribers = new HashMap<>();
@@ -21,14 +22,14 @@ public class SharedContext {
         pages.put(page.getTitle(), page);
     }
 
-    public boolean registerForFAQUpdates(String topic, String email) {
+    public boolean registerForFAQUpdates(String email, String topic) {
         Collection<String> subscribers = faqTopicUpdateSubscribers.getOrDefault(topic, new HashSet<>());
         boolean isAdded = subscribers.add(email);
         faqTopicUpdateSubscribers.put(topic, subscribers);
         return isAdded;
     }
 
-    public boolean unregisterForFAQUpdates(String topic, String email) {
+    public boolean unregisterForFAQUpdates(String email, String topic) {
         if (faqTopicUpdateSubscribers.containsKey(topic)) {
             Collection<String> subscribers = faqTopicUpdateSubscribers.get(topic);
             boolean isRemoved = subscribers.remove(email);

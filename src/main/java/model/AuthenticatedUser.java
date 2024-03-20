@@ -17,8 +17,6 @@ public class AuthenticatedUser extends User{
         this.email = email;
     }
 
-
-    @Override
     public String getRole() {
         return role;
     }

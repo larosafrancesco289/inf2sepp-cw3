@@ -29,8 +29,11 @@ public class AdminStaffController extends StaffController {
 
         Page newPage = new Page(title, content, isPrivate);
         sharedContext.addPage(newPage);
-        // Should use user email, waiting for piazza post functionality
-        int status = emailService.sendEmail(getCurrentUser().getRole(), SharedContext.ADMIN_STAFF_EMAIL, title, "New page added");
+
+        // Get the current user
+        AuthenticatedUser currentUser = (AuthenticatedUser) sharedContext.getCurrentUser();
+
+        int status = emailService.sendEmail(currentUser.getEmail(), SharedContext.ADMIN_STAFF_EMAIL, title, "New page added");
         if (status == EmailService.STATUS_SUCCESS) {
             view.displaySuccess("Added page " + title + "");
         } else {

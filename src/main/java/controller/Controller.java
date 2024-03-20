@@ -22,8 +22,4 @@ public abstract class Controller {
         // ...
         return 0;
     }
-
-    protected User getCurrentUser() {
-        return sharedContext.getCurrentUser();
-    }
 }

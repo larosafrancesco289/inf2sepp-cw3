@@ -9,6 +9,7 @@ public interface View {
     boolean getYesNoInput(String question);
     void displayInfo(String information);
     void displaySuccess(String message);
+    void displayFailure(String message);
     void displayWarning(String warning);
     void displayError(String errorMessage);
     void displayException(Exception exception);

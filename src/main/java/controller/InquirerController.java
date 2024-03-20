@@ -4,6 +4,7 @@ import external.*;
 import model.*;
 import view.*;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,33 @@ public class InquirerController extends Controller{
     }
 
     public void consultFAQ() {
+        FAQSection currentSection = null;
+        User currentUser = sharedContext.getCurrentUser();
+
+        if (currentUser instanceof AuthenticatedUser) {
+            String userEmail = ((AuthenticatedUser) currentUser).getEmail();
+        }
+
+        int optionNo = -1;
+        while (currentSection == null && optionNo == -1) {
+            if (currentSection == null) {
+                FAQ faq = sharedContext.getFaq();
+                view.displayFAQ(faq, currentUser instanceof Guest);
+                view.displayInfo("[-1] to return to the main menu");
+            }
+            else {
+                view.displayFAQSection(currentSection, currentUser instanceof Guest);
+                FAQSection parent = currentSection.getParent();
+                if (parent == null) {
+                    view.displayInfo("[-1] to return to the main menu");
+                }
+                else {
+                    view.displayInfo("[-1] to return to the previous section");
+                }
+                view.displayInfo("[-1] to return to the main menu");
+
+            }
+        }
     }
 
     public void searchPages() {
@@ -25,32 +53,52 @@ public class InquirerController extends Controller{
             for (Page page : availablePages.values()) {
                 Boolean isPrivate = page.isPrivate();
                 if (isPrivate) {
-                    availablePages.remove(page);
+                    availablePages.remove(page.getTitle());
                 }
             }
         }
 
+        PageSearch search;
         try {
-            PageSearch search = new PageSearch(availablePages);
-            Collection<PageSearchResult> results = search.search(searchQuery);
-
-            if (results.size() > 4) {
-                // take the first 4 results
-                results = ((List<PageSearchResult>) results).subList(0, 4);
-            }
-            view.displaySearchResults(results);
-
-        } catch (Exception exception) {
+            search = new PageSearch(availablePages);
+            // Should be a IOException NEED TO ASK
+        } catch (Exception exception){
             view.displayException(exception);
+            return;
         }
+        Collection<PageSearchResult> results = search.search(searchQuery);
+
+        if (results.size() > 4) {
+            // take the first 4 results
+            results = ((List<PageSearchResult>) results).subList(0, 4);
+        }
+        view.displaySearchResults(results);
     }
 
     public void contactStaff() {
     }
 
-    private void requestFAQUpdates(String topic, String email) {
+    private void requestFAQUpdates(String userEmail, String topic) {
+        if (userEmail == null) {
+            userEmail = view.getInput("Please enter your email address");
+        }
+        Boolean success = sharedContext.registerForFAQUpdates(userEmail, topic);
+        if (success) {
+            view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic + "");
+        } else {
+            view.displayFailure("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+        }
     }
 
-    private void stopFAQUpdates(String topic, String email) {
+    private void stopFAQUpdates(String userEmail, String topic) {
+        if (userEmail == null) {
+            userEmail = view.getInput("Please enter your email address");
+        }
+        Boolean success = sharedContext.unregisterForFAQUpdates(userEmail, topic);
+        if (success) {
+            view.displaySuccess("Successfully unregistered " + userEmail + " for updates on " + topic + "");
+        } else {
+            view.displayFailure("Failed to unregister " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+        }
     }
 }
