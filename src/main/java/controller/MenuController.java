@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import external.*;
 import model.*;
 import view.*;
@@ -40,37 +43,31 @@ public class MenuController extends Controller{
             default:
                 break;
         }
+
+        
     }
 
     private boolean handleGuestMainMenu() {
-        for (GuestMainMenuOption option : GuestMainMenuOption.values()) {
-            System.out.println(option);
-        }
-        mainMenuController = new GuestController(sharedContext,view, authService, emailService);
+        mainMenuController = new GuestController(sharedContext, view, authService, emailService);
+        mainMenuController.selectFromMenu(Arrays.asList(GuestMainMenuOption.values()), null);
         return true;
     }
 
     private boolean handleStudentMainMenu() {
-        for (StudentMainMenuOption option : StudentMainMenuOption.values()) {
-            System.out.println(option);
-        }
-        mainMenuController = new AuthenticatedUserController(sharedContext,view, authService, emailService);
+        mainMenuController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
+        mainMenuController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
         return true;
     }
 
     private boolean handleTeachingStaffMainMenu() {
-        for (TeachingStaffMainMenuOption option : TeachingStaffMainMenuOption.values()) {
-            System.out.println(option);
-        }
-        mainMenuController = new TeachingStaffController(sharedContext,view, authService, emailService);
+        mainMenuController = new TeachingStaffController(sharedContext, view, authService, emailService);
+        mainMenuController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()), null);
         return true;
     }
 
     private boolean handleAdminStaffMainMenu() {
-        for (AdminStaffMainMenuOption option : AdminStaffMainMenuOption.values()) {
-            System.out.println(option);
-        }
-        mainMenuController = new AdminStaffController(sharedContext,view, authService, emailService);
+        mainMenuController = new AdminStaffController(sharedContext, view, authService, emailService);
+        mainMenuController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
         return true;
     }
 }

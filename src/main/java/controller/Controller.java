@@ -2,7 +2,7 @@ package controller;
 import external.*;
 import view.*;
 import model.*;
-
+import java.util.Iterator;
 import java.util.Collection;
 
 public abstract class Controller {
@@ -19,7 +19,39 @@ public abstract class Controller {
     }
 
     protected <T> int selectFromMenu(Collection<T> items, String selection) {
-        // ...
+        view.displayDivider();
+        Iterator<T> iterator = items.iterator();
+        Integer optionCounter = 0;
+        boolean validInput = false;
+        int userSelection;
+
+        while (iterator.hasNext()) {
+            optionCounter++;
+            view.displayInfo((optionCounter.toString())+". "+iterator.next().toString());
+        }
+        if (selection != null) {
+            view.displayInfo(selection);
+        }
+
+        while (!validInput) {
+            String userInput = view.getInput("> ur input: ");
+
+            try {
+                userSelection = Integer.parseInt(userInput);
+                if (userSelection < optionCounter) {
+                    validInput = true;
+                    return userSelection;
+                }else if (userSelection == optionCounter){
+                    validInput = true;
+                    return -1;
+                } 
+                else {
+                    view.displayError("invalid input, try again");
+                }
+            } catch (NumberFormatException e) {
+                view.displayError("invalid input, try again");
+            }
+        }
         return 0;
     }
 }
