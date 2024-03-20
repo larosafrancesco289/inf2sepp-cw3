@@ -4,7 +4,6 @@ import external.MockEmailService;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestMockEmailService {
-
     private MockEmailService emailService;
 
     @BeforeEach

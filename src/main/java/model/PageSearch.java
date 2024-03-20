@@ -20,23 +20,24 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class PageSearch {
     private StandardAnalyzer analyzer;
     private Directory index;
-    private List<Page> pages;
+    private HashMap<String, Page> pages;
     private List<PageSearchResult> searchResults;
 
-    public PageSearch(Collection<Page> pages) {
+    public PageSearch(HashMap<String, Page> pages) {
         this.analyzer = new StandardAnalyzer();
         this.index = new ByteBuffersDirectory();
-        this.pages = new ArrayList<>(pages);
+        this.pages = new HashMap<>();
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
         try (IndexWriter writer = new IndexWriter(index, config)) {
-            for (Page page : this.pages) {
+            for (Page page : this.pages.values()) {
                 addDoc(writer, page.getTitle(), page.getContent());
             }
         } catch (IOException e) {
@@ -60,11 +61,25 @@ public class PageSearch {
             IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(index));
             TopDocs results = searcher.search(query, 10);
 
+            List<String> titles = new ArrayList<>();
+            List<String> contents = new ArrayList<>();
+
             for (ScoreDoc scoreDoc : results.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
+                String title = doc.get("title");
                 String content = doc.get("content");
-                searchResults.add(new PageSearchResult(content));
+
+                if (!titles.contains(title)) {
+                    titles.add(title);
+                    contents.add(content);
+                }
             }
+
+            for (int i = 0; i < titles.size(); i++) {
+                String formattedContent = titles.get(i) + " - " + contents.get(i);
+                searchResults.add(new PageSearchResult(formattedContent));
+            }
+
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -88,11 +103,11 @@ public class PageSearch {
         this.index = index;
     }
 
-    public List<Page> getPages() {
+    public HashMap<String, Page> getPages() {
         return pages;
     }
 
-    public void setPages(List<Page> pages) {
+    public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
     }
 

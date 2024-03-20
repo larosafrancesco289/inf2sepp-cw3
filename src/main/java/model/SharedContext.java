@@ -8,15 +8,17 @@ public class SharedContext {
     private User currentUser = new Guest();
     private List<Inquiry> inquiries;
     private FAQ faq;
-    private List<Page> pages;
+    private HashMap<String, Page> pages;
 
 
     public SharedContext() {
+        inquiries = new ArrayList<>();
+        pages = new HashMap<>();
         faqTopicUpdateSubscribers = new HashMap<>();
     }
 
     public void addPage(Page page) {
-        pages.add(page);
+        pages.put(page.getTitle(), page);
     }
 
     public boolean registerForFAQUpdates(String topic, String email) {
@@ -74,11 +76,11 @@ public class SharedContext {
         this.faq = faq;
     }
 
-    public List<Page> getPages() {
+    public HashMap<String, Page> getPages() {
         return pages;
     }
 
-    public void setPages(List<Page> pages) {
+    public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
     }
 }
