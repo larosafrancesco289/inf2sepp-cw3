@@ -17,11 +17,13 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.io.BufferedReader;
 
 /**
  * The PageSearch class is responsible for indexing and searching pages using Apache Lucene.
@@ -60,13 +62,25 @@ public class PageSearch {
      *
      * @param w       the IndexWriter to use
      * @param title   the title of the page
-     * @param content the content of the page
+     * @param content the address of the txt file of the page
      * @throws IOException if an I/O error occurs
      */
     public void addDoc(IndexWriter w, String title, String content) throws IOException {
         Document doc = new Document();
         doc.add(new StringField("title", title, Field.Store.YES));
-        doc.add(new TextField("content", content, Field.Store.YES));
+
+        // Extract the content from the txt file
+        // Read the content from the text file
+        StringBuilder contentBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(content))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                contentBuilder.append(line).append("\n");
+            }
+        }
+
+        String contentString = contentBuilder.toString();
+        doc.add(new TextField("content", contentString, Field.Store.YES));
         w.addDocument(doc);
     }
 

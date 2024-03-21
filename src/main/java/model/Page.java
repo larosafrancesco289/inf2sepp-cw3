@@ -5,14 +5,14 @@ package model;
  */
 public class Page {
     private String title; // The title of the page
-    private String content; // The content of the page
+    private String content; // the address of the txt file of the page.
     private boolean isPrivate; // The privacy status of the page
 
     /**
      * Constructs a new Page object with the specified title, content, and privacy status.
      *
      * @param title     the title of the page
-     * @param content   the content of the page
+     * @param content   the address of the txt file of the page.
      * @param isPrivate the privacy status of the page
      */
     public Page(String title, String content, boolean isPrivate) {
@@ -40,16 +40,16 @@ public class Page {
     }
 
     /**
-     * Returns the content of the page.
+     * Returns the address of the txt file of the page.
      *
-     * @return the content of the page
+     * @return the address of the txt file of the page.
      */
     public String getContent() {
         return content;
     }
 
     /**
-     * Sets the content of the page.
+     * Sets the the address of the txt file of the page.
      *
      * @param content the new content of the page
      */
