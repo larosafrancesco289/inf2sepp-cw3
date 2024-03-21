@@ -15,11 +15,11 @@ public class MenuController extends Controller{
 
     // private InquirerController inquirerController;
     // private StaffController staffController;
-    // private AdminStaffController adminStaffController;
-    // private TeachingStaffController teachingStaffController;
+    private AdminStaffController adminStaffController;
+    private TeachingStaffController teachingStaffController;
     private GuestController guestController;
-    // private AuthenticatedUserController authenticatedUserController;
-    private Controller mainMenuController;
+    private AuthenticatedUserController authenticatedUserController;
+
 
     public MenuController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
@@ -56,25 +56,73 @@ public class MenuController extends Controller{
             case 2:
                 view.displayFAQSection(null, false);
                 break;
+            case 3:  //waiting for the search implementation
+                String searchKeyword = view.getInput("> What do you want to search for \n");
+                break;
+               
+            case 4:
+                break;
         }
         return true;
     }
 
     private boolean handleStudentMainMenu() {
-        mainMenuController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
-        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
+        authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
+        int userSelection = authenticatedUserController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
+        switch (userSelection) {
+            case 1:
+                authenticatedUserController.logout();
+                break;
+            case 2:
+                view.displayFAQSection(null, false);
+                break;
+            case 3:  //waiting for the search implementation
+                String searchKeyword = view.getInput("> What do you want to search for \n");
+                break;
+               
+            case 4:
+                break;
+        }
         return true;
     }
 
     private boolean handleTeachingStaffMainMenu() {
-        mainMenuController = new TeachingStaffController(sharedContext, view, authService, emailService);
-        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()), null);
+        authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
+        teachingStaffController = new TeachingStaffController(sharedContext, view, authService, emailService);
+        int userSelection = teachingStaffController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()),
+                null);
+                switch (userSelection) {
+                    case 1:
+                        authenticatedUserController.logout();
+                        break;
+                    case 2:
+                        teachingStaffController.manageReceivedInquiries();
+                        break;
+                }
         return true;
     }
 
     private boolean handleAdminStaffMainMenu() {
-        mainMenuController = new AdminStaffController(sharedContext, view, authService, emailService);
-        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
+        authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
+        adminStaffController = new AdminStaffController(sharedContext, view, authService, emailService);
+        int userSelection = adminStaffController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
+        switch (userSelection) {
+            case 1:
+                authenticatedUserController.logout();
+                break;
+            case 2:
+                adminStaffController.manageInquiries();
+                break;
+            case 3:
+                adminStaffController.addPage();
+                break;    
+            case 4:
+                adminStaffController.viewAllPages();
+                break;
+            case 5:
+                adminStaffController.manageFAQ();
+                break;
+        }
         return true;
     }
 }

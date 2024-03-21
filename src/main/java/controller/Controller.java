@@ -34,7 +34,7 @@ public abstract class Controller {
         }
 
         while (!validInput) {
-            String userInput = view.getInput("> ur input: ");
+            String userInput = view.getInput(">Enter the number corisbonding to the option: \n");
 
             try {
                 userSelection = Integer.parseInt(userInput);

@@ -9,7 +9,7 @@ public class AuthenticatedUserController extends Controller{
     }
 
     public void logout(){
-        sharedContext.setCurrentUser(null);
+        sharedContext.setCurrentUser(new Guest());
         view.displaySuccess("You have been logged out");
     }
 }
