@@ -21,6 +21,17 @@ public class StaffController extends Controller{
         return titles;
     }
 
-    protected void respondToInquiry(Inquiry inquiry){
+    protected void respondToInquiry(Inquiry inquiry) {
+        String answer;
+        do {
+            answer = view.getInput("Enter answer to inquiry: " + inquiry.getSubject());
+            if (answer.isEmpty()) {
+                view.displayWarning("Answer cannot be empty");
+            }
+        } while (answer.isEmpty());
+
+        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, inquiry.getInquirerEmail(), inquiry.getSubject(), answer);
+        view.displaySuccess("Answer sent to " + inquiry.getInquirerEmail());
+        sharedContext.getInquiries().remove(inquiry);
     }
 }
