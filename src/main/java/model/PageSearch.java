@@ -23,12 +23,22 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The PageSearch class is responsible for indexing and searching pages using Apache Lucene.
+ * It utilizes a HashMap to store pages and provides methods to perform search operations.
+ */
 public class PageSearch {
-    private StandardAnalyzer analyzer;
-    private Directory index;
-    private HashMap<String, Page> pages;
-    private List<PageSearchResult> searchResults;
+    private StandardAnalyzer analyzer; // The analyzer used for indexing and searching
+    private Directory index; // The Lucene index directory
+    private HashMap<String, Page> pages; // HashMap to store pages
+    private List<PageSearchResult> searchResults; // List to store search results
 
+    /**
+     * Constructs a new PageSearch object with the specified pages.
+     * It initializes the analyzer, index, and indexes the provided pages.
+     *
+     * @param pages the pages to be indexed and searched
+     */
     public PageSearch(HashMap<String, Page> pages) {
         this.analyzer = new StandardAnalyzer();
         this.index = new ByteBuffersDirectory();
@@ -45,6 +55,14 @@ public class PageSearch {
         }
     }
 
+    /**
+     * Adds a document to the Lucene index.
+     *
+     * @param w       the IndexWriter to use
+     * @param title   the title of the page
+     * @param content the content of the page
+     * @throws IOException if an I/O error occurs
+     */
     public void addDoc(IndexWriter w, String title, String content) throws IOException {
         Document doc = new Document();
         doc.add(new StringField("title", title, Field.Store.YES));
@@ -52,7 +70,12 @@ public class PageSearch {
         w.addDocument(doc);
     }
 
-    // TO DO: Need formatting for search results
+    /**
+     * Searches for pages matching the given query string.
+     *
+     * @param queryString the query string to search for
+     * @return a collection of PageSearchResult objects representing the search results
+     */
     public Collection<PageSearchResult> search(String queryString) {
         searchResults = new ArrayList<>();
 
@@ -87,34 +110,74 @@ public class PageSearch {
         return searchResults;
     }
 
+    /**
+     * Retrieves the StandardAnalyzer used for indexing and searching.
+     *
+     * @return the StandardAnalyzer object
+     */
     public StandardAnalyzer getAnalyzer() {
         return analyzer;
     }
 
+    /**
+     * Sets the StandardAnalyzer used for indexing and searching.
+     *
+     * @param analyzer the StandardAnalyzer object
+     */
     public void setAnalyzer(StandardAnalyzer analyzer) {
         this.analyzer = analyzer;
     }
 
+    /**
+     * Retrieves the Lucene index directory.
+     *
+     * @return the Directory object representing the Lucene index
+     */
     public Directory getIndex() {
         return index;
     }
 
+    /**
+     * Sets the Lucene index directory.
+     *
+     * @param index the Directory object representing the Lucene index
+     */
     public void setIndex(Directory index) {
         this.index = index;
     }
 
+    /**
+     * Retrieves the HashMap storing the pages.
+     *
+     * @return the HashMap containing the pages
+     */
     public HashMap<String, Page> getPages() {
         return pages;
     }
 
+    /**
+     * Sets the HashMap storing the pages.
+     *
+     * @param pages the HashMap containing the pages
+     */
     public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
     }
 
+    /**
+     * Retrieves the list of search results.
+     *
+     * @return the list of PageSearchResult objects representing the search results
+     */
     public List<PageSearchResult> getSearchResults() {
         return searchResults;
     }
 
+    /**
+     * Sets the list of search results.
+     *
+     * @param searchResults the list of PageSearchResult objects representing the search results
+     */
     public void setSearchResults(List<PageSearchResult> searchResults) {
         this.searchResults = searchResults;
     }
