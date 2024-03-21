@@ -13,7 +13,7 @@ public class MenuController extends Controller{
     // private TeachingStaffMainMenuOption teachingStaffMainMenuOptions;
     // private AdminStaffMainMenuOption adminMainMenuOptions;
 
-    // private InquirerController inquirerController;
+    private InquirerController inquirerController;
     // private StaffController staffController;
     private AdminStaffController adminStaffController;
     private TeachingStaffController teachingStaffController;
@@ -39,34 +39,32 @@ public class MenuController extends Controller{
                 break;
             case "Guest":
                 handleGuestMainMenu();
-            default:
-                break;
         }
-
-        
     }
 
     private boolean handleGuestMainMenu() {
         guestController = new GuestController(sharedContext, view, authService, emailService);
+        inquirerController = new InquirerController(sharedContext, view, authService, emailService);
         int userSelection = guestController.selectFromMenu(Arrays.asList(GuestMainMenuOption.values()), null);
         switch (userSelection) {
             case 1:
                 guestController.login();
                 break;
             case 2:
-                view.displayFAQSection(null, false);
+                inquirerController.consultFAQ();
                 break;
-            case 3:  //waiting for the search implementation
-                String searchKeyword = view.getInput("> What do you want to search for \n");
+            case 3:  
+                inquirerController.searchPages();
                 break;
-               
             case 4:
+                inquirerController.contactStaff();
                 break;
         }
         return true;
     }
 
     private boolean handleStudentMainMenu() {
+        inquirerController = new InquirerController(sharedContext, view, authService, emailService);
         authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
         int userSelection = authenticatedUserController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
         switch (userSelection) {
@@ -74,13 +72,13 @@ public class MenuController extends Controller{
                 authenticatedUserController.logout();
                 break;
             case 2:
-                view.displayFAQSection(null, false);
+                inquirerController.consultFAQ();
                 break;
-            case 3:  //waiting for the search implementation
-                String searchKeyword = view.getInput("> What do you want to search for \n");
-                break;
-               
+            case 3:  
+                inquirerController.searchPages();
+                break; 
             case 4:
+                inquirerController.contactStaff();
                 break;
         }
         return true;
