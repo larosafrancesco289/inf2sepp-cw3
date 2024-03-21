@@ -38,8 +38,8 @@ public class GuestController extends Controller{
         if (email == null) {
             throw new IllegalArgumentException("User email cannot be null");
         }
-        System.out.println(role);
-        if (role == null || (!role.equals("AdminStaff")  && !role.equals( "TeachingStaff") && !role.equals(role != "Student"))) {
+
+        if (role == null || (!role.equals("AdminStaff")  && !role.equals( "TeachingStaff") && !role.equals( "Student"))) {
             throw new IllegalArgumentException("Unsupported user role");
         }
 
@@ -53,5 +53,6 @@ public class GuestController extends Controller{
 
         sharedContext.setCurrentUser(currentUser);
         view.displaySuccess("Login successful");
+        
     }
 }

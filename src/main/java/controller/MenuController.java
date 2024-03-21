@@ -53,6 +53,9 @@ public class MenuController extends Controller{
             case 1:
                 guestController.login();
                 break;
+            case 2:
+                view.displayFAQSection(null, false);
+                break;
         }
         return true;
     }
