@@ -1,4 +1,6 @@
 // JUnit
+import model.Inquiry;
+import model.SharedContext;
 import org.junit.jupiter.api.Test;
 
 // class imports
@@ -7,10 +9,24 @@ import org.junit.jupiter.api.Test;
 class AnswerInquirySystemTests {
 
     @Test
-    void _test(){
-
-        // write test here
+    void testEmptyAnswer(){
+        //test if answer is empty
+        //should return "Answer cannot be empty"
 
     }
+
+    @Test
+    void viewDisplaySuccess(){
+        //test success scenario
+
+    }
+
+    @Test
+    void testInquiryRemoved(){
+        //test if inquiry successfully removed from SharedContext Inquiry list
+
+    }
+
+
 
 }

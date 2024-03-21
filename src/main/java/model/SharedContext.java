@@ -14,6 +14,8 @@ public class SharedContext {
     private FAQ faq; // FAQ object
     private HashMap<String, Page> pages; // HashMap of pages
 
+
+
     /**
      * Constructs a new SharedContext object with default values.
      */

@@ -7,10 +7,13 @@ import org.junit.jupiter.api.Test;
 class AddFAQQASystemTests {
 
     @Test
-    void _test(){
+    void testIsAuthenticatedUser(){
+        //test if email is returned if user is authenticated
+    }
 
-        // write test here
-
+    @Test
+    void testCurrentSectionNull(){
+        //test if email is returned if user is authenticated
     }
 
 }
