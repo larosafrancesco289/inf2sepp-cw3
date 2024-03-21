@@ -27,7 +27,6 @@ public class MenuController extends Controller{
 
     public void mainMenu() {
         User currentUser = sharedContext.getCurrentUser();
-        
         switch (currentUser.getRole()) {
             case "Student":
                 handleStudentMainMenu();

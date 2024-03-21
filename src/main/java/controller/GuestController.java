@@ -38,8 +38,8 @@ public class GuestController extends Controller{
         if (email == null) {
             throw new IllegalArgumentException("User email cannot be null");
         }
-
-        if (role == null || role != "AdminStaff" && role != "TeachingStaff" && role != "Student") {
+        System.out.println(role);
+        if (role == null || (!role.equals("AdminStaff")  && !role.equals( "TeachingStaff") && !role.equals(role != "Student"))) {
             throw new IllegalArgumentException("Unsupported user role");
         }
 
