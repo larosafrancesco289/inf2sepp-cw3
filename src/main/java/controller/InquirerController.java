@@ -4,10 +4,10 @@ import external.*;
 import model.*;
 import view.*;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class InquirerController extends Controller {
     public InquirerController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
@@ -132,7 +132,67 @@ public class InquirerController extends Controller {
         view.displaySearchResults(results);
     }
 
+    /**
+     * Method adds and Inquiry object to inquiryList within sharedContext
+     * User inputs inquiry subject/content
+     * Gets user email from object if logged in, otherwise asks for input
+     * Notifies admin staff of inquiry via email system
+     * **/
     public void contactStaff() {
+
+        User currentUser = sharedContext.getCurrentUser();
+        Inquiry userInquiry;
+        String userEmail;
+        String inquirySubject;
+        String inquiryContent;
+
+        /*
+        * 1/2 - get details
+        * - if guest input email, otherwise get from user
+        * - get subject/content from user input
+        * */
+
+        if (currentUser instanceof AuthenticatedUser){
+            userEmail = ((AuthenticatedUser) currentUser).getEmail();
+        } else {
+            userEmail = view.getInput("Please enter your email address:");
+
+            // validate input email address
+            String emailRegex = "^(.+)@(\\S+) $";
+            boolean valid = false;
+
+            while (!valid){
+
+                if (Pattern.compile(emailRegex).matcher(userEmail).matches()){
+                    valid = true;
+                } else {
+                    userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain:");
+                }
+
+            }
+        }
+
+        inquirySubject = view.getInput("Please enter the subject of your inquiry:");
+        inquiryContent = view.getInput("Please enter your message to pass to staff members:");
+
+
+        // 3 - email all admin staff
+
+        emailService.sendEmail(userEmail, "adminStaff", inquirySubject, inquiryContent);
+
+        // 4 - Add inquiry to list in SharedContext
+
+        userInquiry = new Inquiry(userEmail, inquirySubject, inquiryContent);
+
+        List<Inquiry> currInquiryList = sharedContext.getInquiries();
+
+        currInquiryList.add(userInquiry);
+        sharedContext.setInquiries(currInquiryList);
+
+        // 5 - Confirm inquiry sent
+
+        view.displayInfo("Inquiry sent.");
+
     }
 
     private void requestFAQUpdates(String userEmail, String topic) {
