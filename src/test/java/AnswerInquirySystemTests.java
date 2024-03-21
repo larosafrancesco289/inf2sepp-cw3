@@ -17,7 +17,7 @@ class AnswerInquirySystemTests {
 
     @Test
     void viewDisplaySuccess(){
-        //test success scenario
+        //test success scenario, should display success message
 
     }
 

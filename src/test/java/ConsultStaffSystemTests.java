@@ -18,7 +18,7 @@ class ConsultStaffSystemTests {
     }
     @Test
     void testLoggedIn(){
-        //test branch if user is already logged in
+        //test branch if user is already logged in as an authenticated user
 
     }
 

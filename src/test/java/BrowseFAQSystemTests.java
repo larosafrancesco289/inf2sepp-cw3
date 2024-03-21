@@ -2,7 +2,7 @@
 import org.junit.jupiter.api.Test;
 
 // class imports
-
+//BROWSE FAQ is for ADMINS
 
 class BrowseFAQSystemTests {
 
