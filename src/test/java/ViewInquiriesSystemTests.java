@@ -7,10 +7,17 @@ import org.junit.jupiter.api.Test;
 class ViewInquiriesSystemTests {
 
     @Test
-    void _test(){
+    void testNoInquiries(){
+        //test if no inquiries in list returns error message
 
-        // write test here
+    }
 
+    void testAdminView(){
+        //test for admin user
+    }
+
+    void testTeachingStaffView(){
+        //test for teachingStaff user
     }
 
 }
