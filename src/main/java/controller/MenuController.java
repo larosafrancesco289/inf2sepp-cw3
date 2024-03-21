@@ -17,7 +17,7 @@ public class MenuController extends Controller{
     // private StaffController staffController;
     // private AdminStaffController adminStaffController;
     // private TeachingStaffController teachingStaffController;
-    // private GuestController guestController;
+    private GuestController guestController;
     // private AuthenticatedUserController authenticatedUserController;
     private Controller mainMenuController;
 
@@ -27,6 +27,7 @@ public class MenuController extends Controller{
 
     public void mainMenu() {
         User currentUser = sharedContext.getCurrentUser();
+        
         switch (currentUser.getRole()) {
             case "Student":
                 handleStudentMainMenu();
@@ -48,26 +49,31 @@ public class MenuController extends Controller{
     }
 
     private boolean handleGuestMainMenu() {
-        mainMenuController = new GuestController(sharedContext, view, authService, emailService);
-        mainMenuController.selectFromMenu(Arrays.asList(GuestMainMenuOption.values()), null);
+        guestController = new GuestController(sharedContext, view, authService, emailService);
+        int userSelection = guestController.selectFromMenu(Arrays.asList(GuestMainMenuOption.values()), null);
+        switch (userSelection) {
+            case 1:
+                guestController.login();
+                break;
+        }
         return true;
     }
 
     private boolean handleStudentMainMenu() {
         mainMenuController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
-        mainMenuController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
+        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(StudentMainMenuOption.values()), null);
         return true;
     }
 
     private boolean handleTeachingStaffMainMenu() {
         mainMenuController = new TeachingStaffController(sharedContext, view, authService, emailService);
-        mainMenuController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()), null);
+        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()), null);
         return true;
     }
 
     private boolean handleAdminStaffMainMenu() {
         mainMenuController = new AdminStaffController(sharedContext, view, authService, emailService);
-        mainMenuController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
+        int userSelection = mainMenuController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
         return true;
     }
 }
