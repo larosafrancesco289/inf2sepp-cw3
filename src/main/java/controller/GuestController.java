@@ -11,17 +11,18 @@ public class GuestController extends Controller{
         super(sharedContext, view, authService, emailService);
     }
 
-    public void login(){
+    public void login() {
         String username = view.getInput("Enter your username: ");
         String password = view.getInput("Enter your password: ");
         String response = authService.login(username, password);
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = null;
-        try{
+        try {
             jsonObject = (JSONObject) parser.parse(response);
         } catch (ParseException e) {
-            view.displayError("JASON file error");
+            view.displayException(e);
+            return;
         }
 
         if (jsonObject.get("error") != null) {

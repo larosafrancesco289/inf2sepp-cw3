@@ -38,7 +38,6 @@ public class MenuController extends Controller{
             case "AdminStaff":
                 handleAdminStaffMainMenu();
                 break;
-
             case "Guest":
                 handleGuestMainMenu();
             default:
