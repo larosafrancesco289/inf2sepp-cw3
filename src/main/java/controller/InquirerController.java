@@ -60,8 +60,10 @@ public class InquirerController extends Controller {
                 }
             }
 
+            String userIntput = view.getInput("Please choose an option: ");
+
             try {
-                optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
+                optionNo = Integer.parseInt(userIntput);
                 //topic = currentSection.getTopic();
 
                 // Handeling the negative options
@@ -110,14 +112,14 @@ public class InquirerController extends Controller {
                     }
                     // if optionNo out of section bounds
                     if ((optionNo > sections.size()) || (optionNo == 0)) {
-                        view.displayError("Invalid option: " + optionNo);
+                        view.displayError("Invalid option: " + userIntput);
                     } else {
                         currentSection = sections.get(optionNo);
                     }
                 }
                 
             } catch (NumberFormatException e) {
-                view.displayError("Invalid option: " + optionNo);
+                view.displayError("Invalid option: " + userIntput);
             }
         }
     }
