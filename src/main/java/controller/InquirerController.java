@@ -203,7 +203,7 @@ public class InquirerController extends Controller {
         if (success) {
             view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic);
         } else {
-            view.displayFailure("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+            view.displayError("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
         }
     }
 
@@ -215,7 +215,7 @@ public class InquirerController extends Controller {
         if (success) {
             view.displaySuccess("Successfully unregistered " + userEmail + " for updates on " + topic);
         } else {
-            view.displayFailure("Failed to unregister " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+            view.displayError("Failed to unregister " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
         }
     }
 }

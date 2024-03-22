@@ -36,8 +36,6 @@ public class TextUserInterface implements View {
         System.out.println(message);
     }
 
-    public void displayFailure(String message) { System.out.println(message); }
-
     @Override
     public void displayWarning(String warning) {
         System.out.println("Warning: " + warning);
