@@ -23,6 +23,7 @@ public class SharedContext {
         currentUser = new Guest();
         inquiries = new ArrayList<>();
         pages = new HashMap<>();
+        faq = new FAQ();
         faqTopicUpdateSubscribers = new HashMap<>();
     }
 
