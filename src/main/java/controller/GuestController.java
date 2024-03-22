@@ -12,8 +12,10 @@ public class GuestController extends Controller{
     }
 
     public void login() {
+        view.displayInfo("\033[H\033[2J");
         String username = view.getInput("Enter your username: ");
         String password = view.getInput("Enter your password: ");
+        view.displayInfo("\033[H\033[2J");//clear the screen for security
         String response = authService.login(username, password);
 
         JSONParser parser = new JSONParser();

@@ -17,19 +17,18 @@ public class InquirerController extends Controller {
     public void consultFAQ() {
         FAQ faq;
         List<FAQSection> sections;
-        FAQSection currentSection = null;
-        FAQSection parent = null;
+        FAQSection currentSection = null, parent = null;
         User currentUser = sharedContext.getCurrentUser();
-        String topic;
         Collection<String> subscribers;
-        String userEmail = null;
+        String topic, userEmail = null;
+        int optionNo = 0;
 
         if (currentUser instanceof AuthenticatedUser) {
             userEmail = ((AuthenticatedUser) currentUser).getEmail();
         }
 
-        int optionNo = -1;
-        while (currentSection == null && optionNo == -1) {
+        
+        while (!(currentSection == null && optionNo == -1)) {
             if (currentSection == null) {
                 faq = sharedContext.getFaq();
                 view.displayFAQ(faq, currentUser instanceof Guest);
@@ -65,28 +64,41 @@ public class InquirerController extends Controller {
                 optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
                 topic = currentSection.getTopic();
 
-                if (currentSection != null && currentUser instanceof Guest && optionNo == -2) {
-                    requestFAQUpdates(null, topic);
-                } else if (currentSection != null && currentUser instanceof Guest && optionNo == -3) {
-                    stopFAQUpdates(null, topic);
-                } else if (currentSection != null && optionNo == -2) {
-                    subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
-                    if (subscribers.contains(userEmail)) {
-                        stopFAQUpdates(userEmail, topic);
-                    } else {
-                        requestFAQUpdates(userEmail, topic);
+                // Handeling the negative options
+                if (currentSection != null) {
+                    switch (optionNo) {
+                        case -1:
+                            parent = currentSection.getParent();
+                            currentSection = parent;
+                            break;   
+                        
+                        case -2: 
+                            if (currentUser instanceof Guest) {
+                                requestFAQUpdates(null, topic);
+                                break;
+                            }
+                            subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
+                            if (subscribers.contains(userEmail)) {
+                                 stopFAQUpdates(userEmail, topic);
+                                }
+                            break;
+                            
+                        case -3: 
+                            if (currentUser instanceof Guest) {
+                                requestFAQUpdates(null, topic);
+                            }
+                            break;
+                        
                     }
-                } else if (currentSection != null && optionNo == -1) {
-                    parent = currentSection.getParent();
-                    currentSection = parent;
-                } else if (optionNo == -1) {
+                } 
+                //update the view
+                if (optionNo != -1){
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
                         sections = faq.getSections();
                     } else {
-                        sections = parent.getSubsections();
+                        sections = currentSection.getSubsections();
                     }
-
                     // if optionNo out of section bounds
                     if (optionNo > sections.size()) {
                         view.displayError("Invalid option: " + optionNo);
@@ -94,6 +106,7 @@ public class InquirerController extends Controller {
                         currentSection = sections.get(optionNo);
                     }
                 }
+                
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + optionNo);
                 return;

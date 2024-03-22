@@ -9,6 +9,6 @@ public class TeachingStaffController extends StaffController{
     }
 
     public void manageReceivedInquiries() {
-        selectFromMenu(null, null);
+        selectFromMenu(null, "Return to main menu");
     }
 }
