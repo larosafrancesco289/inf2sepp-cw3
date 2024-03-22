@@ -15,7 +15,6 @@ public class SharedContext {
     private HashMap<String, Page> pages; // HashMap of pages
 
 
-
     /**
      * Constructs a new SharedContext object with default values.
      */
@@ -161,10 +160,11 @@ public class SharedContext {
     }
 
     /**
-    * Sets the HashMap of pages in
-    * the shared context.
-    * @param pages the HashMap of pages to set
-    */
+     * Sets the HashMap of pages in
+     * the shared context.
+     *
+     * @param pages the HashMap of pages to set
+     */
     public void setPages(HashMap<String, Page> pages) {
         this.pages = pages;
     }

@@ -43,6 +43,65 @@ public class AdminStaffController extends StaffController {
     }
 
     public void manageFAQ() {
+        FAQ faq;
+        List<FAQSection> sections;
+        FAQSection currentSection = null;
+        FAQSection parent = null;
+        User currentUser = sharedContext.getCurrentUser();
+        String topic;
+        Collection<String> subscribers;
+        String userEmail = null;
+
+        if (currentUser instanceof AuthenticatedUser) {
+            userEmail = ((AuthenticatedUser) currentUser).getEmail();
+        }
+
+        int optionNo = -1;
+        while (currentSection == null && optionNo == -1) {
+            if (currentSection == null) {
+                faq = sharedContext.getFaq();
+                view.displayFAQ(faq, currentUser instanceof Guest);
+                view.displayInfo("[-1] to return to the main menu");
+            } else {
+                view.displayFAQSection(currentSection, currentUser instanceof Guest);
+                parent = currentSection.getParent();
+
+                if (parent == null) {
+                    view.displayInfo("[-1] to return to the main menu");
+                } else {
+                    topic = parent.getTopic();
+                    view.displayInfo("[-1] to return to " + topic);
+                }
+
+            }
+            try {
+                optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
+                topic = currentSection.getTopic();
+
+
+                if (currentSection != null && optionNo == -1) {
+                    parent = currentSection.getParent();
+                    currentSection = parent;
+                } else if (optionNo == -1) {
+                    if (currentSection == null) {
+                        faq = sharedContext.getFaq();
+                        sections = faq.getSections();
+                    } else {
+                        sections = parent.getSubsections();
+                    }
+
+                    // if optionNo out of section bounds
+                    if (optionNo > sections.size()) {
+                        view.displayError("Invalid option: " + optionNo);
+                    } else {
+                        currentSection = sections.get(optionNo);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                view.displayError("Invalid option: " + optionNo);
+                return;
+            }
+        }
     }
 
     private void addFAQItem(FAQSection section) {

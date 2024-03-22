@@ -1,12 +1,15 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import external.MockEmailService;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import model.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Collection;
+
 public class TestPageSearch {
     private PageSearch pageSearch;
 

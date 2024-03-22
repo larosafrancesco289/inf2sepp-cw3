@@ -6,7 +6,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import view.*;
-public class GuestController extends Controller{
+
+public class GuestController extends Controller {
     public GuestController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
@@ -41,7 +42,7 @@ public class GuestController extends Controller{
             throw new IllegalArgumentException("User email cannot be null");
         }
 
-        if (role == null || (!role.equals("AdminStaff")  && !role.equals( "TeachingStaff") && !role.equals( "Student"))) {
+        if (role == null || (!role.equals("AdminStaff") && !role.equals("TeachingStaff") && !role.equals("Student"))) {
             throw new IllegalArgumentException("Unsupported user role");
         }
 
@@ -55,6 +56,6 @@ public class GuestController extends Controller{
 
         sharedContext.setCurrentUser(currentUser);
         view.displaySuccess("Login successful");
-        
+
     }
 }

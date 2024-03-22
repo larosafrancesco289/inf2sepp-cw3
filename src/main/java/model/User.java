@@ -1,4 +1,5 @@
 package model;
+
 /**
  * The User class is an abstract class representing a user.
  * It provides a method to retrieve the role of the user.

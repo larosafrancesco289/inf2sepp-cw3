@@ -36,8 +36,6 @@ public class TextUserInterface implements View {
         System.out.println(message);
     }
 
-    public void displayFailure(String message) { System.out.println(message); }
-
     @Override
     public void displayWarning(String warning) {
         System.out.println("Warning: " + warning);
@@ -71,7 +69,11 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayInquiry(Inquiry inquiry) {
-        // Implementation would depend on how the Inquiry class is structured
+
+        // displays subject, sender and content of an inquiry
+        System.out.printf("Subject: %s", inquiry.getSubject());
+        System.out.printf("Sender: %s", inquiry.getInquirerEmail());
+        System.out.printf("Content: %s", inquiry.getContent());
     }
 
     @Override

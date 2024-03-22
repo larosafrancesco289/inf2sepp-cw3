@@ -1,13 +1,14 @@
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import external.MockAuthenticationService;
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestMockAuthenticationService {
 
@@ -29,6 +30,7 @@ public class TestMockAuthenticationService {
         }
         return map;
     }
+
     @Test
     public void testValidLogin() {
         String expected = "{\"password\":\"catch me if u can\",\"role\":\"AdminStaff\",\"email\":\"jack.tr@hindenburg.ac.uk\",\"username\":\"JackTheRipper\"}";

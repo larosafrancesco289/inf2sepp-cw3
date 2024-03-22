@@ -1,4 +1,5 @@
 // JUnit
+
 import org.junit.jupiter.api.Test;
 
 // class imports
@@ -7,7 +8,7 @@ import org.junit.jupiter.api.Test;
 class ConsultWebpagesSystemTests {
 
     @Test
-    void _test(){
+    void _test() {
 
         // write test here
 

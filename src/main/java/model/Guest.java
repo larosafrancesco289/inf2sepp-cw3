@@ -1,4 +1,5 @@
 package model;
+
 /**
  * The Guest class is a subclass of the User class.
  * It is used to represent a guest user.
