@@ -46,6 +46,7 @@ public class TeachingStaffController extends StaffController {
                 }
 
                 // allow user to input inquiry number to answer
+                // TODO decide to loop while unanswered inquiries or just do 1 at a time
 
                 // TODO add validation for integer
                 int answerNo = Integer.parseInt(view.getInput("Enter inquiry number to answer, or -1 to exit:"));
@@ -62,10 +63,8 @@ public class TeachingStaffController extends StaffController {
                     view.displayInfo(answerInquiry.getContent());
 
                     if (view.getYesNoInput("Would you like to answer this inquiry?")){
-
-                        String answer = view.getInput("Enter response:");
                         // send email to inquirer with answer
-                        emailService.sendEmail(teachingStaffUser, answerInquiry.getInquirerEmail(), answerInquiry.getSubject(), answer);
+                        super.respondToInquiry(answerInquiry);
                         // remove inquiry from unanswered list, then update shared context list
                         allInquiries.remove(answerInquiry);
                         sharedContext.setInquiries(allInquiries);
@@ -74,7 +73,11 @@ public class TeachingStaffController extends StaffController {
 
                 }
 
+            } else {
+                view.displayWarning("Currently no redirected inquiries!");
             }
+        } else {
+            view.displayWarning("Currently no unanswered inquiries!");
         }
 
 
