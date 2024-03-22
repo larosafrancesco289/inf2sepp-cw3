@@ -13,16 +13,18 @@ public class TeachingStaffController extends StaffController {
     }
 
     public void manageReceivedInquiries() {
-        selectFromMenu(null, null);
 
         List<Inquiry> allInquiries = sharedContext.getInquiries();
 
         // if there are any inquiries, look for redirected inquiries
         if (!allInquiries.isEmpty()) {
 
+            // Get list of all unanswered inquiries
             List<Inquiry> redirectedInquiries = new ArrayList<>();
+            // Get current teachingStaff details
             User currentUser = sharedContext.getCurrentUser();
             String teachingStaffUser = ((AuthenticatedUser) currentUser).getEmail();
+
             // loop through inquiry list, add to redirected list if redirected
             for (Inquiry currInquiry : allInquiries){
 
@@ -32,9 +34,11 @@ public class TeachingStaffController extends StaffController {
                 }
             }
 
-            // if there are any redirected inquiries, display them to the user
+            // Loops until there are no redirected inquiries left OR user chooses to exit
+            boolean answering = true;
+            while (answering && !redirectedInquiries.isEmpty()) {
 
-            if (!redirectedInquiries.isEmpty()) {
+                // display inquiries available to answer
                 int i = 0;
 
                 for (Inquiry currReInquiry : redirectedInquiries) {
@@ -45,42 +49,58 @@ public class TeachingStaffController extends StaffController {
                     i += 1;
                 }
 
-                // allow user to input inquiry number to answer
-                // TODO decide to loop while unanswered inquiries or just do 1 at a time
+                // Get inquiry number to select OR exit code from user
+                boolean valid = false;
+                int answerNo = 0;
+                String userInput = view.getInput("Enter inquiry number to manage, or enter -1 to exit:");
 
-                // TODO add validation for integer
-                int answerNo = Integer.parseInt(view.getInput("Enter inquiry number to answer, or -1 to exit:"));
-                //process answer
-                if (answerNo > -1){
-
-                    // TODO add validation for answer number range
-
-                    Inquiry answerInquiry = redirectedInquiries.get(answerNo);
-                    String prompt = String.format("Inquiry number %d%n:", answerNo);
-
-                    view.displayInfo(prompt);
-                    view.displayInfo(answerInquiry.getSubject());
-                    view.displayInfo(answerInquiry.getContent());
-
-                    if (view.getYesNoInput("Would you like to answer this inquiry?")){
-                        // send email to inquirer with answer
-                        super.respondToInquiry(answerInquiry);
-                        // remove inquiry from unanswered list, then update shared context list
-                        allInquiries.remove(answerInquiry);
-                        sharedContext.setInquiries(allInquiries);
-
+                while (!valid){
+                    // check provided value is in range of inquiries available to select
+                    int inputParsed = Integer.parseInt(userInput);
+                    if (inputParsed <= i){
+                        answerNo = inputParsed;
+                        valid = true;
+                    }else {
+                      String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i);
+                      userInput = view.getInput(inputPrompt);
                     }
 
                 }
 
-            } else {
-                view.displayWarning("Currently no redirected inquiries!");
+                //process answer
+                if (answerNo > -1) {
+
+                    // Display selected inquiry
+                    Inquiry answerInquiry = redirectedInquiries.get(answerNo);
+                    String inquiryDetail = String.format("Inquiry number %d%n:", answerNo);
+
+                    view.displayInfo(inquiryDetail);
+                    view.displayInfo(answerInquiry.getSubject());
+                    view.displayInfo(answerInquiry.getContent());
+
+                    // choose whether to answer inquiry
+                    if (view.getYesNoInput("Would you like to answer this inquiry?")) {
+                        // send email to inquirer with answer
+                        super.respondToInquiry(answerInquiry);
+                        // remove inquiry from unanswered list and redirected list, then update shared context list
+                        redirectedInquiries.remove(answerInquiry);
+                        allInquiries.remove(answerInquiry);
+                        sharedContext.setInquiries(allInquiries);
+                    }
+
+                }else{
+                    answering = false;
+                }
+
             }
-        } else {
+
+        // if no unanswered inquiries
+        }else {
             view.displayWarning("Currently no unanswered inquiries!");
         }
-
-
-
     }
+
+
+
 }
+
