@@ -8,10 +8,21 @@ import model.*;
 import view.*;
 
 public class MenuController extends Controller {
-    // private GuestMainMenuOption guestMainMenuOptions;
-    // private StudentMainMenuOption studentMainMenuOptions;
-    // private TeachingStaffMainMenuOption teachingStaffMainMenuOptions;
-    // private AdminStaffMainMenuOption adminMainMenuOptions;
+    private enum GuestMainMenuOption {
+        LOGIN, CONSULT_FAQ, SEARCH_PAGES, CONTACT_STAFF
+    }
+
+    private enum StudentMainMenuOption {
+        LOGOUT, CONSULT_FAQ, SEARCH_PAGES, CONTACT_STAFF
+    }
+
+    private enum TeachingStaffMainMenuOption {
+        LOGOUT, MANAGE_RECEIVED_INQUIRIES
+    }
+
+    private enum AdminStaffMainMenuOption {
+        LOGOUT, MANAGE_INQUIRIES, ADD_PAGE, VIEW_ALL_PAGES, MANAGE_FAQ
+    }
 
     private InquirerController inquirerController;
     // private StaffController staffController;

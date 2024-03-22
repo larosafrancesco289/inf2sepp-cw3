@@ -9,6 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //instantiate main?? not really sure how to test this
 class LogInSystemTests {
+    @BeforeEach
+    void setUp() {
+        // write setup here
+    }
 
     @Test
     void testSuccessfulLogin() {
