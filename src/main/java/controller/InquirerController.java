@@ -62,17 +62,23 @@ public class InquirerController extends Controller {
 
             try {
                 optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
-                topic = currentSection.getTopic();
+                //topic = currentSection.getTopic();
 
                 // Handeling the negative options
-                if (currentSection != null) {
+                
+                if (currentSection == null) {
+                        if (optionNo < -1) {
+                            throw new NumberFormatException(); //Not in the sequence diagram but required
+                    }
+                } else {
                     switch (optionNo) {
                         case -1:
                             parent = currentSection.getParent();
                             currentSection = parent;
                             break;   
                         
-                        case -2: 
+                        case -2:
+                            topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
                                 requestFAQUpdates(null, topic);
                                 break;
@@ -83,9 +89,12 @@ public class InquirerController extends Controller {
                                 }
                             break;
                             
-                        case -3: 
+                        case -3:
+                            topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
                                 requestFAQUpdates(null, topic);
+                            } else {
+                                throw new NumberFormatException(); //Not in the sequence diagram but required
                             }
                             break;
                         
@@ -109,7 +118,6 @@ public class InquirerController extends Controller {
                 
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + optionNo);
-                return;
             }
         }
     }
