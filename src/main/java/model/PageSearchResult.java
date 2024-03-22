@@ -1,4 +1,5 @@
 package model;
+
 /**
  * Represents a search result from the PageSearch class.
  * It encapsulates formatted content retrieved from the search operation.

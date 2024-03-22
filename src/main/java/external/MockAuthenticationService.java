@@ -18,7 +18,7 @@ import java.util.Objects;
 /**
  * A mock Authentication Service Provider implementation for testing.
  * This does not communicate with any real authentication API, just uses local user data to simulate one.
- *
+ * <p>
  * To better understand code using the json-simple library, see the following links:
  * https://attacomsian.com/blog/what-is-json
  * https://www.digitalocean.com/community/tutorials/json-simple-example
@@ -33,9 +33,10 @@ public class MockAuthenticationService implements AuthenticationService {
 
     /**
      * Load data about all users from a JSON file into memory
-     * @throws URISyntaxException occurs if the file URI is invalid
-     * @throws IOException occurs if the file cannot be opened
-     * @throws ParseException occurs if the file contains invalid JSON
+     *
+     * @throws URISyntaxException   occurs if the file URI is invalid
+     * @throws IOException          occurs if the file cannot be opened
+     * @throws ParseException       occurs if the file contains invalid JSON
      * @throws NullPointerException occurs if the file does not exist
      */
     public MockAuthenticationService() throws URISyntaxException, IOException, ParseException, NullPointerException {
@@ -45,7 +46,7 @@ public class MockAuthenticationService implements AuthenticationService {
 
         JSONParser parser = new JSONParser();
         JSONArray userDataArray = (JSONArray) parser.parse(new FileReader(dataFile));
-        for (Object userData: userDataArray) {
+        for (Object userData : userDataArray) {
             JSONObject user = (JSONObject) userData;
             String username = (String) user.get("username");
             users.put(username, user);

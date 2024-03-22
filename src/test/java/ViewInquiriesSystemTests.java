@@ -1,4 +1,5 @@
 // JUnit
+
 import org.junit.jupiter.api.Test;
 
 // class imports
@@ -7,16 +8,16 @@ import org.junit.jupiter.api.Test;
 class ViewInquiriesSystemTests {
 
     @Test
-    void testNoInquiries(){
+    void testNoInquiries() {
         //test if no inquiries in list returns error message
 
     }
 
-    void testAdminView(){
+    void testAdminView() {
         //test for admin user
     }
 
-    void testTeachingStaffView(){
+    void testTeachingStaffView() {
         //test for teachingStaff user
     }
 

@@ -1,7 +1,9 @@
 package controller;
+
 import external.*;
 import view.*;
 import model.*;
+
 import java.util.Iterator;
 import java.util.Collection;
 
@@ -27,7 +29,7 @@ public abstract class Controller {
 
         while (iterator.hasNext()) {
             optionCounter++;
-            view.displayInfo((optionCounter.toString())+". "+iterator.next().toString());
+            view.displayInfo((optionCounter) + ". " + iterator.next().toString());
         }
         if (selection != null) {
             view.displayInfo(selection);
@@ -41,11 +43,10 @@ public abstract class Controller {
                 if (userSelection < optionCounter) {
                     validInput = true;
                     return userSelection;
-                }else if (userSelection == optionCounter){
+                } else if (userSelection == optionCounter) {
                     validInput = true;
                     return -1;
-                } 
-                else {
+                } else {
                     view.displayError("invalid input, try again");
                 }
             } catch (NumberFormatException e) {

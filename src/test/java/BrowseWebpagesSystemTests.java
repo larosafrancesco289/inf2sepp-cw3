@@ -2,7 +2,9 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import external.MockEmailService;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 import external.MockAuthenticationService;
 import external.MockEmailService;
 import org.junit.jupiter.api.Test;

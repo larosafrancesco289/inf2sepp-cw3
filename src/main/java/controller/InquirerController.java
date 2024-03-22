@@ -137,7 +137,7 @@ public class InquirerController extends Controller {
      * User inputs inquiry subject/content
      * Gets user email from object if logged in, otherwise asks for input
      * Notifies admin staff of inquiry via email system
-     * **/
+     **/
     public void contactStaff() {
 
         User currentUser = sharedContext.getCurrentUser();
@@ -147,12 +147,12 @@ public class InquirerController extends Controller {
         String inquiryContent;
 
         /*
-        * 1/2 - get details
-        * - if guest input email, otherwise get from user
-        * - get subject/content from user input
-        * */
+         * 1/2 - get details
+         * - if guest input email, otherwise get from user
+         * - get subject/content from user input
+         * */
 
-        if (currentUser instanceof AuthenticatedUser){
+        if (currentUser instanceof AuthenticatedUser) {
             userEmail = ((AuthenticatedUser) currentUser).getEmail();
         } else {
             userEmail = view.getInput("Please enter your email address:");
@@ -161,9 +161,9 @@ public class InquirerController extends Controller {
             String emailRegex = "^(.+)@(\\S+) $";
             boolean valid = false;
 
-            while (!valid){
+            while (!valid) {
 
-                if (Pattern.compile(emailRegex).matcher(userEmail).matches()){
+                if (Pattern.compile(emailRegex).matcher(userEmail).matches()) {
                     valid = true;
                 } else {
                     userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain:");

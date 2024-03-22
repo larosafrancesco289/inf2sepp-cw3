@@ -1,4 +1,5 @@
 // JUnit
+
 import org.junit.jupiter.api.Test;
 
 // class imports
@@ -7,17 +8,18 @@ import org.junit.jupiter.api.Test;
 class ConsultStaffSystemTests {
 
     @Test
-    void testAddEmail(){
+    void testAddEmail() {
         //test branch if user is not logged in and adds their email
 
     }
 
     @Test
-    void testEmailInvalid(){
+    void testEmailInvalid() {
         //test branch if email input is valid
     }
+
     @Test
-    void testLoggedIn(){
+    void testLoggedIn() {
         //test branch if user is already logged in as an authenticated user
 
     }

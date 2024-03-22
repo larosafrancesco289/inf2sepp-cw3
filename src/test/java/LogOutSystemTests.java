@@ -1,4 +1,5 @@
 // JUnit
+
 import model.*;
 import controller.*;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ class LogOutSystemTests {
 
 
     @Test
-    void testLoggedOut(){
+    void testLoggedOut() {
         //test if user is null
 
     }

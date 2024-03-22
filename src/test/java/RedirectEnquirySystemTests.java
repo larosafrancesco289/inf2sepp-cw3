@@ -1,4 +1,5 @@
 // JUnit
+
 import model.Inquiry;
 import model.SharedContext;
 import org.junit.jupiter.api.Test;
@@ -9,13 +10,13 @@ import org.junit.jupiter.api.Test;
 class RedirectEnquirySystemTests {
 
     @Test
-    void testEmptyEmail(){
+    void testEmptyEmail() {
 
         //test when email is empty (should not proceed)
     }
 
     @Test
-    void testAssigned(){
+    void testAssigned() {
         //test if inquiry has been assigned to staff?
     }
 

@@ -7,7 +7,7 @@ import external.*;
 import model.*;
 import view.*;
 
-public class MenuController extends Controller{
+public class MenuController extends Controller {
     // private GuestMainMenuOption guestMainMenuOptions;
     // private StudentMainMenuOption studentMainMenuOptions;
     // private TeachingStaffMainMenuOption teachingStaffMainMenuOptions;
@@ -53,7 +53,7 @@ public class MenuController extends Controller{
             case 2:
                 inquirerController.consultFAQ();
                 break;
-            case 3:  
+            case 3:
                 inquirerController.searchPages();
                 break;
             case 4:
@@ -74,9 +74,9 @@ public class MenuController extends Controller{
             case 2:
                 inquirerController.consultFAQ();
                 break;
-            case 3:  
+            case 3:
                 inquirerController.searchPages();
-                break; 
+                break;
             case 4:
                 inquirerController.contactStaff();
                 break;
@@ -89,14 +89,14 @@ public class MenuController extends Controller{
         teachingStaffController = new TeachingStaffController(sharedContext, view, authService, emailService);
         int userSelection = teachingStaffController.selectFromMenu(Arrays.asList(TeachingStaffMainMenuOption.values()),
                 null);
-                switch (userSelection) {
-                    case 1:
-                        authenticatedUserController.logout();
-                        break;
-                    case 2:
-                        teachingStaffController.manageReceivedInquiries();
-                        break;
-                }
+        switch (userSelection) {
+            case 1:
+                authenticatedUserController.logout();
+                break;
+            case 2:
+                teachingStaffController.manageReceivedInquiries();
+                break;
+        }
         return true;
     }
 
@@ -113,7 +113,7 @@ public class MenuController extends Controller{
                 break;
             case 3:
                 adminStaffController.addPage();
-                break;    
+                break;
             case 4:
                 adminStaffController.viewAllPages();
                 break;

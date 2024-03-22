@@ -6,8 +6,7 @@ package external;
  */
 public interface AuthenticationService {
     /**
-     *
-     * @param email unique user email
+     * @param email    unique user email
      * @param password user password corresponding to the email in plaintext
      * @return JSON string response from the Authentication Service Provider
      */
