@@ -156,7 +156,9 @@ public class AdminStaffController extends StaffController {
     public void manageInquiries() {
         Collection<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
         if (inquiryTitles.isEmpty()) {
+            view.displayDivider();
             view.displayInfo("No inquiries to manage");
+            selectFromMenu(null, "return to main menu");
             return;
         }
         view.displayWarning("Inquiries to manage:");

@@ -21,38 +21,44 @@ public abstract class Controller {
     }
 
     protected <T> int selectFromMenu(Collection<T> items, String selection) {
-        view.displayDivider();
-        Iterator<T> iterator = items.iterator();
-        Integer optionCounter = 0;
-        boolean validInput = false;
-        int userSelection;
+        int optionNo;
 
-        while (iterator.hasNext()) {
-            optionCounter++;
-            view.displayInfo((optionCounter) + ". " + iterator.next().toString());
-        }
-        if (selection != null) {
-            view.displayInfo(selection);
-        }
+        while (true) {
+            view.displayDivider();
+            Integer optionCounter = 0;
+            
+            if (items != null) {
+                Iterator<T> iterator = items.iterator();
+                while (iterator.hasNext()) {
+                    optionCounter++;
+                    view.displayInfo("[" +(optionCounter.toString()) + "] " + iterator.next().toString());
+                }
+            }
 
-        while (!validInput) {
-            String userInput = view.getInput(">Enter the number corisbonding to the option: \n");
+            if (selection != null) {
+                optionCounter++;
+                view.displayInfo("[-1] " + selection);
+            }
+            
+            view.displayDivider();
+            String userInput = view.getInput("Please choose an option \n");
 
             try {
-                userSelection = Integer.parseInt(userInput);
-                if (userSelection < optionCounter) {
-                    validInput = true;
-                    return userSelection;
-                } else if (userSelection == optionCounter) {
-                    validInput = true;
+                optionNo = Integer.parseInt(userInput);
+                if (selection != null && optionNo == -1) {
                     return -1;
-                } else {
-                    view.displayError("invalid input, try again");
                 }
+                if (optionNo <= optionCounter && optionNo > 0) {
+                    return optionNo;
+                }
+                view.displayInfo("\033[H\033[2J");
+                view.displayDivider();
+                view.displayError("invalid option: " + userInput);
             } catch (NumberFormatException e) {
-                view.displayError("invalid input, try again");
+                view.displayDivider();
+                view.displayInfo("\033[H\033[2J");
+                view.displayError("invalid option: " + userInput);
             }
         }
-        return 0;
     }
 }

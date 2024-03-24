@@ -1,4 +1,3 @@
-import controller.AuthenticatedUserController;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import view.TextUserInterface;

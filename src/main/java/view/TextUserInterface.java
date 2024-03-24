@@ -43,7 +43,7 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayError(String errorMessage) {
-        System.out.println("Error: " + errorMessage);
+        System.out.println("\u001B[31m Error: " + errorMessage + "\u001B[37m");
     }
 
     @Override
@@ -58,6 +58,7 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayFAQ(FAQ faq, boolean complete) {
+        
         // Implementation would depend on how the FAQ class is structured
     }
 
