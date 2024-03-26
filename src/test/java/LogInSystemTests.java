@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import model.*;
 import controller.*;
 import view.*;
@@ -28,7 +29,7 @@ class LogInSystemTests {
     }
 
     @BeforeEach
-    void setUp() throws Exception{
+    void setUp() throws Exception {
         // Mock or instantiate your services here
         // For simplicity, let's assume these are instantiated
         authService = new MockAuthenticationService(); // Assuming you have a mock implementation

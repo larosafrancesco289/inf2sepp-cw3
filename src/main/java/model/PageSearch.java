@@ -36,6 +36,7 @@ public class PageSearch {
     private Directory index; // The Lucene index directory
     private HashMap<String, Page> pages; // HashMap to store pages
     private List<PageSearchResult> searchResults; // List to store search results
+    final int maxResults = 10; // Maximum number of search results to return
 
     /**
      * Initializes a new instance of PageSearch, indexing the provided pages.
@@ -102,7 +103,7 @@ public class PageSearch {
      *
      * @param queryString The user's query string to search for in the indexed content.
      * @return A collection of PageSearchResult objects, each representing a matching paragraph
-     *         including its title and a snippet of content containing the search query.
+     * including its title and a snippet of content containing the search query.
      */
 
     public Collection<PageSearchResult> search(String queryString) {
@@ -112,7 +113,7 @@ public class PageSearch {
             // Parsing the query string to handle complex search queries like phrases or wildcards
             Query query = new QueryParser("content", analyzer).parse(queryString);
             IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(index));
-            TopDocs results = searcher.search(query, 10);
+            TopDocs results = searcher.search(query, maxResults);
 
             List<String> titles = new ArrayList<>();
             List<String> contents = new ArrayList<>();
