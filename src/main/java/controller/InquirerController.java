@@ -178,20 +178,12 @@ public class InquirerController extends Controller {
         if (currentUser instanceof AuthenticatedUser) {
             userEmail = ((AuthenticatedUser) currentUser).getEmail();
         } else {
+            Pattern emailpattern = Pattern.compile("^(.+)@(.+)$");
             userEmail = view.getInput("Please enter your email address:");
 
             // validate input email address
-            String emailRegex = "^(.+)@(\\S+) $";
-            boolean valid = false;
-
-            while (!valid) {
-
-                if (Pattern.compile(emailRegex).matcher(userEmail).matches()) {
-                    valid = true;
-                } else {
-                    userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain:");
-                }
-
+            while (!emailpattern.matcher(userEmail).matches()) {
+                    userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain: ");
             }
         }
 
