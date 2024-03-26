@@ -13,6 +13,10 @@ public class AdminStaffController extends StaffController {
         super(sharedContext, view, authService, emailService);
     }
 
+    /**
+     * Adds webpage to the system. Allows for admin staff member to enter a title and page content. Page is also set to either public or private, with private
+     * allowing logged-in users only to view
+     * **/
     public void addPage() {
         String title = view.getInput("Enter page title");
         String content = view.getInput("Enter page content");
@@ -42,6 +46,9 @@ public class AdminStaffController extends StaffController {
         }
     }
 
+    /**
+     *m
+     **/
     public void manageFAQ() {
         FAQ faq;
         List<FAQSection> sections;
@@ -104,6 +111,10 @@ public class AdminStaffController extends StaffController {
         }
     }
 
+    /**
+     * Adds FAQ topic to system <br>
+     * Lets admin staff enter a topic title
+     * **/
     private void addFAQItem(FAQSection section) {
         if (section.getParent() == null) {
             String topic;
@@ -161,7 +172,7 @@ public class AdminStaffController extends StaffController {
             selectFromMenu(null, "return to main menu");
             return;
         }
-        view.displayWarning("Inquiries to manage:");
+        view.displayInfo("Inquiries to manage:");
         for (String title : inquiryTitles) {
             view.displayInfo(title);
         }

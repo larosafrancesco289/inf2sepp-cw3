@@ -24,7 +24,7 @@ public class StaffController extends Controller {
     protected void respondToInquiry(Inquiry inquiry) {
         String answer;
         do {
-            answer = view.getInput("Enter answer to inquiry: " + inquiry.getSubject());
+            answer = view.getInput("Enter answer to inquiry: ");
             if (answer.isEmpty()) {
                 view.displayWarning("Answer cannot be empty");
             }

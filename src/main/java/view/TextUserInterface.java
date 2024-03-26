@@ -71,9 +71,9 @@ public class TextUserInterface implements View {
     public void displayInquiry(Inquiry inquiry) {
 
         // displays subject, sender and content of an inquiry
-        System.out.printf("Subject: %s", inquiry.getSubject());
-        System.out.printf("Sender: %s", inquiry.getInquirerEmail());
-        System.out.printf("Content: %s", inquiry.getContent());
+        System.out.printf("Subject: %s\n", inquiry.getSubject());
+        System.out.printf("Sender: %s\n", inquiry.getInquirerEmail());
+        System.out.printf("Content: %s\n", inquiry.getContent());
     }
 
     @Override

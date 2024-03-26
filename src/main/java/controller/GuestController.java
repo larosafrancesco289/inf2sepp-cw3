@@ -12,6 +12,10 @@ public class GuestController extends Controller {
         super(sharedContext, view, authService, emailService);
     }
 
+    /**
+     * Allows a guest to log in to the system.
+     * @throws IllegalArgumentException if email not provided (null)
+     * */
     public void login() {
         view.displayInfo("\033[H\033[2J");
         String username = view.getInput("Enter your username: ");

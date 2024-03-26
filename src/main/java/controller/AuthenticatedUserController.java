@@ -9,6 +9,9 @@ public class AuthenticatedUserController extends Controller {
         super(sharedContext, view, authService, emailService);
     }
 
+    /**
+     * Logs authenticated user out. Sets current user to user of type guest
+     */
     public void logout() {
         sharedContext.setCurrentUser(new Guest());
         view.displaySuccess("You have been logged out");

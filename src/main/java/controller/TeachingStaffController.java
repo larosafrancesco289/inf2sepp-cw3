@@ -12,6 +12,11 @@ public class TeachingStaffController extends StaffController {
         super(sharedContext, view, authService, emailService);
     }
 
+    /**
+     * Method allows logged in teachingStaff to view any redirected inquiries, then choose to respond to them. <br>
+     * > Any inquiry responded to removed from inquiry list
+     * **/
+
     public void manageReceivedInquiries() {
 
         List<Inquiry> allInquiries = sharedContext.getInquiries();
@@ -72,7 +77,7 @@ public class TeachingStaffController extends StaffController {
 
                     // Display selected inquiry
                     Inquiry answerInquiry = redirectedInquiries.get(answerNo);
-                    String inquiryDetail = String.format("Inquiry number %d%n:", answerNo);
+                    String inquiryDetail = String.format("Inquiry number %d%n", answerNo);
 
                     view.displayInfo(inquiryDetail);
                     view.displayInfo(answerInquiry.getSubject());
