@@ -6,51 +6,64 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import model.*;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Collection;
 
+/**
+ * Test suite for the {@link PageSearch} class, focusing on the functionality of indexing pages
+ * and performing search operations.
+ */
+
 public class TestPageSearch {
     private PageSearch pageSearch;
 
-    // Initialize some pages for testing
+    /**
+     * Sets up the testing environment before each test method. This includes initializing a
+     * {@link PageSearch} instance with three predefined pages. Each page is created with
+     * a unique title and content sourced from text files located in the test resources directory.
+     */
     @BeforeEach
     void setUp() {
-        Page page1 = new Page("Page 1", "This is the content for page 1", false);
-        Page page2 = new Page("Page 2", "This is the content for page 2", false);
-        Page page3 = new Page("Page 3", "This is the content for page 3", false);
-        Page page4 = new Page("Page 4", "This is the content for page 4", false);
-        Page page5 = new Page("Page 5", "This is the content for page 5", false);
-        Page unique1 = new Page("Unique 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false);
-        Page unique2 = new Page("Unique 2", "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", false);
+        URL dataPath = getClass().getResource("/examplePage1.txt");
+        Page page1 = new Page("Article", dataPath.getPath(), false);
+
+        dataPath = getClass().getResource("/examplePage2.txt");
+        Page page2 = new Page("Webpage", dataPath.getPath(), false);
+
+        dataPath = getClass().getResource("/examplePage3.txt");
+        Page page3 = new Page("Blog", dataPath.getPath(), false);
+
         pageSearch = new PageSearch(new HashMap<String, Page>() {{
-            put("Page 1", page1);
-            put("Page 2", page2);
-            put("Page 3", page3);
-            put("Page 4", page4);
-            put("Page 5", page5);
-            put("Unique 1", unique1);
-            put("Unique 2", unique2);
+            put("Article", page1);
+            put("Webpage", page2);
+            put("Blog", page3);
         }});
     }
 
     @Test
-    void testSizeOfSearchResults() {
-        Collection<PageSearchResult> results = pageSearch.search("content");
-        assertEquals(5, results.size(), "All pages should match the search query");
+    void testSizeOfSearchResultsForCommonPhrase() {
+        // Execute a search query for a phrase expected to be common across all documents
+        Collection<PageSearchResult> results = pageSearch.search("Per aspera ad astra");
+        // Assert that the size of the search results matches the number of documents, indicating
+        // that the phrase was found in each document.
+        assertEquals(3, results.size(), "Expected to match the common phrase in all documents.");
     }
 
     @Test
-    void testSearchResultsFormatting() {
-        Collection<PageSearchResult> results = pageSearch.search("content");
-        for (PageSearchResult result : results) {
-            assertNotNull(result.getFormattedContent(), "Search results should have formatted content");
-        }
+    void testSearchResultsForSpecificPhrase() {
+        // Perform a search for a specific phrase enclosed in quotes to ensure an exact match search
+        Collection<PageSearchResult> results = pageSearch.search("\"dog, cat, bird\"");
+        // Retrieve the first (and in this case, expected to be the only) search result
+        PageSearchResult result = results.iterator().next();
+        assertTrue(result.getFormattedContent().contains("dog, cat, bird"), "Result should contain the searched phrase.");
     }
 
     @Test
-    void testUniqueResult() {
-        Collection<PageSearchResult> results = pageSearch.search("lorem");
-        assertEquals(1, results.size(), "Only one page should match the search query");
+    void testNoMatchSearchResults() {
+        // Search for a phrase that is expected not to exist in any of the indexed documents
+        Collection<PageSearchResult> results = pageSearch.search("nonexistent phrase");
+        assertTrue(results.isEmpty(), "Expected no matches for a nonexistent phrase.");
     }
 }

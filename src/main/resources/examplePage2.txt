@@ -1,0 +1,10 @@
+This is the first paragraphs of the webpage
+
+
+This is the second paragraph of the webpage: color, shape, size.
+
+
+This is the third paragraph of the webpage: weight, material, origin.
+
+
+Per aspera ad astra.

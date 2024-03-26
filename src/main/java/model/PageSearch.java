@@ -26,9 +26,11 @@ import java.util.List;
 import java.io.BufferedReader;
 
 /**
- * The PageSearch class is responsible for indexing and searching pages using Apache Lucene.
- * It utilizes a HashMap to store pages and provides methods to perform search operations.
+ * Implements a page indexing and searching mechanism using Apache Lucene.
+ * This class encapsulates the functionality to index provided pages and perform searches
+ * over these indexed pages.
  */
+
 public class PageSearch {
     private StandardAnalyzer analyzer; // The analyzer used for indexing and searching
     private Directory index; // The Lucene index directory
@@ -36,10 +38,12 @@ public class PageSearch {
     private List<PageSearchResult> searchResults; // List to store search results
 
     /**
-     * Constructs a new PageSearch object with the specified pages.
-     * It initializes the analyzer, index, and indexes the provided pages.
+     * Initializes a new instance of PageSearch, indexing the provided pages.
+     * This constructor sets up the analyzer, creates a Lucene index in memory, and indexes
+     * the provided pages by reading their content from specified file paths.
      *
-     * @param pages the pages to be indexed and searched
+     * @param pages A HashMap mapping page identifiers to Page objects. Each page is indexed
+     *              by its title and content for search operations.
      */
     public PageSearch(HashMap<String, Page> pages) {
         this.analyzer = new StandardAnalyzer();
@@ -48,6 +52,7 @@ public class PageSearch {
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
+        // Indexing the pages
         try (IndexWriter writer = new IndexWriter(index, config)) {
             for (Page page : this.pages.values()) {
                 addDoc(writer, page.getTitle(), page.getContent());
@@ -66,11 +71,7 @@ public class PageSearch {
      * @throws IOException if an I/O error occurs
      */
     public void addDoc(IndexWriter w, String title, String content) throws IOException {
-        Document doc = new Document();
-        doc.add(new StringField("title", title, Field.Store.YES));
-
-        // Extract the content from the txt file
-        // Read the content from the text file
+        // Reading the content of the page from the specified file path
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(content))) {
             String line;
@@ -80,20 +81,35 @@ public class PageSearch {
         }
 
         String contentString = contentBuilder.toString();
-        doc.add(new TextField("content", contentString, Field.Store.YES));
-        w.addDocument(doc);
+
+        // Splitting content into paragraphs to index each separately for more granular search results
+        String[] paragraphs = contentString.split("\\n\\n+");
+
+        for (String paragraph : paragraphs) {
+            if (!paragraph.trim().isEmpty()) { // Ignore empty paragraphs
+                Document doc = new Document();
+                doc.add(new StringField("title", title, Field.Store.YES));
+                doc.add(new TextField("content", paragraph, Field.Store.YES));
+                w.addDocument(doc);
+            }
+        }
     }
 
     /**
-     * Searches for pages matching the given query string.
+     * Searches the indexed pages for paragraphs matching the given query string. This method
+     * parses the query string into a Lucene query, performs the search, and collects up to a
+     * predefined number of top scoring hits as search results.
      *
-     * @param queryString the query string to search for
-     * @return a collection of PageSearchResult objects representing the search results
+     * @param queryString The user's query string to search for in the indexed content.
+     * @return A collection of PageSearchResult objects, each representing a matching paragraph
+     *         including its title and a snippet of content containing the search query.
      */
+
     public Collection<PageSearchResult> search(String queryString) {
         searchResults = new ArrayList<>();
 
         try {
+            // Parsing the query string to handle complex search queries like phrases or wildcards
             Query query = new QueryParser("content", analyzer).parse(queryString);
             IndexSearcher searcher = new IndexSearcher(DirectoryReader.open(index));
             TopDocs results = searcher.search(query, 10);
@@ -101,19 +117,19 @@ public class PageSearch {
             List<String> titles = new ArrayList<>();
             List<String> contents = new ArrayList<>();
 
+            // Collecting search results
             for (ScoreDoc scoreDoc : results.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
                 String title = doc.get("title");
                 String content = doc.get("content");
 
-                if (!titles.contains(title)) {
-                    titles.add(title);
-                    contents.add(content);
-                }
+                titles.add(title);
+                contents.add(content);
             }
 
+            // Formatting search results
             for (int i = 0; i < titles.size(); i++) {
-                String formattedContent = titles.get(i) + " - " + contents.get(i);
+                String formattedContent = "Title: " + titles.get(i) + "\n" + contents.get(i) + "\n";
                 searchResults.add(new PageSearchResult(formattedContent));
             }
 
