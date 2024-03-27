@@ -71,7 +71,6 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayInquiry(Inquiry inquiry) {
-
         // displays subject, sender and content of an inquiry
         System.out.printf("Subject: %s\n", inquiry.getSubject());
         System.out.printf("Sender: %s\n", inquiry.getInquirerEmail());
@@ -80,6 +79,8 @@ public class TextUserInterface implements View {
 
     @Override
     public void displaySearchResults(Collection<PageSearchResult> searchResults) {
-        // Implementation would depend on how the search results are to be displayed
+        for (PageSearchResult result : searchResults) {
+            System.out.println(result.getFormattedContent());
+        }
     }
 }
