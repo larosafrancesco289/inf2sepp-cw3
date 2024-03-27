@@ -60,6 +60,5 @@ public class GuestController extends Controller {
 
         sharedContext.setCurrentUser(currentUser);
         view.displaySuccess("Login successful");
-
     }
 }
