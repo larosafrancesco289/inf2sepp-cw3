@@ -141,7 +141,7 @@ public class InquirerController extends Controller {
         PageSearch search;
         try {
             search = new PageSearch(availablePages);
-            // Should be a IOException NEED TO ASK
+            // TODO: Should be a IOException NEED TO ASK
         } catch (Exception exception) {
             view.displayException(exception);
             return;

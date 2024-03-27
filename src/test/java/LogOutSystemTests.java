@@ -14,7 +14,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-
+/**
+ * Tests for the Logout use case.
+ */
 class LogOutSystemTests {
     private AuthenticationService authService;
     private EmailService emailService;
@@ -22,6 +24,7 @@ class LogOutSystemTests {
     private SharedContext sharedContext;
     private GuestController guestController;
     private AuthenticatedUserController authenticatedUserController;
+    // Redirect System.in and System.out to enable automated input and output
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     /**
