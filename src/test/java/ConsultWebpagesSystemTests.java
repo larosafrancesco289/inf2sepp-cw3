@@ -12,7 +12,6 @@ class ConsultWebpagesSystemTests {
      */
     @BeforeEach
     void setUp() {
-        // Log in as an admin staff member
         testHelper.setUpPage();
     }
 

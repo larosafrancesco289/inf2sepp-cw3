@@ -106,6 +106,13 @@ public class TestHelper {
         guestController.login();
     }
 
+    public void setUpLoggedInTeachingStaff() {
+        String username = "JSON Derulo";
+        String password = "Desrouleaux";
+        mockInputOutput(username + "\n" + password + "\n");
+        guestController.login();
+    }
+
     public void setUpPage() {
         // Log in as an admin staff member
         setUpLoggedInAdminStaff();

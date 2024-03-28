@@ -84,4 +84,6 @@ class LogInSystemTests {
 
         assertTrue(testHelper.getOutContent().toString().contains("Wrong username or password"));
     }
+
+    // TODO: Add more test cases for email null and role null or different than expected
 }
