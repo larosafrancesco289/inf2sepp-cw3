@@ -49,7 +49,7 @@ public class Page {
     }
 
     /**
-     * Sets the the address of the txt file of the page.
+     * Sets the address of the txt file of the page.
      *
      * @param content the new content of the page
      */

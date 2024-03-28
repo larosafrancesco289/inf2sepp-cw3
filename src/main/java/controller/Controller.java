@@ -61,4 +61,36 @@ public abstract class Controller {
             }
         }
     }
+
+    public SharedContext getSharedContext() {
+        return sharedContext;
+    }
+
+    public void setSharedContext(SharedContext sharedContext) {
+        this.sharedContext = sharedContext;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public AuthenticationService getAuthService() {
+        return authService;
+    }
+
+    public void setAuthService(AuthenticationService authService) {
+        this.authService = authService;
+    }
+
+    public EmailService getEmailService() {
+        return emailService;
+    }
+
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
+    }
 }

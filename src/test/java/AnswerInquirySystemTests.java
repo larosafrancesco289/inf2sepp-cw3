@@ -1,7 +1,5 @@
 // JUnit
 
-import model.Inquiry;
-import model.SharedContext;
 import org.junit.jupiter.api.Test;
 
 // class imports

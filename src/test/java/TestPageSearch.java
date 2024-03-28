@@ -1,15 +1,15 @@
+import model.Page;
+import model.PageSearch;
+import model.PageSearchResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import external.MockEmailService;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import model.*;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Collection;
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test suite for the {@link PageSearch} class, focusing on the functionality of indexing pages

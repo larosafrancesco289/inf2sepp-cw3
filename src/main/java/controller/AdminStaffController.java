@@ -16,11 +16,11 @@ public class AdminStaffController extends StaffController {
     /**
      * Adds webpage to the system. Allows for admin staff member to enter a title and page content (path to txt file).
      * Page is also set to either public or private, with private allowing logged-in users only to view
-     * **/
+     **/
     public void addPage() {
-        String title = view.getInput("Enter page title");
-        String content = view.getInput("Enter page content");
-        Boolean isPrivate = view.getYesNoInput("Should this page be private?");
+        String title = view.getInput("Enter page title: ");
+        String content = view.getInput("Enter page content: ");
+        Boolean isPrivate = view.getYesNoInput("Should this page be private? ");
 
         HashMap<String, Page> availablePages = sharedContext.getPages();
         Boolean titleExists = availablePages.containsKey(title);
