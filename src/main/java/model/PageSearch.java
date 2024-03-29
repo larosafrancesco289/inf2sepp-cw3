@@ -45,8 +45,9 @@ public class PageSearch {
      *
      * @param pages A HashMap mapping page identifiers to Page objects. Each page is indexed
      *              by its title and content for search operations.
+     * @throws IOException if an I/O error occurs
      */
-    public PageSearch(HashMap<String, Page> pages) {
+    public PageSearch(HashMap<String, Page> pages) throws IOException {
         this.analyzer = new StandardAnalyzer();
         this.index = new ByteBuffersDirectory();
         this.pages = pages;
@@ -59,7 +60,7 @@ public class PageSearch {
                 addDoc(writer, page.getTitle(), page.getContent());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IOException("Error indexing pages", e);
         }
     }
 
@@ -79,6 +80,8 @@ public class PageSearch {
             while ((line = br.readLine()) != null) {
                 contentBuilder.append(line).append("\n");
             }
+        } catch (IOException e) {
+            throw new IOException("Error reading page content", e);
         }
 
         String contentString = contentBuilder.toString();
@@ -104,9 +107,10 @@ public class PageSearch {
      * @param queryString The user's query string to search for in the indexed content.
      * @return A collection of PageSearchResult objects, each representing a matching paragraph
      * including its title and a snippet of content containing the search query.
+     * @throws Exception if an error occurs during the search operation
      */
 
-    public Collection<PageSearchResult> search(String queryString) {
+    public Collection<PageSearchResult> search(String queryString) throws Exception {
         searchResults = new ArrayList<>();
 
         try {
@@ -135,7 +139,7 @@ public class PageSearch {
             }
 
         } catch (IOException | ParseException e) {
-            e.printStackTrace();
+            throw new Exception("Error searching pages", e);
         }
 
         return searchResults;

@@ -23,7 +23,15 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Created by jay on 2017/11/20.
+ */
 public class LuceneTest {
+    /**
+     * Test core lucene functionality
+     * @throws IOException
+     * @throws ParseException
+     */
     @Test
     public void TestCore() throws IOException, ParseException {
         Analyzer analyzer = new StandardAnalyzer();

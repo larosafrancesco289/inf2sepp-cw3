@@ -92,30 +92,55 @@ public class TestHelper {
         outContent.reset();
     }
 
+    /**
+     * Sets up the testing environment by logging in as a student.
+     */
     public void setUpLoggedInStudent() {
         String username = "Barbie";
         String password = "I like pink muffs and I cannot lie";
         mockInputOutput(username + "\n" + password + "\n");
         guestController.login();
+        outContent.reset();
     }
 
+    /**
+     * Sets up the testing environment by logging in as an admin staff member.
+     */
     public void setUpLoggedInAdminStaff() {
         String username = "JackTheRipper";
         String password = "catch me if u can";
         mockInputOutput(username + "\n" + password + "\n");
         guestController.login();
+        outContent.reset();
     }
 
+    /**
+     * Sets up the testing environment by logging in as a teaching staff member.
+     */
     public void setUpLoggedInTeachingStaff() {
         String username = "JSON Derulo";
         String password = "Desrouleaux";
         mockInputOutput(username + "\n" + password + "\n");
         guestController.login();
+        outContent.reset();
     }
 
-    public void setUpPage() {
+    /**
+     * Sets up the testing environment by logging out if a user is currently logged in.
+     */
+    public void setUpGuest() {
+        if (sharedContext.getCurrentUser() != null) {
+            authenticatedUserController.logout();
+        }
+    }
+
+    /**
+     * Sets up the testing environment by adding two public pages and one private page.
+     */
+    public void setUpPages() {
         // Log in as an admin staff member
         setUpLoggedInAdminStaff();
+
         // Add a new page
         String title = "Article";
         URL dataPath = getClass().getResource("/examplePage1.txt");
@@ -124,8 +149,25 @@ public class TestHelper {
         mockInputOutput(title + "\n" + content + "\n" + isPrivate + "\n");
         adminStaffController.addPage();
 
+        // Add another new page
+        title = "Webpage";
+        dataPath = getClass().getResource("/examplePage2.txt");
+        content = dataPath.getPath();
+        isPrivate = "no";
+        mockInputOutput(title + "\n" + content + "\n" + isPrivate + "\n");
+        adminStaffController.addPage();
+
+        // Add a private page
+        title = "Blog";
+        dataPath = getClass().getResource("/examplePage3.txt");
+        content = dataPath.getPath();
+        isPrivate = "yes";
+        mockInputOutput(title + "\n" + content + "\n" + isPrivate + "\n");
+        adminStaffController.addPage();
+
         // Log out
         authenticatedUserController.logout();
+        outContent.reset();
     }
 
     public ByteArrayOutputStream getOutContent() {

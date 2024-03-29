@@ -1,9 +1,11 @@
 package controller;
 
-import external.*;
+import external.AuthenticationService;
+import external.EmailService;
 import model.*;
-import view.*;
+import view.View;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,7 @@ public class InquirerController extends Controller {
             userEmail = ((AuthenticatedUser) currentUser).getEmail();
         }
 
-        
+
         while (!(currentSection == null && optionNo == -1)) {
             if (currentSection == null) {
                 faq = sharedContext.getFaq();
@@ -67,18 +69,18 @@ public class InquirerController extends Controller {
                 //topic = currentSection.getTopic();
 
                 // Handeling the negative options
-                
+
                 if (currentSection == null) {
-                        if (optionNo < -1) {
-                            throw new NumberFormatException(); //Not in the sequence diagram but required
+                    if (optionNo < -1) {
+                        throw new NumberFormatException(); //Not in the sequence diagram but required
                     }
                 } else {
                     switch (optionNo) {
                         case -1:
                             parent = currentSection.getParent();
                             currentSection = parent;
-                            break;   
-                        
+                            break;
+
                         case -2:
                             topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
@@ -87,10 +89,10 @@ public class InquirerController extends Controller {
                             }
                             subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
                             if (subscribers.contains(userEmail)) {
-                                 stopFAQUpdates(userEmail, topic);
-                                }
+                                stopFAQUpdates(userEmail, topic);
+                            }
                             break;
-                            
+
                         case -3:
                             topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
@@ -99,11 +101,11 @@ public class InquirerController extends Controller {
                                 throw new NumberFormatException(); //Not in the sequence diagram but required
                             }
                             break;
-                        
+
                     }
-                } 
+                }
                 //update the view
-                if (optionNo != -1){
+                if (optionNo != -1) {
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
                         sections = faq.getSections();
@@ -117,7 +119,7 @@ public class InquirerController extends Controller {
                         currentSection = sections.get(optionNo);
                     }
                 }
-                
+
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + userIntput);
             }
@@ -128,7 +130,7 @@ public class InquirerController extends Controller {
         String searchQuery = view.getInput("Enter your search query: ");
         HashMap<String, Page> availablePages = sharedContext.getPages();
 
-        // If current user is a guest
+        // If current user is a guest remove private pages from search results
         if (sharedContext.getCurrentUser() instanceof Guest) {
             for (Page page : availablePages.values()) {
                 Boolean isPrivate = page.isPrivate();
@@ -141,17 +143,29 @@ public class InquirerController extends Controller {
         PageSearch search;
         try {
             search = new PageSearch(availablePages);
-            // TODO: Should be a IOException NEED TO ASK
-        } catch (Exception exception) {
+        } catch (IOException exception) {
             view.displayException(exception);
             return;
         }
-        Collection<PageSearchResult> results = search.search(searchQuery);
 
+        Collection<PageSearchResult> results = null;
+        try {
+            results = search.search(searchQuery);
+        } catch (Exception exception) {
+            view.displayException(exception);
+        }
+
+        // if no results found
+        if (results == null || results.isEmpty()) {
+            view.displayInfo("No results found for query: " + searchQuery);
+            return;
+        }
+
+        // Limit the number of results to 4
         if (results.size() > 4) {
-            // take the first 4 results
             results = ((List<PageSearchResult>) results).subList(0, 4);
         }
+
         view.displaySearchResults(results);
     }
 

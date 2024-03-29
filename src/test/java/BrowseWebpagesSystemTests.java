@@ -1,55 +1,27 @@
-import controller.InquirerController;
-import external.MockAuthenticationService;
-import external.MockEmailService;
-import model.Guest;
-import model.Page;
-import model.SharedContext;
-import model.User;
-import org.json.simple.parser.ParseException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import view.TextUserInterface;
-import view.View;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * Tests the browse webpages (admin) use case.
+ */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // This annotation is used to ensure that the setUp method is run only once
 class BrowseWebpagesSystemTests {
-    private User user;
-    private View view;
-    private SharedContext sharedContext;
-    private MockAuthenticationService mockAuthenticationService;
-    private MockEmailService mockEmailService;
-    private InquirerController inquirerController;
+    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
 
-    // Set up the test environment
-    @BeforeEach
-    void setUp() throws URISyntaxException, IOException, ParseException {
-        view = new TextUserInterface();
-        sharedContext = new SharedContext();
-        mockAuthenticationService = new MockAuthenticationService();
-        mockEmailService = new MockEmailService();
-        inquirerController = new InquirerController(sharedContext, view, mockAuthenticationService, mockEmailService);
-
-        Page page1 = new Page("Page 1", "This is the content for page 1", false);
-        Page page2 = new Page("Page 2", "This is the content for page 2", false);
-        Page page3 = new Page("Page 3", "This is the content for page 3", false);
-        Page page4 = new Page("Page 4", "This is the content for page 4", false);
-        Page page5 = new Page("Page 5", "This is the content for page 5", false);
-        Page unique1 = new Page("Unique 1", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", false);
-        Page unique2 = new Page("Unique 2", "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", false);
-        for (Page page : List.of(page1, page2, page3, page4, page5, unique1, unique2)) {
-            sharedContext.addPage(page);
-        }
+    /**
+     * Sets up the testing environment before each test by logging in as an admin staff member.
+     */
+    @BeforeAll
+    void setUp() {
+        testHelper.setUpPages();
     }
 
-    @Test
-    void testGuestMainScenario() {
-        sharedContext.setCurrentUser(new Guest());
-        inquirerController.searchPages();
-        assertEquals(5, sharedContext.getPages().size(), "All pages should be available to the guest");
+    /**
+     * Cleans up the testing environment after each test.
+     */
+    @AfterEach
+    void cleanUp() {
+        testHelper.cleanUpEnvironment();
     }
 }

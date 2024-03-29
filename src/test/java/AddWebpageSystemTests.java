@@ -6,6 +6,9 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * System tests for the add webpage use case.
+ */
 class AddWebpageSystemTests {
     private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
 
@@ -25,6 +28,9 @@ class AddWebpageSystemTests {
         testHelper.cleanUpEnvironment();
     }
 
+    /**
+     * Tests adding a new page to the system.
+     */
     @Test
     void testAddNewPage() {
         // Add a new page
@@ -40,6 +46,9 @@ class AddWebpageSystemTests {
         assertTrue(testHelper.getOutContent().toString().contains("Added page " + title));
     }
 
+    /**
+     * Tests the overwrite functionality when adding a page with the same title as an existing page.
+     */
     @Test
     void testAddExistingPageOverwrite() {
         // Add a new page
@@ -59,6 +68,9 @@ class AddWebpageSystemTests {
         assertTrue(testHelper.getSharedContext().getPages().containsKey(title));
     }
 
+    /**
+     * Tests adding a page with the same title as an existing page without overwriting the existing page.
+     */
     @Test
     void testAddExistingPageNoOverwrite() {
         // Add a new page
