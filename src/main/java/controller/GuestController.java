@@ -32,6 +32,8 @@ public class GuestController extends Controller {
             return;
         }
 
+        // assert jsonObject != null : "JSON object should not be null";
+
         if (jsonObject.get("error") != null) {
             view.displayError((String) jsonObject.get("error"));
             return;
@@ -57,6 +59,8 @@ public class GuestController extends Controller {
             view.displayException(e);
             return;
         }
+
+        // assert currentUser != null : "currentUser should not be null after creation";
 
         sharedContext.setCurrentUser(currentUser);
         view.displaySuccess("Login successful");

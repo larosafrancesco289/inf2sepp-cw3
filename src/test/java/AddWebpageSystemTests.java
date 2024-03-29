@@ -88,12 +88,4 @@ class AddWebpageSystemTests {
         // Confirm that the page was not overwritten
         assertTrue(testHelper.getOutContent().toString().contains("Cancelled adding new page"));
     }
-
-    // TODO: Don't know how to test email service failing
-    @Test
-    void emailServiceFail() {
-        //testing email service failing
-
-    }
-
 }

@@ -22,6 +22,10 @@ public class AdminStaffController extends StaffController {
         String content = view.getInput("Enter page content: ");
         Boolean isPrivate = view.getYesNoInput("Should this page be private? ");
 
+        // assert title != null : "Title cannot be null";
+        // assert content != null : "Content cannot be null";
+        // assert isPrivate != null : "isPrivate cannot be null";
+
         HashMap<String, Page> availablePages = sharedContext.getPages();
         Boolean titleExists = availablePages.containsKey(title);
         if (titleExists) {
@@ -34,6 +38,8 @@ public class AdminStaffController extends StaffController {
 
         Page newPage = new Page(title, content, isPrivate);
         sharedContext.addPage(newPage);
+
+        // assert sharedContext.getPages().containsKey(title) : "New page should have been added";
 
         // Get the current user
         AuthenticatedUser currentUser = (AuthenticatedUser) sharedContext.getCurrentUser();
