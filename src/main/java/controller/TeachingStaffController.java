@@ -48,7 +48,7 @@ public class TeachingStaffController extends StaffController {
 
                 for (Inquiry currReInquiry : redirectedInquiries) {
 
-                    String inqNo = String.format("Inquiry number %d%n", i);
+                    String inqNo = String.format("Inquiry number %d", i);
                     view.displayInfo(inqNo);
                     view.displayInquiry(currReInquiry);
                     i += 1;
@@ -77,7 +77,7 @@ public class TeachingStaffController extends StaffController {
 
                     // Display selected inquiry
                     Inquiry answerInquiry = redirectedInquiries.get(answerNo);
-                    String inquiryDetail = String.format("Inquiry number %d%n", answerNo);
+                    String inquiryDetail = String.format("Inquiry number %d", answerNo);
 
                     view.displayInfo(inquiryDetail);
                     view.displayInfo(answerInquiry.getSubject());
@@ -101,7 +101,7 @@ public class TeachingStaffController extends StaffController {
 
         // if no unanswered inquiries
         }else {
-            view.displayWarning("Currently no unanswered inquiries!");
+            view.displayInfo("Currently no unanswered inquiries!");
         }
     }
 

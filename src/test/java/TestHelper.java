@@ -1,7 +1,4 @@
-import controller.AdminStaffController;
-import controller.AuthenticatedUserController;
-import controller.GuestController;
-import controller.InquirerController;
+import controller.*;
 import external.AuthenticationService;
 import external.EmailService;
 import external.MockAuthenticationService;
@@ -32,6 +29,7 @@ public class TestHelper {
     private final AuthenticatedUserController authenticatedUserController;
     private final AdminStaffController adminStaffController;
     private final InquirerController inquirerController;
+    private final TeachingStaffController teachingStaffController;
 
     /**
      * Constructor for the TestHelper class.
@@ -56,6 +54,7 @@ public class TestHelper {
         authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
         adminStaffController = new AdminStaffController(sharedContext, view, authService, emailService);
         inquirerController = new InquirerController(sharedContext, view, authService, emailService);
+        teachingStaffController = new TeachingStaffController(sharedContext, view, authService, emailService);
     }
 
     /**
@@ -189,6 +188,8 @@ public class TestHelper {
     public AdminStaffController getAdminStaffController() {
         return adminStaffController;
     }
+
+    public TeachingStaffController getTeachingStaffController() {return teachingStaffController;}
 
     public InquirerController getInquirerController() {
         return inquirerController;

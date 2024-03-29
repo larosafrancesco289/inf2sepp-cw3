@@ -1,16 +1,29 @@
 // JUnit
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // class imports
 
 
-class RedirectEnquirySystemTests {
+class RedirectInquirySystemTests {
+
+    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+
+    /**
+     * Cleans up the testing environment after each test.
+     */
+    @AfterEach
+    void cleanUp() {
+        testHelper.cleanUpEnvironment();
+    }
 
     @Test
     void testEmptyEmail() {
 
-        //test when email is empty (should not proceed)
+
     }
 
     @Test

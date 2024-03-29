@@ -175,15 +175,16 @@ public class AdminStaffController extends StaffController {
         if (inquiryTitles.isEmpty()) {
             view.displayDivider();
             view.displayInfo("No inquiries to manage");
-            selectFromMenu(null, "return to main menu");
+            //selectFromMenu(null, "return to main menu");
             return;
         }
+        view.displayDivider();
         view.displayInfo("Inquiries to manage:");
         for (String title : inquiryTitles) {
             view.displayInfo(title);
         }
 
-        String inquiryTitle = view.getInput("Enter the title of the inquiry you want to manage");
+        String inquiryTitle = view.getInput("Enter the title of the inquiry you want to manage: ");
         Inquiry inquiry = sharedContext.getInquiries().stream().filter(i -> i.getSubject().equals(inquiryTitle)).findFirst().orElse(null);
         if (inquiry == null) {
             view.displayWarning("Inquiry not found");
