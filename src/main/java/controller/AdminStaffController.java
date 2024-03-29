@@ -175,7 +175,7 @@ public class AdminStaffController extends StaffController {
         if (inquiryTitles.isEmpty()) {
             view.displayDivider();
             view.displayInfo("No inquiries to manage");
-            //selectFromMenu(null, "return to main menu");
+            selectFromMenu(null, "return to main menu");
             return;
         }
         view.displayDivider();
