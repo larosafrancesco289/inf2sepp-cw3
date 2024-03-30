@@ -10,18 +10,36 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests for the MockAuthenticationService class.
+ * This class demonstrates how to use the MockAuthenticationService to test different login scenarios.
+ */
 public class TestMockAuthenticationService {
 
     private MockAuthenticationService authService;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * Initializes the authService with a new instance of MockAuthenticationService.
+     *
+     * @throws URISyntaxException if a string could not be parsed as a URI reference.
+     * @throws IOException if an I/O error occurs.
+     * @throws ParseException if the JSON data cannot be parsed.
+     */
     @BeforeEach
     public void setUp() throws URISyntaxException, IOException, ParseException {
         authService = new MockAuthenticationService();
     }
 
+    /**
+     * Converts a JSON string to a Map.
+     *
+     * @param jsonString the JSON string to convert.
+     * @return A map representing the JSON object.
+     */
     private Map<String, String> jsonStringToMap(String jsonString) {
         jsonString = jsonString.replaceAll("[{}]", ""); // Remove {}
-        String[] keyValuePairs = jsonString.split(",");
+        String[] keyValuePairs = jsonString.split(","); // Split by comma
         Map<String, String> map = new HashMap<>();
         for (String pair : keyValuePairs) {
             String[] entry = pair.split(":");
@@ -31,6 +49,10 @@ public class TestMockAuthenticationService {
         return map;
     }
 
+    /**
+     * Tests the successful login scenario.
+     * Verifies that the correct user data is returned when valid credentials are used.
+     */
     @Test
     public void testValidLogin() {
         String expected = "{\"password\":\"catch me if u can\",\"role\":\"AdminStaff\",\"email\":\"jack.tr@hindenburg.ac.uk\",\"username\":\"JackTheRipper\"}";
@@ -42,13 +64,21 @@ public class TestMockAuthenticationService {
         assertEquals(expectedMap, resultMap, "Valid login should return user data.");
     }
 
+    /**
+     * Tests the login scenario with an invalid password.
+     * Verifies that an error message is returned when an incorrect password is used.
+     */
     @Test
     public void testInvalidPassword() {
         String expected = "{\"error\":\"Wrong username or password\"}";
-        String result = authService.login("jack.tr@hindenburg.ac.uk", "wrong password");
+        String result = authService.login("JackTheRipper", "wrong password");
         assertEquals(expected, result, "Invalid password should return error message.");
     }
 
+    /**
+     * Tests the login scenario with an invalid username.
+     * Verifies that an error message is returned when a non-existent username is used.
+     */
     @Test
     public void testInvalidUsername() {
         String expected = "{\"error\":\"Wrong username or password\"}";

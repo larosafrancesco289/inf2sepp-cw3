@@ -16,6 +16,7 @@ public class StaffController extends Controller {
     protected Collection<String> getInquiryTitles(Collection<Inquiry> inquiries) {
         ArrayList<String> titles = new ArrayList<>();
         for (Inquiry inquiry : inquiries) {
+            // assert inquiry.getSubject() != null : "Inquiry subject cannot be null";g
             titles.add(inquiry.getSubject());
         }
         return titles;

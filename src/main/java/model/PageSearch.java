@@ -57,6 +57,8 @@ public class PageSearch {
         // Indexing the pages
         try (IndexWriter writer = new IndexWriter(index, config)) {
             for (Page page : this.pages.values()) {
+                // assert page.getTitle() != null : "Page title cannot be null";
+                // assert page.getContent() != null : "Page content cannot be null";
                 addDoc(writer, page.getTitle(), page.getContent());
             }
         } catch (IOException e) {

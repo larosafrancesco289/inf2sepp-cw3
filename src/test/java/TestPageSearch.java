@@ -23,7 +23,7 @@ public class TestPageSearch {
     /**
      * Sets up the testing environment before each test method. This includes initializing a
      * {@link PageSearch} instance with three predefined pages. Each page is created with
-     * a unique title and content sourced from text files located in the test resources directory.
+     * a unique title and content sourced from text files located in the test's resources directory.
      */
     @BeforeEach
     void setUp() throws IOException {

@@ -24,7 +24,7 @@ public class FAQSection {
         this.topic = topic;
         this.subsections = new ArrayList<>();
         this.items = new ArrayList<>();
-        // isPrivate can be set based on some condition or through a setter
+        // isPrivate is not necessary for this implementation
     }
 
     /**
