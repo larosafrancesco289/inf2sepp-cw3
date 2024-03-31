@@ -117,4 +117,5 @@ public class Inquiry {
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
+
 }
