@@ -131,15 +131,15 @@ public class TextUserInterface implements View {
     public void displayFAQSection(FAQSection faqSection, boolean isPrivate) {
         // Note that the requirement for private FAQs is not present in this implementation.
         System.out.printf("Topic: %s", faqSection.getTopic());
-        int i = 0;
+        int q = 0,i = 0;
         System.out.println("Subtopics:");
         for (FAQSection subsection : faqSection.getSubsections()) {
             System.out.println(String.format("[%d]", ++i) + subsection.getTopic());
         }
-        int q = i;
         System.out.println("Questions:");
         for (FAQItem item : faqSection.getItems()) {
-            System.out.println(String.format("[%d]", ++q) + item.getQuestion());
+            System.out.printf("Q: %s\n", item.getQuestion());
+            System.out.printf("A: %s\n", item.getAnswer());
         }
     }
 
