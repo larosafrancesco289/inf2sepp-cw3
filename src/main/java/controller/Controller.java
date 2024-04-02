@@ -64,7 +64,7 @@ public abstract class Controller {
 
             view.displayDivider();
             String userInput = view.getInput("Please choose an option \n");
-
+            view.displayInfo("\033[H\033[2J");
             try {
                 optionNo = Integer.parseInt(userInput);
                 if (selection != null && optionNo == -1) {
@@ -73,12 +73,10 @@ public abstract class Controller {
                 if (optionNo <= optionCounter && optionNo > 0) {
                     return optionNo;
                 }
-                view.displayInfo("\033[H\033[2J");
                 view.displayDivider();
                 view.displayError("invalid option: " + userInput);
             } catch (NumberFormatException e) {
                 view.displayDivider();
-                view.displayInfo("\033[H\033[2J");
                 view.displayError("invalid option: " + userInput);
             }
         }

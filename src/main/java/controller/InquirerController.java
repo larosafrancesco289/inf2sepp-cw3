@@ -50,13 +50,14 @@ public class InquirerController extends Controller {
             if (currentSection == null) {
                 faq = sharedContext.getFaq();
                 view.displayFAQ(faq, currentUser instanceof Guest);
+                view.displayDivider();
                 view.displayInfo("[-1] to return to the main menu");
             } else {
                 view.displayFAQSection(currentSection, currentUser instanceof Guest);
                 parent = currentSection.getParent();
-
+                view.displayDivider();
                 if (parent == null) {
-                    view.displayInfo("[-1] to return to the main menu");
+                    view.displayInfo("[-1] to return to the main FAQ menu");
                 } else {
                     topic = parent.getTopic();
                     view.displayInfo("[-1] to return to " + topic);
@@ -77,9 +78,9 @@ public class InquirerController extends Controller {
                     }
                 }
             }
-
+            view.displayDivider();
             String userInput = view.getInput("Please choose an option: ");
-
+            view.displayInfo("\033[H\033[2J");
             try {
                 optionNo = Integer.parseInt(userInput);
                 //topic = currentSection.getTopic();
@@ -91,12 +92,15 @@ public class InquirerController extends Controller {
                         throw new NumberFormatException(); //Not in the sequence diagram but required
                     }
                 } else {
+                    if (optionNo == 0) {
+                        throw new NumberFormatException();
+                    }
                     switch (optionNo) {
                         case -1:
                             parent = currentSection.getParent();
                             currentSection = parent;
+                            optionNo = 0;
                             break;
-
                         case -2:
                             topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
@@ -121,7 +125,7 @@ public class InquirerController extends Controller {
                     }
                 }
                 //update the view
-                if (optionNo != -1) {
+                if (optionNo != -1 || optionNo == 0) {
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
                         sections = faq.getSections();
@@ -129,15 +133,17 @@ public class InquirerController extends Controller {
                         sections = currentSection.getSubsections();
                     }
                     // if optionNo out of section bounds
-                    if ((optionNo > sections.size() + 1) || (optionNo == 0)) {
+                    if ((optionNo > sections.size())) {
                         view.displayError("Invalid option: " + userInput);
-                    } else {
+                        view.displayDivider();
+                    } else if (optionNo != 0){
                         currentSection = sections.get(optionNo - 1);
                     }
                 }
-
+                
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + userInput);
+                view.displayDivider();
             }
         }
     }

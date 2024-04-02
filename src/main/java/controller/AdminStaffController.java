@@ -75,105 +75,94 @@ public class AdminStaffController extends StaffController {
      * displaying them accordingly based on the user's role (guest or authenticated user).
      */
     public void manageFAQ() {
-        FAQ faq;
+        FAQ faq = sharedContext.getFaq();
         List<FAQSection> sections;
         FAQSection currentSection = null, parent = null;
         User currentUser = sharedContext.getCurrentUser();
         Collection<String> subscribers;
-        String topic, section = null;
+        String topic, newSectionName = null;
         int optionNo = 0;
-
 
         while (!(currentSection == null && optionNo == -1)) {
             if (currentSection == null) {
-                faq = sharedContext.getFaq();
-                view.displayFAQ(faq, currentUser instanceof AuthenticatedUser);
+                sections = faq.getSections();
+                view.displayFAQ(faq, currentUser instanceof Guest);
+                view.displayDivider();
                 view.displayInfo("[-1] to return to the main menu");
-                Boolean addFAQSection = view.getYesNoInput("Do you want to add a new FAQSection?");
-                if (addFAQSection) {
-                    do {
-                        section = view.getInput("Enter section: ");
-                        if (section.isEmpty()) {
-                            view.displayWarning("section cannot be empty");
-                        }
-                    } while (section.isEmpty());
-                    FAQSection newSection = new FAQSection(section);
-                    faq.addSectionItems(newSection);
-                    currentSection = newSection;
-                } else {
-                    if (!faq.getSections().isEmpty()) {
-                        currentSection = faq.getSections().get(0);
-                    }
-                }
-
-                if (currentSection != null){
-                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
-                    if (addFAQItem) {
-                        addFAQItem(currentSection);
-                    }
-                }
-
+                view.displayInfo("[-2] to add a FAQ section here");
             } else {
-                view.displayFAQSection(currentSection, currentUser instanceof AuthenticatedUser);
+                sections = currentSection.getSubsections();
+                view.displayFAQSection(currentSection, currentUser instanceof Guest);
                 parent = currentSection.getParent();
 
                 if (parent == null) {
-                    view.displayInfo("[-1] to return to the main menu");
-                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
-                    if (addFAQItem) {
-                        addFAQItem(currentSection);
-                    }
-                } else{
+                    view.displayInfo("[-1] to return to the main FAQ menu");
+                } else {
                     topic = parent.getTopic();
                     view.displayInfo("[-1] to return to " + topic);
-                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
-                    if (addFAQItem) {
-                        addFAQItem(currentSection);
-                    }
                 }
-
-
+                view.displayInfo("[-2] to add a FAQ subsection here");
+                view.displayInfo("[-3] to add a Q & A pair");
             }
-            String userIntput = view.getInput("Please choose an option: ");
-
+            view.displayDivider();
+            String userInput = view.getInput("Please choose an option: ");
+            view.displayInfo("\033[H\033[2J");
             try {
-                optionNo = Integer.parseInt(userIntput);
-                //topic = currentSection.getTopic();
+                optionNo = Integer.parseInt(userInput);
 
-                // Handling the negative options
-
-                if (currentSection == null) {
-                    if (optionNo < -1) {
-                        throw new NumberFormatException(); //Not in the sequence diagram but required
-                    }
-                } else {
-                    switch (optionNo) {
-                        case -1:
-                            parent = currentSection.getParent();
-                            //if (parent != null){
-                                currentSection = parent;
-                            //}
-
-                    }
-                }
-                //update the view
-                if (optionNo != -1) {
+                if (optionNo < 0) {
                     if (currentSection == null) {
-                        faq = sharedContext.getFaq();
-                        sections = faq.getSections();
+
+                        if (optionNo < -2) {
+                            throw new NumberFormatException(); //Not in the sequence diagram but required
+                        }
                     } else {
-                        sections = currentSection.getSubsections();
+                        switch (optionNo) {
+                            case -1:
+                                parent = currentSection.getParent();
+                                currentSection = parent;
+                                optionNo = 0;
+                                break;
+                                
+                            case -3:
+                                addFAQItem(currentSection);
+                        }
                     }
-                    // if optionNo out of section bounds
-                    if ((optionNo > sections.size()) || (optionNo == 0)) {
-                        view.displayError("Invalid option: " + userIntput);
+                    
+                    if (optionNo == -2) {
+                        String new_section_topic;
+                        do {
+                            new_section_topic = view.getInput("Enter new section topic: ");
+                            if (new_section_topic.isEmpty()) {
+                                view.displayWarning("Topic cannot be empty");
+                            }
+                        } while (new_section_topic.isEmpty());
+                        
+                        FAQSection newSection = new FAQSection(new_section_topic);
+                        newSection.setParent(currentSection);
+
+                        if (currentSection == null) {
+                            faq.addSectionItems(newSection);
+                        } else {
+                            currentSection.addSubsection(newSection);
+                        }
+                        view.displayInfo("\033[H\033[2J");
+                        view.displaySuccess("\u001B[32m New section " + new_section_topic + " added! \u001B[37m");
+                        view.displayDivider();
+                    }
+                
+                } else {
+
+                    if (optionNo > sections.size() || (optionNo == 0)) {
+                        throw new NumberFormatException();
                     } else {
-                        currentSection = sections.get(optionNo);
+                        currentSection = sections.get(optionNo - 1);
                     }
                 }
-
             } catch (NumberFormatException e) {
-                view.displayError("Invalid option: " + userIntput);
+                view.displayDivider();
+                view.displayError("Invalid option: " + userInput);
+                view.displayDivider();
             }
         }
     }
@@ -191,31 +180,12 @@ public class AdminStaffController extends StaffController {
      * @param section The FAQSection to which the new FAQ item will be added.
      */
     private void addFAQItem(FAQSection section) {
-        if (section.getParent() == null) {
-            String topic;
-            do {
-                topic = view.getInput("Enter topic: ");
-                if (topic.isEmpty()) {
-                    view.displayWarning("Topic cannot be empty");
-                }
-            } while (topic.isEmpty());
-            FAQSection newSection = new FAQSection(topic);
-            section.addSubsection(newSection);
-        }
-
-        Boolean addSubtopic = view.getYesNoInput("Do you want to provide a new subtopic?");
-        if (addSubtopic) {
-            String subtopic = view.getInput("Enter subtopic: ");
-            FAQSection newSection = new FAQSection(subtopic);
-            section.addSubsection(newSection);
-            addFAQItem(newSection);
-        }
-
         String question;
         String answer;
         do {
             question = view.getInput("Enter question: ");
             answer = view.getInput("Enter answer: ");
+            view.displayInfo("\033[H\033[2J");
             if (question.isEmpty()) {
                 view.displayWarning("Question cannot be empty");
             } else if (answer.isEmpty()) {
@@ -224,7 +194,9 @@ public class AdminStaffController extends StaffController {
         } while (question.isEmpty() || answer.isEmpty());
         section.addItem(question, answer);
         emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, SharedContext.ADMIN_STAFF_EMAIL, question, "New FAQ question added");
-        view.displaySuccess("Added FAQ question: " + question);
+        view.displayDivider();
+        view.displaySuccess("\u001B[32m Added FAQ question: " + question + "\u001B[37m");
+        view.displayDivider();
     }
 
     /**

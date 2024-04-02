@@ -4,6 +4,7 @@ import model.*;
 
 import java.util.Collection;
 import java.util.Scanner;
+import java.util.List;
 
 /**
  * A console-based implementation of the {@link View} interface to interact with users via text.
@@ -117,7 +118,7 @@ public class TextUserInterface implements View {
         System.out.println("FAQ Sections:");
         int i = 0;
         for (FAQSection section : faq.getSections()) {
-            System.out.println(String.format("[%d]", ++i) + section.getTopic());
+            System.out.println(String.format("[ %d ] ", ++i) + section.getTopic());
         }
     }
 
@@ -129,18 +130,30 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayFAQSection(FAQSection faqSection, boolean isPrivate) {
+        List<FAQItem> qaPairs = faqSection.getItems();
+        List<FAQSection> subSections = faqSection.getSubsections();
         // Note that the requirement for private FAQs is not present in this implementation.
-        System.out.printf("Topic: %s", faqSection.getTopic());
-        int q = 0,i = 0;
-        System.out.println("Subtopics:");
-        for (FAQSection subsection : faqSection.getSubsections()) {
-            System.out.println(String.format("[%d]", ++i) + subsection.getTopic());
+        System.out.printf("Topic: %s \n", faqSection.getTopic());
+        displayDivider();
+        if (subSections.size() != 0) {
+            System.out.println("Subtopics:");
+            int i = 0;
+            for (FAQSection subsection : subSections) {
+                System.out.println(String.format("[ %d ] ", ++i) + subsection.getTopic());
+            }
         }
-        System.out.println("Questions:");
-        for (FAQItem item : faqSection.getItems()) {
-            System.out.printf("Q: %s\n", item.getQuestion());
-            System.out.printf("A: %s\n", item.getAnswer());
+        if (qaPairs.size() != 0) {
+            displayDivider();
+            System.out.println("Questions:");
+            for (FAQItem item : qaPairs) {
+                System.out.printf("Q: %s\n", item.getQuestion());
+                System.out.printf("A: %s\n\n", item.getAnswer());
+            }
         }
+        if (subSections.size() + qaPairs.size() == 0) {
+            displayInfo("Current topic is empty");
+        }
+        displayDivider();
     }
 
     /**
