@@ -129,10 +129,10 @@ public class InquirerController extends Controller {
                         sections = currentSection.getSubsections();
                     }
                     // if optionNo out of section bounds
-                    if ((optionNo > sections.size()) || (optionNo == 0)) {
+                    if ((optionNo > sections.size() + 1) || (optionNo == 0)) {
                         view.displayError("Invalid option: " + userInput);
                     } else {
-                        currentSection = sections.get(optionNo);
+                        currentSection = sections.get(optionNo - 1);
                     }
                 }
 
