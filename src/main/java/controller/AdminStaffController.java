@@ -100,18 +100,19 @@ public class AdminStaffController extends StaffController {
                     FAQSection newSection = new FAQSection(section);
                     faq.addSectionItems(newSection);
                     currentSection = newSection;
-                }
-
-                else{
-                    if (!faq.getSections().isEmpty()){
+                } else {
+                    if (!faq.getSections().isEmpty()) {
                         currentSection = faq.getSections().get(0);
                     }
                 }
 
-                Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
-                if (addFAQItem) {
-                    addFAQItem(currentSection);
+                if (currentSection != null){
+                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
+                    if (addFAQItem) {
+                        addFAQItem(currentSection);
+                    }
                 }
+
             } else {
                 view.displayFAQSection(currentSection, currentUser instanceof AuthenticatedUser);
                 parent = currentSection.getParent();
