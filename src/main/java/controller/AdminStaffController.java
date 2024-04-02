@@ -68,6 +68,8 @@ public class AdminStaffController extends StaffController {
         }
     }
 
+
+
     /**
      * Manages the Frequently Asked Questions (FAQ) section. Allows navigating through FAQ sections and sub-sections,
      * displaying them accordingly based on the user's role (guest or authenticated user).
@@ -75,64 +77,104 @@ public class AdminStaffController extends StaffController {
     public void manageFAQ() {
         FAQ faq;
         List<FAQSection> sections;
-        FAQSection currentSection = null;
-        FAQSection parent = null;
+        FAQSection currentSection = null, parent = null;
         User currentUser = sharedContext.getCurrentUser();
-        String topic;
         Collection<String> subscribers;
-        String userEmail = null;
+        String topic, section = null;
+        int optionNo = 0;
 
-        if (currentUser instanceof AuthenticatedUser) {
-            userEmail = ((AuthenticatedUser) currentUser).getEmail();
-        }
 
-        int optionNo = -1;
-        while (currentSection == null && optionNo == -1) {
+        while (!(currentSection == null && optionNo == -1)) {
             if (currentSection == null) {
                 faq = sharedContext.getFaq();
-                view.displayFAQ(faq, currentUser instanceof Guest);
+                view.displayFAQ(faq, currentUser instanceof AuthenticatedUser);
                 view.displayInfo("[-1] to return to the main menu");
+                Boolean addFAQSection = view.getYesNoInput("Do you want to add a new FAQSection?");
+                if (addFAQSection) {
+                    do {
+                        section = view.getInput("Enter section: ");
+                        if (section.isEmpty()) {
+                            view.displayWarning("section cannot be empty");
+                        }
+                    } while (section.isEmpty());
+                    FAQSection newSection = new FAQSection(section);
+                    faq.addSectionItems(newSection);
+                    currentSection = newSection;
+                }
+
+                Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
+                if (addFAQItem) {
+                    addFAQItem(currentSection);
+                }
             } else {
-                view.displayFAQSection(currentSection, currentUser instanceof Guest);
+                view.displayFAQSection(currentSection, currentUser instanceof AuthenticatedUser);
                 parent = currentSection.getParent();
 
                 if (parent == null) {
                     view.displayInfo("[-1] to return to the main menu");
-                } else {
+                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
+                    if (addFAQItem) {
+                        addFAQItem(currentSection);
+                    }
+                } else{
                     topic = parent.getTopic();
                     view.displayInfo("[-1] to return to " + topic);
+                    Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
+                    if (addFAQItem) {
+                        addFAQItem(currentSection);
+                    }
                 }
 
+
             }
+            String userIntput = view.getInput("Please choose an option: ");
+
             try {
-                optionNo = Integer.parseInt(view.getInput("Please choose an option: "));
-                topic = currentSection.getTopic();
+                optionNo = Integer.parseInt(userIntput);
+                //topic = currentSection.getTopic();
 
+                // Handling the negative options
 
-                if (currentSection != null && optionNo == -1) {
-                    parent = currentSection.getParent();
-                    currentSection = parent;
-                } else if (optionNo == -1) {
+                if (currentSection == null) {
+                    if (optionNo < -1) {
+                        throw new NumberFormatException(); //Not in the sequence diagram but required
+                    }
+                } else {
+                    switch (optionNo) {
+                        case -1:
+                            parent = currentSection.getParent();
+                            currentSection = parent;
+
+                    }
+                }
+                //update the view
+                System.out.println("HERE");
+                if (optionNo != -1) {
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
                         sections = faq.getSections();
                     } else {
-                        sections = parent.getSubsections();
+                        sections = currentSection.getSubsections();
                     }
-
                     // if optionNo out of section bounds
-                    if (optionNo > sections.size()) {
-                        view.displayError("Invalid option: " + optionNo);
+                    if ((optionNo > sections.size()) || (optionNo == 0)) {
+                        view.displayError("Invalid option: " + userIntput);
                     } else {
                         currentSection = sections.get(optionNo);
                     }
                 }
+
             } catch (NumberFormatException e) {
-                view.displayError("Invalid option: " + optionNo);
-                return;
+                view.displayError("Invalid option: " + userIntput);
             }
         }
     }
+
+
+
+
+
+
 
     /**
      * Adds a new FAQ item to a specified section or sub-section. Prompts the admin staff member for input
@@ -144,7 +186,7 @@ public class AdminStaffController extends StaffController {
         if (section.getParent() == null) {
             String topic;
             do {
-                topic = view.getInput("Enter topic");
+                topic = view.getInput("Enter topic: ");
                 if (topic.isEmpty()) {
                     view.displayWarning("Topic cannot be empty");
                 }
@@ -155,7 +197,7 @@ public class AdminStaffController extends StaffController {
 
         Boolean addSubtopic = view.getYesNoInput("Do you want to provide a new subtopic?");
         if (addSubtopic) {
-            String subtopic = view.getInput("Enter subtopic");
+            String subtopic = view.getInput("Enter subtopic: ");
             FAQSection newSection = new FAQSection(subtopic);
             section.addSubsection(newSection);
             addFAQItem(newSection);
@@ -164,8 +206,8 @@ public class AdminStaffController extends StaffController {
         String question;
         String answer;
         do {
-            question = view.getInput("Enter question");
-            answer = view.getInput("Enter answer");
+            question = view.getInput("Enter question: ");
+            answer = view.getInput("Enter answer: ");
             if (question.isEmpty()) {
                 view.displayWarning("Question cannot be empty");
             } else if (answer.isEmpty()) {
