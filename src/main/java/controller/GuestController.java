@@ -9,15 +9,31 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import view.View;
 
+/**
+ * Controller class for guest users' functionalities.
+ * Extends the Controller class to handle actions that can be performed by guest users, specifically logging in.
+ */
 public class GuestController extends Controller {
+    /**
+     * Constructs a GuestController with the specified shared context, view, authentication service, and email service.
+     * Initializes the controller with necessary services and context for its operation, for guest users.
+     *
+     * @param sharedContext The shared application context for maintaining state across the system.
+     * @param view          The view used for interacting with the user through the command line.
+     * @param authService   The service responsible for authenticating users.
+     * @param emailService  The service for handling email operations.
+     */
     public GuestController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
 
     /**
-     * Allows a guest to log in to the system.
+     * Facilitates the login process for a guest user.
+     * Prompts the user for their username and password, and attempts to authenticate them using the authentication service.
+     * Upon successful authentication, the user's details (email and role) are retrieved, and the current user in the shared context is updated.
+     * Throws an IllegalArgumentException if the email or role is not provided or unsupported.
      *
-     * @throws IllegalArgumentException if email not provided (null)
+     * @throws IllegalArgumentException If the user's email is not provided or the user's role is unsupported.
      */
     public void login() {
         view.displayInfo("\033[H\033[2J");

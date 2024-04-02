@@ -11,16 +11,30 @@ import view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class specific to teaching staff functionalities.
+ * Extends the StaffController to provide functionalities such as viewing and responding to redirected inquiries.
+ */
 public class TeachingStaffController extends StaffController {
+    /**
+     * Constructs a TeachingStaffController with the specified shared context, view, authentication service, and email service.
+     * Initializes the controller with necessary services and context for its operation, focusing on teaching staff roles.
+     *
+     * @param sharedContext The shared context for application-wide state management.
+     * @param view          The interface for user interaction.
+     * @param authService   The service for authenticating users.
+     * @param emailService  The service for handling email operations.
+     */
     public TeachingStaffController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
 
     /**
-     * Method allows logged in teachingStaff to view any redirected inquiries, then choose to respond to them. <br>
-     * > Any inquiry responded to removed from inquiry list
-     **/
-
+     * Allows teaching staff to manage inquiries that have been redirected to them.
+     * Teaching staff can view a list of inquiries assigned to them, choose one to respond to,
+     * and upon responding, the inquiry is removed from the list of active inquiries.
+     * If there are no redirected inquiries, a message indicating the absence of inquiries is displayed.
+     */
     public void manageReceivedInquiries() {
 
         List<Inquiry> allInquiries = sharedContext.getInquiries();

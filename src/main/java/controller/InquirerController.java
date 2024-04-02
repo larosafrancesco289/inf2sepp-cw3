@@ -11,11 +11,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * Controller class responsible for handling actions performed by inquirers (users and guests),
+ * such as consulting FAQs, searching pages, and contacting staff.
+ */
 public class InquirerController extends Controller {
+    /**
+     * Constructs an InquirerController with specified shared context, view, authentication service, and email service.
+     *
+     * @param sharedContext The shared context across the application.
+     * @param view The view for user interaction.
+     * @param authService The service for authentication.
+     * @param emailService The service for email operations.
+     */
     public InquirerController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
 
+    /**
+     * Allows the user to consult the Frequently Asked Questions (FAQ) section.
+     * Users can navigate through FAQ sections and request updates on specific topics.
+     */
     public void consultFAQ() {
         FAQ faq;
         List<FAQSection> sections;
@@ -62,10 +78,10 @@ public class InquirerController extends Controller {
                 }
             }
 
-            String userIntput = view.getInput("Please choose an option: ");
+            String userInput = view.getInput("Please choose an option: ");
 
             try {
-                optionNo = Integer.parseInt(userIntput);
+                optionNo = Integer.parseInt(userInput);
                 //topic = currentSection.getTopic();
 
                 // Handeling the negative options
@@ -114,18 +130,22 @@ public class InquirerController extends Controller {
                     }
                     // if optionNo out of section bounds
                     if ((optionNo > sections.size()) || (optionNo == 0)) {
-                        view.displayError("Invalid option: " + userIntput);
+                        view.displayError("Invalid option: " + userInput);
                     } else {
                         currentSection = sections.get(optionNo);
                     }
                 }
 
             } catch (NumberFormatException e) {
-                view.displayError("Invalid option: " + userIntput);
+                view.displayError("Invalid option: " + userInput);
             }
         }
     }
 
+    /**
+     * Provides a search functionality for the user to search through available pages.
+     * If the user is a guest, private pages are excluded from the search results.
+     */
     public void searchPages() {
         String searchQuery = view.getInput("Enter your search query: ");
         HashMap<String, Page> availablePages = sharedContext.getPages();
@@ -170,11 +190,10 @@ public class InquirerController extends Controller {
     }
 
     /**
-     * Method adds and Inquiry object to inquiryList within sharedContext
-     * User inputs inquiry subject/content
-     * Gets user email from object if logged in, otherwise asks for input
-     * Notifies admin staff of inquiry via email system
-     **/
+     * Allows users to contact staff by sending an inquiry.
+     * Users provide an email (if not authenticated), a subject, and content for their inquiry.
+     * The inquiry is then sent to all admin staff via email and added to the shared context's inquiry list.
+     */
     public void contactStaff() {
 
         User currentUser = sharedContext.getCurrentUser();
@@ -232,6 +251,13 @@ public class InquirerController extends Controller {
 
     }
 
+    /**
+     * Registers a user for updates on a specific FAQ topic.
+     * If the user is not authenticated, their email is requested for registration.
+     *
+     * @param userEmail The email of the user to register for updates.
+     * @param topic The FAQ topic the user wants updates on.
+     */
     private void requestFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
             userEmail = view.getInput("Please enter your email address");
@@ -244,6 +270,13 @@ public class InquirerController extends Controller {
         }
     }
 
+    /**
+     * Unregisters a user from updates on a specific FAQ topic.
+     * If the user is not authenticated, their email is requested.
+     *
+     * @param userEmail The email of the user to unregister from updates.
+     * @param topic The FAQ topic the user wants to stop receiving updates on.
+     */
     private void stopFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
             userEmail = view.getInput("Please enter your email address");

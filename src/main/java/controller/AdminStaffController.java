@@ -9,15 +9,30 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Controller class for admin staff functionalities.
+ * This class extends StaffController and includes additional methods specific to admin staff roles,
+ * such as managing web pages, FAQ sections, viewing all pages, and managing inquiries.
+ */
+
 public class AdminStaffController extends StaffController {
+    /**
+     * Constructs an AdminStaffController with the specified shared context, view, authentication service, and email service.
+     *
+     * @param sharedContext The shared application context.
+     * @param view          The view used for input and output operations.
+     * @param authService   The authentication service for user authentication.
+     * @param emailService  The email service for sending notifications.
+     */
     public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
     }
 
     /**
-     * Adds webpage to the system. Allows for admin staff member to enter a title and page content (path to txt file).
-     * Page is also set to either public or private, with private allowing logged-in users only to view
-     **/
+     * Adds a new webpage to the system with a specified title, content (path to txt file), and visibility (public/private).
+     * Prompts the admin staff member to enter the page details and determines if the page should be overwritten
+     * if a page with the same title already exists.
+     */
     public void addPage() {
         String title = view.getInput("Enter page title: ");
         String content = view.getInput("Enter page content: ");
@@ -54,8 +69,9 @@ public class AdminStaffController extends StaffController {
     }
 
     /**
-     * m
-     **/
+     * Manages the Frequently Asked Questions (FAQ) section. Allows navigating through FAQ sections and sub-sections,
+     * displaying them accordingly based on the user's role (guest or authenticated user).
+     */
     public void manageFAQ() {
         FAQ faq;
         List<FAQSection> sections;
@@ -119,9 +135,11 @@ public class AdminStaffController extends StaffController {
     }
 
     /**
-     * Adds FAQ topic to system <br>
-     * Lets admin staff enter a topic title
-     **/
+     * Adds a new FAQ item to a specified section or sub-section. Prompts the admin staff member for input
+     * on the topic, subtopic (if applicable), question, and answer before adding it to the FAQ.
+     *
+     * @param section The FAQSection to which the new FAQ item will be added.
+     */
     private void addFAQItem(FAQSection section) {
         if (section.getParent() == null) {
             String topic;
@@ -159,6 +177,9 @@ public class AdminStaffController extends StaffController {
         view.displaySuccess("Added FAQ question: " + question);
     }
 
+    /**
+     * Displays all pages currently in the system. Offers the option to add a new page at the end of the listing.
+     */
     public void viewAllPages() {
         HashMap<String, Page> pages = sharedContext.getPages();
         for (Page page : pages.values()) {
@@ -171,6 +192,10 @@ public class AdminStaffController extends StaffController {
         }
     }
 
+    /**
+     * Manages inquiries submitted by users. Lists all inquiries and allows the admin staff to select one
+     * for management, which includes responding to the inquiry or redirecting it to another staff member.
+     */
     public void manageInquiries() {
         Collection<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
         if (inquiryTitles.isEmpty()) {
@@ -202,6 +227,11 @@ public class AdminStaffController extends StaffController {
         }
     }
 
+    /**
+     * Redirects an inquiry to another staff member by assigning the inquiry to them and sending a notification email.
+     *
+     * @param inquiry The Inquiry to be redirected.
+     */
     private void redirectInquiry(Inquiry inquiry) {
         String teachingStaffEmail;
         do {
