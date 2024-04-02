@@ -1,8 +1,9 @@
 package controller;
 
-import external.*;
+import external.AuthenticationService;
+import external.EmailService;
 import model.*;
-import view.*;
+import view.View;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class AdminStaffController extends StaffController {
     }
 
     /**
-     *m
+     * m
      **/
     public void manageFAQ() {
         FAQ faq;
@@ -120,7 +121,7 @@ public class AdminStaffController extends StaffController {
     /**
      * Adds FAQ topic to system <br>
      * Lets admin staff enter a topic title
-     * **/
+     **/
     private void addFAQItem(FAQSection section) {
         if (section.getParent() == null) {
             String topic;
@@ -175,7 +176,7 @@ public class AdminStaffController extends StaffController {
         if (inquiryTitles.isEmpty()) {
             view.displayDivider();
             view.displayInfo("No inquiries to manage");
-            selectFromMenu(null, "return to main menu");
+            // selectFromMenu(null, "return to main menu");
             return;
         }
         view.displayDivider();

@@ -23,8 +23,8 @@ public class TestMockAuthenticationService {
      * Initializes the authService with a new instance of MockAuthenticationService.
      *
      * @throws URISyntaxException if a string could not be parsed as a URI reference.
-     * @throws IOException if an I/O error occurs.
-     * @throws ParseException if the JSON data cannot be parsed.
+     * @throws IOException        if an I/O error occurs.
+     * @throws ParseException     if the JSON data cannot be parsed.
      */
     @BeforeEach
     public void setUp() throws URISyntaxException, IOException, ParseException {

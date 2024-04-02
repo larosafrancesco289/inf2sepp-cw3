@@ -1,12 +1,13 @@
 package controller;
 
-import external.*;
-import model.*;
-import view.*;
+import external.AuthenticationService;
+import external.EmailService;
+import model.Inquiry;
+import model.SharedContext;
+import view.View;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class StaffController extends Controller {
     public StaffController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {

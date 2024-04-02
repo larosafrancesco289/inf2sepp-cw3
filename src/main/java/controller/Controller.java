@@ -1,11 +1,12 @@
 package controller;
 
-import external.*;
-import view.*;
-import model.*;
+import external.AuthenticationService;
+import external.EmailService;
+import model.SharedContext;
+import view.View;
 
-import java.util.Iterator;
 import java.util.Collection;
+import java.util.Iterator;
 
 public abstract class Controller {
     public SharedContext sharedContext;
@@ -26,12 +27,12 @@ public abstract class Controller {
         while (true) {
             view.displayDivider();
             Integer optionCounter = 0;
-            
+
             if (items != null) {
                 Iterator<T> iterator = items.iterator();
                 while (iterator.hasNext()) {
                     optionCounter++;
-                    view.displayInfo("[" +(optionCounter.toString()) + "] " + iterator.next().toString());
+                    view.displayInfo("[" + (optionCounter) + "] " + iterator.next().toString());
                 }
             }
 
@@ -39,7 +40,7 @@ public abstract class Controller {
                 optionCounter++;
                 view.displayInfo("[-1] " + selection);
             }
-            
+
             view.displayDivider();
             String userInput = view.getInput("Please choose an option \n");
 

@@ -189,7 +189,9 @@ public class TestHelper {
         return adminStaffController;
     }
 
-    public TeachingStaffController getTeachingStaffController() {return teachingStaffController;}
+    public TeachingStaffController getTeachingStaffController() {
+        return teachingStaffController;
+    }
 
     public InquirerController getInquirerController() {
         return inquirerController;

@@ -1,10 +1,9 @@
+import controller.MenuController;
+import external.MockAuthenticationService;
+import external.MockEmailService;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import view.TextUserInterface;
-import controller.MenuController;
-
-import external.MockAuthenticationService;
-import external.MockEmailService;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

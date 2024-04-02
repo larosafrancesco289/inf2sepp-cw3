@@ -1,11 +1,13 @@
 package controller;
 
-import external.*;
-import model.*;
+import external.AuthenticationService;
+import external.EmailService;
+import model.AuthenticatedUser;
+import model.SharedContext;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import view.*;
+import view.View;
 
 public class GuestController extends Controller {
     public GuestController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
@@ -14,8 +16,9 @@ public class GuestController extends Controller {
 
     /**
      * Allows a guest to log in to the system.
+     *
      * @throws IllegalArgumentException if email not provided (null)
-     * */
+     */
     public void login() {
         view.displayInfo("\033[H\033[2J");
         String username = view.getInput("Enter your username: ");

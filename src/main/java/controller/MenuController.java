@@ -1,11 +1,12 @@
 package controller;
 
-import java.util.Arrays;
-import java.util.Collection;
+import external.AuthenticationService;
+import external.EmailService;
+import model.SharedContext;
+import model.User;
+import view.View;
 
-import external.*;
-import model.*;
-import view.*;
+import java.util.Arrays;
 
 public class MenuController extends Controller {
     private enum GuestMainMenuOption {

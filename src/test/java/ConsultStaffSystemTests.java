@@ -1,13 +1,10 @@
 // JUnit
 
-import model.AuthenticatedUser;
 import model.Inquiry;
-import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 // class imports
 
@@ -44,6 +41,7 @@ class ConsultStaffSystemTests {
         assert (inquiries.get(0).getContent().equals("This is a test message."));
 
     }
+
     /**
      * Test case: User is a guest
      * This test verifies that a message is displayed when an invalid email is added
@@ -62,6 +60,7 @@ class ConsultStaffSystemTests {
         String output = testHelper.getOutContent().toString();
         assert (output.contains("Invalid email provided, please enter again using the format, email@domain:"));
     }
+
     /**
      * Test case: User is a guest
      * This test verifies that a message is displayed when an invalid email is added

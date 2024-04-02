@@ -1,8 +1,12 @@
 package controller;
 
-import external.*;
-import model.*;
-import view.*;
+import external.AuthenticationService;
+import external.EmailService;
+import model.AuthenticatedUser;
+import model.Inquiry;
+import model.SharedContext;
+import model.User;
+import view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,7 @@ public class TeachingStaffController extends StaffController {
     /**
      * Method allows logged in teachingStaff to view any redirected inquiries, then choose to respond to them. <br>
      * > Any inquiry responded to removed from inquiry list
-     * **/
+     **/
 
     public void manageReceivedInquiries() {
 
@@ -31,9 +35,9 @@ public class TeachingStaffController extends StaffController {
             String teachingStaffUser = ((AuthenticatedUser) currentUser).getEmail();
 
             // loop through inquiry list, add to redirected list if redirected
-            for (Inquiry currInquiry : allInquiries){
+            for (Inquiry currInquiry : allInquiries) {
 
-                if (currInquiry.getAssignedTo().equals(teachingStaffUser)){
+                if (currInquiry.getAssignedTo().equals(teachingStaffUser)) {
 
                     redirectedInquiries.add(currInquiry);
                 }
@@ -59,15 +63,15 @@ public class TeachingStaffController extends StaffController {
                 int answerNo = 0;
                 String userInput = view.getInput("Enter inquiry number to manage, or enter -1 to exit:");
 
-                while (!valid){
+                while (!valid) {
                     // check provided value is in range of inquiries available to select
                     int inputParsed = Integer.parseInt(userInput);
-                    if (inputParsed <= i){
+                    if (inputParsed <= i) {
                         answerNo = inputParsed;
                         valid = true;
-                    }else {
-                      String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i);
-                      userInput = view.getInput(inputPrompt);
+                    } else {
+                        String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i);
+                        userInput = view.getInput(inputPrompt);
                     }
 
                 }
@@ -93,18 +97,17 @@ public class TeachingStaffController extends StaffController {
                         sharedContext.setInquiries(allInquiries);
                     }
 
-                }else{
+                } else {
                     answering = false;
                 }
 
             }
 
-        // if no unanswered inquiries
-        }else {
+            // if no unanswered inquiries
+        } else {
             view.displayInfo("Currently no unanswered inquiries!");
         }
     }
-
 
 
 }

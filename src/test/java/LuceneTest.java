@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LuceneTest {
     /**
      * Test core lucene functionality
+     *
      * @throws IOException
      * @throws ParseException
      */
