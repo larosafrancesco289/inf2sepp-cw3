@@ -65,7 +65,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displaySuccess(String message) {
-        System.out.println(message);
+        System.out.println("\u001B[32m"+message+" \u001B[37m");
     }
 
     /**

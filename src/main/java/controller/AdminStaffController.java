@@ -147,7 +147,7 @@ public class AdminStaffController extends StaffController {
                             currentSection.addSubsection(newSection);
                         }
                         view.displayInfo("\033[H\033[2J");
-                        view.displaySuccess("\u001B[32m New section " + new_section_topic + " added! \u001B[37m");
+                        view.displaySuccess(" New section " + new_section_topic + " added!");
                         view.displayDivider();
                     }
                 
@@ -261,6 +261,7 @@ public class AdminStaffController extends StaffController {
             if (teachingStaffEmail.isEmpty()) {
                 view.displayWarning("Assignee email cannot be empty");
             }
+            
         } while (teachingStaffEmail.isEmpty()); // Need more validation here
         inquiry.setAssignedTo(teachingStaffEmail);
         emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, teachingStaffEmail, inquiry.getSubject(), "Inquiry assigned to you");

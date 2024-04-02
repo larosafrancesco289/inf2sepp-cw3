@@ -116,7 +116,7 @@ public class InquirerController extends Controller {
                         case -3:
                             topic = currentSection.getTopic();
                             if (currentUser instanceof Guest) {
-                                requestFAQUpdates(null, topic);
+                                stopFAQUpdates(null, topic);
                             } else {
                                 throw new NumberFormatException(); //Not in the sequence diagram but required
                             }
@@ -136,7 +136,7 @@ public class InquirerController extends Controller {
                     if ((optionNo > sections.size())) {
                         view.displayError("Invalid option: " + userInput);
                         view.displayDivider();
-                    } else if (optionNo != 0){
+                    } else if (optionNo > 0){
                         currentSection = sections.get(optionNo - 1);
                     }
                 }
@@ -217,7 +217,7 @@ public class InquirerController extends Controller {
         if (currentUser instanceof AuthenticatedUser) {
             userEmail = ((AuthenticatedUser) currentUser).getEmail();
         } else {
-            userEmail = view.getInput("Please enter your email address:");
+            userEmail = view.getInput("Please enter your email address: ");
 
             // validate input email address
             String emailRegex = "(.*)@(.*)";
@@ -228,14 +228,16 @@ public class InquirerController extends Controller {
                 if (Pattern.compile(emailRegex).matcher(userEmail).matches()) {
                     valid = true;
                 } else {
-                    userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain:");
+                    userEmail = view
+                            .getInput("Invalid email provided, please enter again using the format, email@domain: ");
                 }
 
             }
+            view.displayInfo("\033[H\033[2J");
         }
 
-        inquirySubject = view.getInput("Please enter the subject of your inquiry:");
-        inquiryContent = view.getInput("Please enter your message to pass to staff members:");
+        inquirySubject = view.getInput("Please enter the subject of your inquiry: ");
+        inquiryContent = view.getInput("Please enter your message to pass to staff members: ");
 
 
         // 3 - email all admin staff
@@ -266,13 +268,27 @@ public class InquirerController extends Controller {
      */
     private void requestFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
-            userEmail = view.getInput("Please enter your email address");
+            userEmail = view.getInput("Please enter your email address: ");
+            String emailRegex = "(.*)@(.*)";
+            boolean valid = false;
+
+            while (!valid) {
+
+                if (Pattern.compile(emailRegex).matcher(userEmail).matches()) {
+                    valid = true;
+                } else {
+                    userEmail = view.getInput("Invalid email provided, please enter again using the format, email@domain: ");
+                }
+                view.displayInfo("\033[H\033[2J");
+            }
         }
         Boolean success = sharedContext.registerForFAQUpdates(userEmail, topic);
         if (success) {
             view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic);
+            view.displayDivider();
         } else {
             view.displayError("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+            view.displayDivider();
         }
     }
 
@@ -285,13 +301,29 @@ public class InquirerController extends Controller {
      */
     private void stopFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
-            userEmail = view.getInput("Please enter your email address");
+            userEmail = view.getInput("Please enter your email address: ");
+            String emailRegex = "(.*)@(.*)";
+            boolean valid = false;
+
+            while (!valid) {
+
+                if (Pattern.compile(emailRegex).matcher(userEmail).matches()) {
+                    valid = true;
+                } else {
+                    userEmail = view
+                            .getInput("Invalid email provided, please enter again using the format, email@domain: ");
+                }
+
+            }
+            view.displayInfo("\033[H\033[2J");
         }
         Boolean success = sharedContext.unregisterForFAQUpdates(userEmail, topic);
         if (success) {
             view.displaySuccess("Successfully unregistered " + userEmail + " for updates on " + topic);
+            view.displayDivider();
         } else {
             view.displayError("Failed to unregister " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+            view.displayDivider();
         }
     }
 }
