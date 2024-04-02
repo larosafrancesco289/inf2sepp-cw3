@@ -113,6 +113,7 @@ public class MenuController extends Controller {
     }
 
     private boolean handleAdminStaffMainMenu() {
+        inquirerController = new InquirerController(sharedContext, view, authService, emailService);
         authenticatedUserController = new AuthenticatedUserController(sharedContext, view, authService, emailService);
         adminStaffController = new AdminStaffController(sharedContext, view, authService, emailService);
         int userSelection = adminStaffController.selectFromMenu(Arrays.asList(AdminStaffMainMenuOption.values()), null);
