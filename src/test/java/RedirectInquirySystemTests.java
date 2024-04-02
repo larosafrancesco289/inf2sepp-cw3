@@ -1,9 +1,18 @@
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RedirectInquirySystemTests {
 
     private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+
+    @BeforeEach
+    void setUp() {
+        testHelper.setUpLoggedInAdminStaff();
+        testHelper.setupMockInquiry(false);
+    }
+
 
     /**
      * Cleans up the testing environment after each test.
@@ -13,30 +22,25 @@ class RedirectInquirySystemTests {
         testHelper.cleanUpEnvironment();
     }
 
+
+    // Guest
+
+
     @Test
     void testEmptyEmail() {
+
+        testHelper.mockInputOutput("TestInquiry" + "\n" + "no" + "\n" + "" + "\n" + "email@domain");
+        testHelper.getAdminStaffController().manageInquiries();
+
+        assertTrue(testHelper.getOutContent().toString().contains("Invalid email provided, please enter again using the format, email@domain:"));
 
 
     }
 
     @Test
     void testAssigned() {
-        //test if inquiry has been assigned to staff?
+
     }
 
 
 }
-
-
-//private void redirectInquiry(Inquiry inquiry) {
-//    String teachingStaffEmail;
-//    do {
-//        teachingStaffEmail = view.getInput("Enter the email of the staff member to whom this inquiry should be redirected: ");
-//        if (teachingStaffEmail.isEmpty()) {
-//            view.displayWarning("Assignee email cannot be empty");
-//        }
-//    } while (teachingStaffEmail.isEmpty()); // Need more validation here
-//    inquiry.setAssignedTo(teachingStaffEmail);
-//    emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, teachingStaffEmail, inquiry.getSubject(), "Inquiry assigned to you");
-//    view.displaySuccess("Inquiry assigned to " + teachingStaffEmail);
-//}

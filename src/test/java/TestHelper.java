@@ -3,6 +3,7 @@ import external.AuthenticationService;
 import external.EmailService;
 import external.MockAuthenticationService;
 import external.MockEmailService;
+import model.Inquiry;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import view.TextUserInterface;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Helper class for setting up the testing environment.
@@ -168,6 +170,27 @@ public class TestHelper {
         authenticatedUserController.logout();
         outContent.reset();
     }
+
+    public void setupMockInquiry(boolean redirect){
+
+        String title = "TestInquiry";
+        String content = "This is a test";
+        String sender = "test@test.com";
+        String redirectEmail = "json.d@hindenburg.ac.uk";
+
+        Inquiry testInquiry = new Inquiry(sender, title, content);
+
+        if (redirect){
+            testInquiry.setAssignedTo(redirectEmail);
+        }
+
+        List<Inquiry> allInquiries = sharedContext.getInquiries();
+        allInquiries.add(testInquiry);
+        sharedContext.setInquiries(allInquiries);
+
+    }
+
+
 
     public ByteArrayOutputStream getOutContent() {
         return outContent;
