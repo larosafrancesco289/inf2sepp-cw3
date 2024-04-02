@@ -18,6 +18,7 @@ class ViewInquiriesSystemTests {
     @Test
     void testNoInquiriesAdmin() {
         testHelper.setUpLoggedInAdminStaff();
+        testHelper.mockInputOutput("-1");
         //test if no inquiries in list returns error message
         testHelper.getAdminStaffController().manageInquiries();
         // check output message

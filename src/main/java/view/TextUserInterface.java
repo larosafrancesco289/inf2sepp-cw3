@@ -156,7 +156,7 @@ public class TextUserInterface implements View {
     }
 
     /**
-     * Displays search results to the user.
+     * Displays the results of a search operation, showing each result's title and content.
      *
      * @param searchResults the collection of search results to display.
      */
