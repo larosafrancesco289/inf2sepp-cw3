@@ -102,6 +102,12 @@ public class AdminStaffController extends StaffController {
                     currentSection = newSection;
                 }
 
+                else{
+                    if (!faq.getSections().isEmpty()){
+                        currentSection = faq.getSections().get(0);
+                    }
+                }
+
                 Boolean addFAQItem = view.getYesNoInput("Do you want to add a new FAQItem?");
                 if (addFAQItem) {
                     addFAQItem(currentSection);
@@ -143,12 +149,13 @@ public class AdminStaffController extends StaffController {
                     switch (optionNo) {
                         case -1:
                             parent = currentSection.getParent();
-                            currentSection = parent;
+                            //if (parent != null){
+                                currentSection = parent;
+                            //}
 
                     }
                 }
                 //update the view
-                System.out.println("HERE");
                 if (optionNo != -1) {
                     if (currentSection == null) {
                         faq = sharedContext.getFaq();
