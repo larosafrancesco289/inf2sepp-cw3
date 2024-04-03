@@ -81,6 +81,7 @@ public class TestHelper {
         guestController.setView(view);
         authenticatedUserController.setView(view);
         adminStaffController.setView(view);
+        teachingStaffController.setView(view);
         inquirerController.setView(view);
     }
 
@@ -196,7 +197,6 @@ public class TestHelper {
         sharedContext.setInquiries(allInquiries);
 
     }
-
 
     public ByteArrayOutputStream getOutContent() {
         return outContent;

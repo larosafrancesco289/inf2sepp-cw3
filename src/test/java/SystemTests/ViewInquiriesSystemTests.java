@@ -81,7 +81,7 @@ class ViewInquiriesSystemTests {
         testHelper.setupMockInquiry(true);
 
         testHelper.setUpLoggedInTeachingStaff();
-        //testHelper.mockInputOutput("0" + "\n" + "0" + "\n" + "yes" + "\n" + "ok");
+        testHelper.mockInputOutput("0" + "\n" + "0" + "\n" + "yes" + "\n" + "ok");
         testHelper.getTeachingStaffController().manageReceivedInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Inquiry number 0\nSubject: TestInquiry"));
