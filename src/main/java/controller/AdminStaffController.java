@@ -5,6 +5,7 @@ import external.EmailService;
 import model.*;
 import view.View;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -219,7 +220,8 @@ public class AdminStaffController extends StaffController {
      * for management, which includes responding to the inquiry or redirecting it to another staff member.
      */
     public void manageInquiries() {
-        Collection<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
+        ArrayList<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
+
         if (inquiryTitles.isEmpty()) {
             view.displayDivider();
             view.displayInfo("No inquiries to manage");
@@ -228,16 +230,10 @@ public class AdminStaffController extends StaffController {
         }
         view.displayDivider();
         view.displayInfo("Inquiries to manage:");
-        for (String title : inquiryTitles) {
-            view.displayInfo(title);
-        }
+        int optionNo = selectFromMenu(inquiryTitles, "return to main menu");
 
-        String inquiryTitle = view.getInput("Enter the title of the inquiry you want to manage: ");
-        Inquiry inquiry = sharedContext.getInquiries().stream().filter(i -> i.getSubject().equals(inquiryTitle)).findFirst().orElse(null);
-        if (inquiry == null) {
-            view.displayWarning("Inquiry not found");
-            return;
-        }
+       if (optionNo != -1){ Inquiry inquiry = sharedContext.getInquiries().get(optionNo - 1);
+
         // print the content of the inquiry
         view.displayInquiry(inquiry);
         // need to add alternative scenarios here
@@ -245,7 +241,7 @@ public class AdminStaffController extends StaffController {
         if (respond) {
             respondToInquiry(inquiry);
         } else {
-            redirectInquiry(inquiry);
+            redirectInquiry(inquiry);}
         }
     }
 
