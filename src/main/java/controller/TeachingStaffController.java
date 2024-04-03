@@ -119,7 +119,7 @@ public class TeachingStaffController extends StaffController {
 
             // if no unanswered inquiries
         } else {
-            view.displaySuccess("Currently no unanswered inquiries!");
+            view.displayInfo("Currently no unanswered inquiries!");
         }
     }
 

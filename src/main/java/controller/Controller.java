@@ -58,6 +58,7 @@ public abstract class Controller {
             }
 
             if (selection != null) {
+                optionCounter++;
                 view.displayInfo("[-1] " + selection);
             }
 

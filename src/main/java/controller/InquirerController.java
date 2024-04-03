@@ -110,8 +110,6 @@ public class InquirerController extends Controller {
                             subscribers = sharedContext.usersSubscribedToFAQTopic(topic);
                             if (subscribers.contains(userEmail)) {
                                 stopFAQUpdates(userEmail, topic);
-                            } else {
-                                requestFAQUpdates(userEmail, topic);
                             }
                             break;
 
@@ -185,8 +183,7 @@ public class InquirerController extends Controller {
 
         // if no results found
         if (results == null || results.isEmpty()) {
-            view.displayInfo("\033[H\033[2J");
-            view.displayError("No results found for query: " + searchQuery);
+            view.displayInfo("No results found for query: " + searchQuery);
             return;
         }
 
@@ -257,8 +254,8 @@ public class InquirerController extends Controller {
         sharedContext.setInquiries(currInquiryList);
 
         // 5 - Confirm inquiry sent
-        view.displayInfo("\033[H\033[2J");
-        view.displaySuccess("Inquiry sent.");
+
+        view.displayInfo("Inquiry sent.");
 
     }
 
