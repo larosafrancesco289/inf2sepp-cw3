@@ -1,11 +1,12 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+package SystemTests;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class ViewInquiriesSystemTests {
 
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Cleans up the testing environment after each test.
@@ -22,7 +23,7 @@ class ViewInquiriesSystemTests {
         //test if no inquiries in list returns error message
         testHelper.getAdminStaffController().manageInquiries();
         // check output message
-        assertTrue(testHelper.getOutContent().toString().contains("No inquiries to manage"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("No inquiries to manage"));
 
     }
 
@@ -32,7 +33,7 @@ class ViewInquiriesSystemTests {
         // test if no inquiries in list returns error message
         testHelper.getTeachingStaffController().manageReceivedInquiries();
         // check output message
-        assertTrue(testHelper.getOutContent().toString().contains("Currently no unanswered inquiries!"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Currently no unanswered inquiries!"));
     }
 
     @Test

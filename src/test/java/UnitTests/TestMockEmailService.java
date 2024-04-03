@@ -1,3 +1,5 @@
+package UnitTests;
+
 import external.MockEmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

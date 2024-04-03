@@ -1,3 +1,5 @@
+package UnitTests;
+
 import model.Page;
 import model.PageSearch;
 import model.PageSearchResult;

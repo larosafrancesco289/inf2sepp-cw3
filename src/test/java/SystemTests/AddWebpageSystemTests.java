@@ -1,16 +1,17 @@
+package SystemTests;
+
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.net.URL;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
  * System tests for the add webpage use case.
  */
 class AddWebpageSystemTests {
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Sets up the testing environment before each test by logging in as an admin staff member.
@@ -43,7 +44,7 @@ class AddWebpageSystemTests {
 
         // Verify that the page was added
         assert (testHelper.getSharedContext().getPages().containsKey(title));
-        assertTrue(testHelper.getOutContent().toString().contains("Added page " + title));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Added page " + title));
     }
 
     /**
@@ -65,7 +66,7 @@ class AddWebpageSystemTests {
         testHelper.getAdminStaffController().addPage();
 
         // Check if sharedContext contains the new page by the content
-        assertTrue(testHelper.getSharedContext().getPages().containsKey(title));
+        Assertions.assertTrue(testHelper.getSharedContext().getPages().containsKey(title));
     }
 
     /**
@@ -86,6 +87,6 @@ class AddWebpageSystemTests {
         testHelper.getAdminStaffController().addPage();
 
         // Confirm that the page was not overwritten
-        assertTrue(testHelper.getOutContent().toString().contains("Cancelled adding new page"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Cancelled adding new page"));
     }
 }

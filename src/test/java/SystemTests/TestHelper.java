@@ -1,3 +1,5 @@
+package SystemTests;
+
 import controller.*;
 import external.AuthenticationService;
 import external.EmailService;
@@ -32,7 +34,7 @@ public class TestHelper {
     private final TeachingStaffController teachingStaffController;
 
     /**
-     * Constructor for the TestHelper class.
+     * Constructor for the SystemTests.TestHelper class.
      */
     public TestHelper() {
         try {

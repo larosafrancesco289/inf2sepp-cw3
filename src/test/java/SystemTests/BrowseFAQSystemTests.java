@@ -1,11 +1,11 @@
-// JUnit
+package SystemTests;// JUnit
 
 import org.junit.jupiter.api.Test;
 
 // class imports
+//BROWSE FAQ is for ADMINS
 
-// CONSULT IS FOR USERS
-class ConsultFAQSystemTests {
+class BrowseFAQSystemTests {
 
     @Test
     void _test() {

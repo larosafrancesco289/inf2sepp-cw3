@@ -1,14 +1,14 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
+package SystemTests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Login use case.
  */
 class LogInSystemTests {
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Cleans up the testing environment after each test.
@@ -31,8 +31,8 @@ class LogInSystemTests {
         testHelper.getGuestController().login();
 
         // Assert that the login was successful and the correct role is set.
-        assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
-        assertEquals("Student", testHelper.getSharedContext().getCurrentUser().getRole());
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
+        Assertions.assertEquals("Student", testHelper.getSharedContext().getCurrentUser().getRole());
     }
 
     /**
@@ -48,8 +48,8 @@ class LogInSystemTests {
         testHelper.getGuestController().login();
 
         // Assert that the login was successful and the correct role is set.
-        assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
-        assertEquals("AdminStaff", testHelper.getSharedContext().getCurrentUser().getRole());
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
+        Assertions.assertEquals("AdminStaff", testHelper.getSharedContext().getCurrentUser().getRole());
     }
 
     /**
@@ -65,8 +65,8 @@ class LogInSystemTests {
         testHelper.getGuestController().login();
 
         // Assert that the login was successful and the correct role is set.
-        assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
-        assertEquals("TeachingStaff", testHelper.getSharedContext().getCurrentUser().getRole());
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Login successful"));
+        Assertions.assertEquals("TeachingStaff", testHelper.getSharedContext().getCurrentUser().getRole());
     }
 
     /**
@@ -80,7 +80,7 @@ class LogInSystemTests {
         testHelper.mockInputOutput(username + "\n" + password + "\n");
         testHelper.getGuestController().login();
 
-        assertTrue(testHelper.getOutContent().toString().contains("Wrong username or password"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Wrong username or password"));
     }
 
     // TODO: Add more test cases for email null and role null or different than expected

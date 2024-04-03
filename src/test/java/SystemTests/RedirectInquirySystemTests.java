@@ -1,9 +1,11 @@
+package SystemTests;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class RedirectInquirySystemTests {
 
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Cleans up the testing environment after each test.

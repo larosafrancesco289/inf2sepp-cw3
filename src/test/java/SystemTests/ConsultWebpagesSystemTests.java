@@ -1,17 +1,13 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+package SystemTests;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.*;
 
 /**
  * System tests for the Consult Webpages use case.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // This annotation is used to ensure that the setUp method is run only once
 class ConsultWebpagesSystemTests {
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Sets up the testing environment before all tests by adding the pages.
@@ -40,7 +36,7 @@ class ConsultWebpagesSystemTests {
         testHelper.getInquirerController().searchPages();
 
         // Verify that the search results are displayed
-        assertTrue(testHelper.getOutContent().toString().contains("Per aspera ad astra"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Per aspera ad astra"));
     }
 
     /**
@@ -54,7 +50,7 @@ class ConsultWebpagesSystemTests {
         testHelper.getInquirerController().searchPages();
 
         // Verify that no results are found
-        assertTrue(testHelper.getOutContent().toString().contains("No results found for query: " + searchQuery));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("No results found for query: " + searchQuery));
     }
 
     /**
@@ -71,11 +67,11 @@ class ConsultWebpagesSystemTests {
         testHelper.getInquirerController().searchPages();
 
         // Verify that only two pages are displayed
-        assertTrue(testHelper.getOutContent().toString().contains("Article"));
-        assertTrue(testHelper.getOutContent().toString().contains("Webpage"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Article"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Webpage"));
 
         // Blog is a private page, so it should not be displayed
-        assertFalse(testHelper.getOutContent().toString().contains("Blog"));
+        Assertions.assertFalse(testHelper.getOutContent().toString().contains("Blog"));
     }
 
     /**
@@ -92,10 +88,38 @@ class ConsultWebpagesSystemTests {
         testHelper.getInquirerController().searchPages();
 
         // Verify that all three pages are displayed
-        assertTrue(testHelper.getOutContent().toString().contains("Article"));
-        assertTrue(testHelper.getOutContent().toString().contains("Webpage"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Article"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Webpage"));
 
         // Blog is a private page, but the user is logged in, so it should be displayed
-        assertTrue(testHelper.getOutContent().toString().contains("Blog"));
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Blog"));
+    }
+
+    /**
+     * Tests for an empty query.
+     */
+    @Test
+    void testEmptyQuery() {
+        // Search for pages
+        String searchQuery = "\n";
+        // Enter an empty query followed by a valid query
+        testHelper.mockInputOutput(searchQuery + "\n" + "Per aspera ad astra" + "\n");
+        testHelper.getInquirerController().searchPages();
+
+        // Verify that no results are found
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Please enter a valid search query: "));
+    }
+
+    @Test
+    void testInvalidQuery() {
+        // Search for pages
+        // Invalid query: missing closing parenthesis
+        String searchQuery = "title:(One Two OR AND text:";
+        // Enter an invalid query followed by a valid query
+        testHelper.mockInputOutput(searchQuery + "\n" + "Per aspera ad astra" + "\n");
+        testHelper.getInquirerController().searchPages();
+
+        // Verify that no results are found
+        Assertions.assertTrue(testHelper.getOutContent().toString().contains("Invalid search query. Please try again."));
     }
 }

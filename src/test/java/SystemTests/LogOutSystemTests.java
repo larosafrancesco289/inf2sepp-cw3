@@ -1,3 +1,5 @@
+package SystemTests;
+
 import model.Guest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * Tests for the Logout use case.
  */
 class LogOutSystemTests {
-    private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
     /**
      * Sets up the testing environment before each test by logging in.

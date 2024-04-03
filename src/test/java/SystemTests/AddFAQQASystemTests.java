@@ -1,4 +1,4 @@
-// JUnit
+package SystemTests;// JUnit
 
 import org.junit.jupiter.api.Test;
 

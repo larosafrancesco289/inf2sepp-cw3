@@ -1,3 +1,5 @@
+package UnitTests;
+
 import external.MockAuthenticationService;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.BeforeEach;

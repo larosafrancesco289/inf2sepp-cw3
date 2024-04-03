@@ -3,6 +3,7 @@ package controller;
 import external.AuthenticationService;
 import external.EmailService;
 import model.*;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import view.View;
 
 import java.io.IOException;
@@ -156,6 +157,27 @@ public class InquirerController extends Controller {
      */
     public void searchPages() {
         String searchQuery = view.getInput("Enter your search query: ");
+        // assert searchQuery != null : "Search query cannot be null";
+
+        // If search query is empty, prompt user to enter a valid search query
+        while (searchQuery.isEmpty()) {
+            view.displayError("Search query cannot be empty.");
+            searchQuery = view.getInput("Please enter a valid search query: ");
+        }
+
+        // If search query is incorrect, prompt user to enter a valid search query
+        StandardQueryParser queryParser = new StandardQueryParser();
+        while (true)
+        {
+            try {
+                queryParser.parse(searchQuery, "content");
+                break;
+            } catch (Exception exception) {
+                view.displayError("Invalid search query. Please try again.");
+                searchQuery = view.getInput("Please enter a valid search query: ");
+            }
+        }
+
         HashMap<String, Page> availablePages = sharedContext.getPages();
 
         // If current user is a guest remove private pages from search results
@@ -172,6 +194,7 @@ public class InquirerController extends Controller {
         try {
             search = new PageSearch(availablePages);
         } catch (IOException exception) {
+            // This will also catch other query format exceptions
             view.displayException(exception);
             return;
         }
