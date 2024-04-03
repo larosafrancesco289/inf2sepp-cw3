@@ -3,8 +3,8 @@ package view;
 import model.*;
 
 import java.util.Collection;
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A console-based implementation of the {@link View} interface to interact with users via text.
@@ -71,7 +71,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displaySuccess(String message) {
-        System.out.println("\u001B[32m"+message+" \u001B[37m");
+        System.out.println("\u001B[32m" + message + " \u001B[37m");
     }
 
     /**

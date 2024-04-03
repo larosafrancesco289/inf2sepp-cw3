@@ -21,9 +21,9 @@ public class InquirerController extends Controller {
      * Constructs an InquirerController with specified shared context, view, authentication service, and email service.
      *
      * @param sharedContext The shared context across the application.
-     * @param view The view for user interaction.
-     * @param authService The service for authentication.
-     * @param emailService The service for email operations.
+     * @param view          The view for user interaction.
+     * @param authService   The service for authentication.
+     * @param emailService  The service for email operations.
      */
     public InquirerController(SharedContext sharedContext, View view, AuthenticationService authService, EmailService emailService) {
         super(sharedContext, view, authService, emailService);
@@ -139,11 +139,11 @@ public class InquirerController extends Controller {
                     if ((optionNo > sections.size())) {
                         view.displayError("Invalid option: " + userInput);
                         view.displayDivider();
-                    } else if (optionNo > 0){
+                    } else if (optionNo > 0) {
                         currentSection = sections.get(optionNo - 1);
                     }
                 }
-                
+
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + userInput);
                 view.displayDivider();
@@ -167,8 +167,7 @@ public class InquirerController extends Controller {
 
         // If search query is incorrect, prompt user to enter a valid search query
         StandardQueryParser queryParser = new StandardQueryParser();
-        while (true)
-        {
+        while (true) {
             try {
                 queryParser.parse(searchQuery, "content");
                 break;
@@ -290,7 +289,7 @@ public class InquirerController extends Controller {
      * If the user is not authenticated, their email is requested for registration.
      *
      * @param userEmail The email of the user to register for updates.
-     * @param topic The FAQ topic the user wants updates on.
+     * @param topic     The FAQ topic the user wants updates on.
      */
     private void requestFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
@@ -323,7 +322,7 @@ public class InquirerController extends Controller {
      * If the user is not authenticated, their email is requested.
      *
      * @param userEmail The email of the user to unregister from updates.
-     * @param topic The FAQ topic the user wants to stop receiving updates on.
+     * @param topic     The FAQ topic the user wants to stop receiving updates on.
      */
     private void stopFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {

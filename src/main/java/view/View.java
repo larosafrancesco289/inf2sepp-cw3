@@ -10,6 +10,7 @@ import java.util.Collection;
 /**
  * View interface.
  */
+
 /**
  * The {@code View} interface defines the contract for user interaction mechanisms
  * in a console-based application. It handles inputs from the user and displays various
@@ -78,7 +79,7 @@ public interface View {
     /**
      * Displays the details of an FAQ.
      *
-     * @param faq The FAQ to display.
+     * @param faq       The FAQ to display.
      * @param isPrivate Indicates whether the FAQ is private and should be displayed differently.
      */
     void displayFAQ(FAQ faq, boolean isPrivate);
@@ -87,7 +88,7 @@ public interface View {
      * Displays a specific section of an FAQ.
      *
      * @param faqSection The FAQ section to display.
-     * @param isPrivate Indicates whether the FAQ section is private and should be displayed differently.
+     * @param isPrivate  Indicates whether the FAQ section is private and should be displayed differently.
      */
     void displayFAQSection(FAQSection faqSection, boolean isPrivate);
 

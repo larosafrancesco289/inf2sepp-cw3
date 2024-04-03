@@ -71,7 +71,6 @@ public class AdminStaffController extends StaffController {
     }
 
 
-
     /**
      * Manages the Frequently Asked Questions (FAQ) section. Allows navigating through FAQ sections and sub-sections,
      * displaying them accordingly based on the user's role (guest or authenticated user).
@@ -125,12 +124,12 @@ public class AdminStaffController extends StaffController {
                                 currentSection = parent;
                                 optionNo = 0;
                                 break;
-                                
+
                             case -3:
                                 addFAQItem(currentSection);
                         }
                     }
-                    
+
                     if (optionNo == -2) {
                         String new_section_topic;
                         do {
@@ -139,7 +138,7 @@ public class AdminStaffController extends StaffController {
                                 view.displayWarning("Topic cannot be empty");
                             }
                         } while (new_section_topic.isEmpty());
-                        
+
                         FAQSection newSection = new FAQSection(new_section_topic);
                         newSection.setParent(currentSection);
 
@@ -152,7 +151,7 @@ public class AdminStaffController extends StaffController {
                         view.displaySuccess(" New section " + new_section_topic + " added!");
                         view.displayDivider();
                     }
-                
+
                 } else {
 
                     if (optionNo > sections.size() || (optionNo == 0)) {
@@ -168,11 +167,6 @@ public class AdminStaffController extends StaffController {
             }
         }
     }
-
-
-
-
-
 
 
     /**
@@ -233,16 +227,18 @@ public class AdminStaffController extends StaffController {
         view.displayInfo("Inquiries to manage:");
         int optionNo = selectFromMenu(inquiryTitles, "return to main menu");
 
-       if (optionNo != -1){ Inquiry inquiry = sharedContext.getInquiries().get(optionNo - 1);
+        if (optionNo != -1) {
+            Inquiry inquiry = sharedContext.getInquiries().get(optionNo - 1);
 
-        // print the content of the inquiry
-        view.displayInquiry(inquiry);
-        // need to add alternative scenarios here
-        Boolean respond = view.getYesNoInput("Do you want to respond to this inquiry?");
-        if (respond) {
-            respondToInquiry(inquiry);
-        } else {
-            redirectInquiry(inquiry);}
+            // print the content of the inquiry
+            view.displayInquiry(inquiry);
+            // need to add alternative scenarios here
+            Boolean respond = view.getYesNoInput("Do you want to respond to this inquiry?");
+            if (respond) {
+                respondToInquiry(inquiry);
+            } else {
+                redirectInquiry(inquiry);
+            }
         }
     }
 
