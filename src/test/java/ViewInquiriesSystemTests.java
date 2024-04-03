@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // class imports
 
-
+/**
+ * Tests viewing of inquiries for both {@link controller.AdminStaffController} and {@link controller.TeachingStaffController}
+ * */
 class ViewInquiriesSystemTests {
 
     private final TestHelper testHelper = new TestHelper(); // TestHelper class is used to set up the testing environment
@@ -19,6 +21,12 @@ class ViewInquiriesSystemTests {
         testHelper.cleanUpEnvironment();
     }
 
+    // No Inquiries
+
+    /**
+     * Test case: No Inquiries
+     * Checks for no inquiry message when a user of type AdminStaff manages inquiries
+     * */
     @Test
     void testNoInquiriesAdmin() {
         testHelper.setUpLoggedInAdminStaff();
@@ -30,6 +38,10 @@ class ViewInquiriesSystemTests {
 
     }
 
+    /**
+     * Test case: No Inquiries
+     * Checks for no inquiry message when a user of type TeachingStaff manages redirected inquiries
+     * */
     @Test
     void testNoInquiriesTeaching() {
         testHelper.setUpLoggedInTeachingStaff();
@@ -40,8 +52,11 @@ class ViewInquiriesSystemTests {
     }
 
 
+    // Inquiry exists
+
     /**
-     * Tests that inquiry system displays inquiries if they exists for admin staff
+     * Test case: Display Inquiries
+     * Checks that inquiries are displayed to user of type AdminStaff when managing inquiries
      * */
     @Test
     void testAdminView() {
@@ -57,21 +72,20 @@ class ViewInquiriesSystemTests {
         assertTrue(testHelper.getOutContent().toString().contains("Inquiries to manage:\nTest"));
     }
 
+    /**
+     * Test case: Display Inquiries
+     * Checks that redirected inquiries are displayed to user of type TeachingStaff when managing redirected inquiries
+     * */
     @Test
     void testTeachingView() {
-
-        // add mock inquiry
+        // adds mock inquiry, redirected to teaching staff member
         testHelper.setupMockInquiry(true);
 
-        //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInTeachingStaff();
-
-
-        testHelper.mockInputOutput("0" + "\n" + "no" + "\n" + "-1");
+        //testHelper.mockInputOutput("0" + "\n" + "0" + "\n" + "yes" + "\n" + "ok");
         testHelper.getTeachingStaffController().manageReceivedInquiries();
 
-
-        assertTrue(testHelper.getOutContent().toString().contains("Inquiry number 0"));
+        assertTrue(testHelper.getOutContent().toString().contains("Inquiry number 0\nSubject: TestInquiry"));
 
     }
 

@@ -171,6 +171,10 @@ public class TestHelper {
         outContent.reset();
     }
 
+    /**
+     * Sets up an Inquiry object with a title, content and sender
+     * @param redirect if true, assign inquiry to staff member
+     * */
     public void setupMockInquiry(boolean redirect){
 
         String title = "TestInquiry";
