@@ -80,11 +80,11 @@ public class TeachingStaffController extends StaffController {
                 while (!valid) {
                     // check provided value is in range of inquiries available to select
                     int inputParsed = Integer.parseInt(userInput);
-                    if (inputParsed <= i) {
+                    if (inputParsed < i) {
                         answerNo = inputParsed;
                         valid = true;
                     } else {
-                        String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i);
+                        String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i-1);
                         userInput = view.getInput(inputPrompt);
                     }
 

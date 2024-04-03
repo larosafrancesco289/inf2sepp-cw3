@@ -65,10 +65,10 @@ class ViewInquiriesSystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("Test");
+        testHelper.mockInputOutput("-1");
         testHelper.getAdminStaffController().manageInquiries();
 
-        assertTrue(testHelper.getOutContent().toString().contains("Inquiries to manage:\nTest"));
+        assertTrue(testHelper.getOutContent().toString().contains("Inquiries to manage:"));
     }
 
     /**

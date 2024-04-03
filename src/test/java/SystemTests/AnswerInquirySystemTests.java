@@ -37,7 +37,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("TestInquiry" + "\n" + "yes" + "\n" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "\n" + "ok");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Answer cannot be empty"));
@@ -59,7 +59,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInTeachingStaff();
 
-        testHelper.mockInputOutput("0" + "\n" + "yes" + "\n" + "\n" + "ok");
+        testHelper.mockInputOutput("0" + "\n" + "yes" + "\n" + "\n" + "ok" + "\n" + "-1");
         testHelper.getTeachingStaffController().manageReceivedInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Answer cannot be empty"));
@@ -80,7 +80,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("TestInquiry" + "\n" + "yes" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Answer sent to test@test.com"));
@@ -94,6 +94,17 @@ class AnswerInquirySystemTests {
     @Test
     void successTeaching() {
         //test success scenario, should display success message
+
+        //Setup
+        testHelper.setupMockInquiry(true);
+        testHelper.setUpLoggedInTeachingStaff();
+
+        // run test
+        testHelper.mockInputOutput("0" + "\n" + "yes" + "\n" + "\n" + "hi");
+        testHelper.getTeachingStaffController().manageReceivedInquiries();
+
+        // check for message
+        assertTrue(testHelper.getOutContent().toString().contains("Answer sent to test@test.com"));
 
     }
 
@@ -111,7 +122,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("TestInquiry" + "\n" + "yes" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getSharedContext().getInquiries().isEmpty());
@@ -126,6 +137,17 @@ class AnswerInquirySystemTests {
     @Test
     void testInquiryRemovedTeaching() {
         //test if inquiry successfully removed from SharedContext Inquiry list
+
+        //Setup
+        testHelper.setupMockInquiry(true);
+        testHelper.setUpLoggedInTeachingStaff();
+
+        // run test
+        testHelper.mockInputOutput("0" + "\n" + "yes" + "\n" + "\n" + "hi");
+        testHelper.getTeachingStaffController().manageReceivedInquiries();
+
+        // check for message
+        assertTrue(testHelper.getSharedContext().getInquiries().isEmpty());
 
     }
 
