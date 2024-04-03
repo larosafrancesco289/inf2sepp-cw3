@@ -198,30 +198,66 @@ public class TestHelper {
 
     }
 
+    /**
+     * Retrieves the current ByteArrayOutputStream instance.
+     * This stream is typically used to capture output data, such as logging or debugging information.
+     *
+     * @return The current instance of ByteArrayOutputStream.
+     */
     public ByteArrayOutputStream getOutContent() {
         return outContent;
     }
 
+    /**
+     * Gets the shared context of the application.
+     *
+     * @return The shared context instance of the application.
+     */
     public SharedContext getSharedContext() {
         return sharedContext;
     }
 
+    /**
+     * Retrieves the guest controller.
+     *
+     * @return The guest controller instance.
+     */
     public GuestController getGuestController() {
         return guestController;
     }
 
+    /**
+     * Retrieves the authenticated user controller.
+     *
+     * @return The authenticated user controller instance.
+     */
     public AuthenticatedUserController getAuthenticatedUserController() {
         return authenticatedUserController;
     }
 
+    /**
+     * Retrieves the admin staff controller.
+     *
+     * @return The admin staff controller instance.
+     */
     public AdminStaffController getAdminStaffController() {
         return adminStaffController;
     }
 
+    /**
+     * Retrieves the teaching staff controller.
+     *
+     * @return The teaching staff controller instance.
+     */
     public TeachingStaffController getTeachingStaffController() {
         return teachingStaffController;
     }
 
+    /**
+     * Retrieves the inquirer controller.
+     *
+     * @return The inquirer controller instance.
+     */
     public InquirerController getInquirerController() {
         return inquirerController;
     }

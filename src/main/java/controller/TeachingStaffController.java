@@ -50,9 +50,7 @@ public class TeachingStaffController extends StaffController {
 
             // loop through inquiry list, add to redirected list if redirected
             for (Inquiry currInquiry : allInquiries) {
-
                 if (currInquiry.getAssignedTo().equals(teachingStaffUser)) {
-
                     redirectedInquiries.add(currInquiry);
                 }
             }
@@ -63,9 +61,7 @@ public class TeachingStaffController extends StaffController {
 
                 // display inquiries available to answer
                 int i = 0;
-
                 for (Inquiry currReInquiry : redirectedInquiries) {
-
                     String inqNo = String.format("Inquiry number %d", i);
                     view.displayInfo(inqNo);
                     view.displayInquiry(currReInquiry);
@@ -84,10 +80,9 @@ public class TeachingStaffController extends StaffController {
                         answerNo = inputParsed;
                         valid = true;
                     } else {
-                        String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i-1);
+                        String inputPrompt = String.format("Invalid inquiry number, please enter any number up to %d, or -1 to exit:%n", i - 1);
                         userInput = view.getInput(inputPrompt);
                     }
-
                 }
 
                 //process answer
@@ -114,7 +109,6 @@ public class TeachingStaffController extends StaffController {
                 } else {
                     answering = false;
                 }
-
             }
 
             // if no unanswered inquiries
