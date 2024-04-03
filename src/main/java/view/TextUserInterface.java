@@ -18,6 +18,7 @@ public class TextUserInterface implements View {
      */
     public TextUserInterface() {
         this.scanner = new Scanner(System.in);
+        displayInfo("\033[H\033[2J");
     }
 
     /**
@@ -44,6 +45,11 @@ public class TextUserInterface implements View {
         do {
             System.out.print(question + " (yes/no): ");
             input = scanner.nextLine().trim().toLowerCase();
+            if (!input.equals("yes") && !input.equals("no")) {
+                displayInfo("\033[H\033[2J");
+                displayError("Invalid option: " + input);
+                displayDivider();
+            }
         } while (!input.equals("yes") && !input.equals("no"));
         return input.equals("yes");
     }

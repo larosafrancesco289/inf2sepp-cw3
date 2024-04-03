@@ -34,7 +34,7 @@ public class StaffController extends Controller {
      * @param inquiries A collection of Inquiry objects from which titles will be extracted.
      * @return A collection of strings representing the titles of the inquiries.
      */
-    protected Collection<String> getInquiryTitles(Collection<Inquiry> inquiries) {
+    protected ArrayList<String> getInquiryTitles(Collection<Inquiry> inquiries) {
         ArrayList<String> titles = new ArrayList<>();
         for (Inquiry inquiry : inquiries) {
             // assert inquiry.getSubject() != null : "Inquiry subject cannot be null";g
