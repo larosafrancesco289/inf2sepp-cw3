@@ -28,6 +28,9 @@ class AddFAQQASystemTests {
 
     /**
      * Test for adding a question in an established section
+     * -2 selects addFAQ
+     * -1 selects main menu or back
+     *  test is the topic
      */
     @Test
     void testQuestionAnswerProvided() {
@@ -42,6 +45,9 @@ class AddFAQQASystemTests {
 
     /**
      * Test for ensuring email notification is sent to other admin staff
+     * -2 selects addFAQ
+     * -1 selects main menu or back
+     *  test is the topic
      */
     @Test
     void testEmailNotificationSentToStaff() {

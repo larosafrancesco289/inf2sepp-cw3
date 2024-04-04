@@ -67,7 +67,7 @@ class ConsultStaffSystemTests {
      */
     @Test
     void testInquiryAdded() {
-        testHelper.setUpLoggedInStudent(); // Assuming this method logs in a user correctly
+        testHelper.setUpLoggedInStudent();
 
         String subject = "Test Inquiry\n";
         String content = "This is a test message.\n";
@@ -76,10 +76,8 @@ class ConsultStaffSystemTests {
 
         testHelper.getInquirerController().contactStaff();
 
-        // Assert an inquiry has been added with the authenticated user's email
         List<Inquiry> inquiries = testHelper.getSharedContext().getInquiries();
         assert (!inquiries.isEmpty());
-        // this is the associated email for the setup student
         assert (inquiries.get(0).getInquirerEmail().equals("barb78916@hindenburg.ac.uk"));
 
     }

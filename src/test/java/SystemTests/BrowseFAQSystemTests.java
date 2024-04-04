@@ -25,6 +25,9 @@ class BrowseFAQSystemTests {
 
     /**
      * This test verifies that a topic needs to have a non-null string
+     * -2 selects addFAQ
+     * -1 selects main menu or back
+     *  test is the topic
      */
     @Test
     void testEmptyTopic() {
@@ -38,6 +41,8 @@ class BrowseFAQSystemTests {
 
     /**
      * This test verifies that an error is thrown if an incorrect menu option is submitted
+     * -3 is the invalid menu option
+     * -1 returns to main menu
      */
     @Test
     void testInvalidNegativeOption() {
@@ -50,6 +55,8 @@ class BrowseFAQSystemTests {
 
     /**
      * This test verifies that an error is thrown if an incorrect indexing option is submitted
+     * 3 is the incorrect option
+     * -1 returns to main menu
      */
     @Test
     void testInvalidPositiveOption() {
@@ -63,6 +70,9 @@ class BrowseFAQSystemTests {
 
     /**
      * This test verifies that a new topic is added at root
+     * -2 selects addFAQ
+     * -1 selects main menu or back
+     *  test is the topic
      */
     @Test
     void testAddSubsection(){
