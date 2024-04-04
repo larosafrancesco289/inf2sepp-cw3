@@ -66,7 +66,7 @@ class ConsultStaffSystemTests {
      * This test verifies that a message is displayed when an invalid email is added
      */
     @Test
-    void testLoggedIn() {
+    void testInquiryAdded() {
         testHelper.setUpLoggedInStudent(); // Assuming this method logs in a user correctly
 
         String subject = "Test Inquiry\n";

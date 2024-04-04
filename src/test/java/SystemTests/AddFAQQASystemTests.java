@@ -1,21 +1,55 @@
 package SystemTests;// JUnit
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // class imports
 
 //THIS ONE IS UNFINISHED
 
 class AddFAQQASystemTests {
+    private final TestHelper testHelper = new TestHelper(); // SystemTests.TestHelper class is used to set up the testing environment
 
-    @Test
-    void testIsAuthenticatedUser() {
-        //test if email is returned if user is authenticated
+    /**
+     * Cleans up the testing environment after each test.
+     */
+    @AfterEach
+    void cleanUp() {
+        testHelper.cleanUpEnvironment();
+    }
+    @BeforeEach
+    void setUp() {
+        testHelper.setUpLoggedInAdminStaff();
     }
 
+
+    /**
+     * Test for adding a question in an established section
+     */
     @Test
-    void testCurrentSectionNull() {
-        //test if email is returned if user is authenticated
+    void testQuestionAnswerProvided() {
+        testHelper.mockInputOutput("-2" + "\n" + "test" + "\n" + "test_q" + "\n" + "test_a" + "\n" + "-1" + "\n");
+        testHelper.getAdminStaffController().manageFAQ();
+
+        assertTrue(testHelper.getOutContent().toString().contains("Added FAQ question: test_q"));
+
+    }
+
+
+
+    /**
+     * Test for ensuring email notification is sent to other admin staff
+     */
+    @Test
+    void testEmailNotificationSentToStaff() {
+        testHelper.mockInputOutput("-2" + "\n" + "test" + "\n" + "test_q" + "\n" + "test_a" + "\n" + "-1" + "\n");
+        testHelper.getAdminStaffController().manageFAQ();
+
+        assertTrue(testHelper.getOutContent().toString().contains("Emails sent to admins"));
+
     }
 
 }
