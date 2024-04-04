@@ -9,6 +9,7 @@ import java.util.Scanner;
 /**
  * A console-based implementation of the {@link View} interface to interact with users via text.
  * This class uses standard input and output to display messages and gather user input.
+ * // Color codes from https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
  */
 public class TextUserInterface implements View {
     private final Scanner scanner; // Scanner to read user input

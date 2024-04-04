@@ -1,4 +1,4 @@
-package UnitTests;
+package Other;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
