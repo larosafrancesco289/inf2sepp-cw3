@@ -44,7 +44,7 @@ class RedirectInquirySystemTests {
     @Test
     void testEmptyEmail() {
 
-        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "" + "\n" + "email@domain" + "\n" + "-1");
+        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "" + "\n" + "email@domain.com" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Invalid email provided, please enter again using the format, email@domain:"));
@@ -59,11 +59,11 @@ class RedirectInquirySystemTests {
     @Test
     void testAssigned() {
 
-        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "email@domain" + "\n" + "-1");
+        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "email@domain.com" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         List<Inquiry> inquiryList = testHelper.getSharedContext().getInquiries();
-        assertEquals("email@domain", inquiryList.get(0).getAssignedTo());
+        assertEquals("email@domain.com", inquiryList.get(0).getAssignedTo());
 
 
     }
@@ -76,7 +76,7 @@ class RedirectInquirySystemTests {
     @Test
     void testAssignedMessage() {
 
-        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "email@domain" + "\n" + "-1");
+        testHelper.mockInputOutput("1" + "\n" + "no" + "\n" + "yes" + "\n" + "email@domain.com" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Inquiry assigned to email@domain"));
