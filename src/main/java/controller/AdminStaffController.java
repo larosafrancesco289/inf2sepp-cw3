@@ -289,6 +289,7 @@ public class AdminStaffController extends StaffController {
         }
         view.displayInfo("Inquiries to manage:");
         optionNo = selectFromMenu(inquiryTitles, "return to main menu");
+        view.displayDivider();
 
         if (optionNo != -1) {
             Inquiry inquiry = sharedContext.getInquiries().get(optionNo - 1);
@@ -335,7 +336,11 @@ public class AdminStaffController extends StaffController {
         }
 
         inquiry.setAssignedTo(teachingStaffEmail);
-        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, teachingStaffEmail, inquiry.getSubject(), "Inquiry assigned to you");
+        String emailSubject = String.format("New inquiry from \"%s\" has been redirected to you", inquiry.getInquirerEmail());
+        String emailBody = String.format("Inquiry \"%s\" was redirected to you\nPlease log in to the Self Service Portal to review the inquiry.",inquiry.getInquirerEmail());
+
+        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, teachingStaffEmail, emailSubject, emailBody);
+        view.displayDivider();
         view.displaySuccess("Inquiry assigned to " + teachingStaffEmail);
     }
 }
