@@ -2,6 +2,7 @@ package UnitTests;
 
 import external.MockEmailService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,7 +28,7 @@ class TestMockEmailService {
      * Asserts that the status returned by the sendEmail method equals STATUS_SUCCESS.
      */
     @Test
-    void testSendEmail_Success() {
+    void testSuccess() {
         int status = emailService.sendEmail("sender@example.com", "recipient@example.com", "Subject", "Content");
         assertEquals(emailService.STATUS_SUCCESS, status, "Email sending should be successful");
     }
@@ -37,7 +38,7 @@ class TestMockEmailService {
      * Asserts that the status returned equals STATUS_INVALID_SENDER_EMAIL.
      */
     @Test
-    void testSendEmail_InvalidSenderEmail() {
+    void testInvalidSenderEmail() {
         int status = emailService.sendEmail("invalid_sender", "recipient@example.com", "Subject", "Content");
         assertEquals(emailService.STATUS_INVALID_SENDER_EMAIL, status, "Should return status for invalid sender email");
     }
@@ -47,7 +48,7 @@ class TestMockEmailService {
      * Asserts that the status returned equals STATUS_INVALID_RECIPIENT_EMAIL.
      */
     @Test
-    void testSendEmail_InvalidRecipientEmail() {
+    void testInvalidRecipientEmail() {
         int status = emailService.sendEmail("sender@example.com", "invalid_recipient", "Subject", "Content");
         assertEquals(emailService.STATUS_INVALID_RECIPIENT_EMAIL, status, "Should return status for invalid recipient email");
     }
@@ -57,7 +58,7 @@ class TestMockEmailService {
      * Asserts that the status returned equals STATUS_INVALID_SENDER_EMAIL, treating null as an invalid email.
      */
     @Test
-    void testSendEmail_NullSender() {
+    void testNullSender() {
         int status = emailService.sendEmail(null, "recipient@example.com", "Subject", "Content");
         assertEquals(emailService.STATUS_INVALID_SENDER_EMAIL, status, "Null sender should be considered invalid");
     }
@@ -67,7 +68,7 @@ class TestMockEmailService {
      * Asserts that the status returned equals STATUS_INVALID_RECIPIENT_EMAIL, treating null as an invalid email.
      */
     @Test
-    void testSendEmail_NullRecipient() {
+    void testNullRecipient() {
         int status = emailService.sendEmail("sender@example.com", null, "Subject", "Content");
         assertEquals(emailService.STATUS_INVALID_RECIPIENT_EMAIL, status, "Null recipient should be considered invalid");
     }
