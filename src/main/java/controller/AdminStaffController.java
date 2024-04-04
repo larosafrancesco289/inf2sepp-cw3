@@ -319,7 +319,7 @@ public class AdminStaffController extends StaffController {
     private void redirectInquiry(Inquiry inquiry) {
         String teachingStaffEmail;
 
-        String emailRegex = "(.*)@(.*)";
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         boolean valid = false;
 
         teachingStaffEmail = view.getInput("Enter the email of the staff member to whom this inquiry should be redirected: ");
