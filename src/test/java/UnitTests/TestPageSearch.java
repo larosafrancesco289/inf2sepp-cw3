@@ -29,6 +29,8 @@ public class TestPageSearch {
      */
     @BeforeEach
     void setUp() throws IOException {
+        // Load the content of three example pages from text files
+
         URL dataPath = getClass().getResource("/examplePage1.txt");
         Page page1 = new Page("Article", dataPath.getPath(), false);
 
