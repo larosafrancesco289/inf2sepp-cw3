@@ -154,5 +154,25 @@
     "password": "enigmaticsmile",
     "email": "monalisalover@hindeburg.ac.uk",
     "role": "AdminStaff"
+  },
+
+  {
+    "username": "1",
+    "password": "1",
+    "email": "admin@hindeburg.ac.uk",
+    "role": "AdminStaff"
+  },
+  {
+    "username": "2",
+    "password": "2",
+    "email": "student@hindeburg.ac.uk",
+    "role": "Student"
+  },
+  {
+    "username": "3",
+    "password": "3",
+    "email": "teacher@hindeburg.ac.uk",
+    "role": "TeachingStaff"
   }
+  
 ]

@@ -246,7 +246,7 @@ public class AdminStaffController extends StaffController {
             subscriberCounter++;
         }
         view.displayDivider();
-        view.displaySuccess("\u001B[32m Added FAQ question: " + question);
+        view.displaySuccess("Added FAQ question: " + question);
         view.displaySuccess("Emails sent to admins and " + subscriberCounter + " subscriber(s)");
         view.displayDivider();
     }

@@ -29,7 +29,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public String getInput(String prompt) {
-        System.out.print(prompt);
+        displayInfo(prompt);
         return scanner.nextLine();
     }
 
@@ -71,7 +71,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displaySuccess(String message) {
-        System.out.println("\u001B[32m" + message + " \u001B[37m");
+        displayInfo("\u001B[32m" + message + " \u001B[37m");
     }
 
     /**
@@ -81,7 +81,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayWarning(String warning) {
-        System.out.println("\u001B[33m Warning: " + warning + "\u001B[37m");
+        displayInfo("\u001B[33m Warning: " + warning + "\u001B[37m");
     }
 
     /**
@@ -91,7 +91,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayError(String errorMessage) {
-        System.out.println("\u001B[31m Error: " + errorMessage + "\u001B[37m");
+        displayInfo("\u001B[31m Error: " + errorMessage + "\u001B[37m");
     }
 
     /**
@@ -101,7 +101,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayException(Exception exception) {
-        System.out.println("Exception: " + exception.getMessage());
+        displayInfo("Exception: " + exception.getMessage());
     }
 
     /**
@@ -109,7 +109,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayDivider() {
-        System.out.println("--------------------------------------------------");
+        displayInfo("--------------------------------------------------");
     }
 
     /**
@@ -121,10 +121,10 @@ public class TextUserInterface implements View {
     @Override
     public void displayFAQ(FAQ faq, boolean isPrivate) {
         // Note that the requirement for private FAQs is not present in this implementation.
-        System.out.println("FAQ Sections:");
+        displayInfo("FAQ Sections:");
         int i = 0;
         for (FAQSection section : faq.getSections()) {
-            System.out.println(String.format("[ %d ] ", ++i) + section.getTopic());
+            displayInfo(String.format("[ %d ] ", ++i) + section.getTopic());
         }
     }
 
@@ -139,7 +139,11 @@ public class TextUserInterface implements View {
         List<FAQItem> qaPairs = faqSection.getItems();
         List<FAQSection> subSections = faqSection.getSubsections();
         // Note that the requirement for private FAQs is not present in this implementation.
-        System.out.printf("Topic: %s \n", faqSection.getTopic());
+        if (faqSection.getParent() != null) {
+            displayInfo(String.format("Topic: %s / %s ", faqSection.getParent().getTopic(), faqSection.getTopic()));
+        } else {
+            displayInfo(String.format("Topic: %s ",faqSection.getTopic()));
+        }
         displayDivider();
         if (subSections.size() != 0) {
             System.out.println("Subtopics:");
@@ -147,17 +151,13 @@ public class TextUserInterface implements View {
             for (FAQSection subsection : subSections) {
                 System.out.println(String.format("[ %d ] ", ++i) + subsection.getTopic());
             }
-        }
-        if (qaPairs.size() != 0) {
             displayDivider();
-            System.out.println("Questions:");
-            for (FAQItem item : qaPairs) {
-                System.out.printf("Q: %s\n", item.getQuestion());
-                System.out.printf("A: %s\n\n", item.getAnswer());
-            }
         }
-        if (subSections.size() + qaPairs.size() == 0) {
-            displayInfo("Current topic is empty");
+        
+        System.out.println("Questions:");
+        for (FAQItem item : qaPairs) {
+            System.out.printf("Q: %s\n", item.getQuestion());
+            System.out.printf("A: %s\n\n", item.getAnswer());
         }
         displayDivider();
     }
