@@ -241,7 +241,7 @@ public class AdminStaffController extends StaffController {
         emailService.sendEmail(senderEmail, SharedContext.ADMIN_STAFF_EMAIL, "New Q&A added to subtopic " + section.getTopic(), emailBody);
         view.displayDivider();
         for (String email : sharedContext.usersSubscribedToFAQTopic(section.getTopic())) {
-            emailService.sendEmail(senderEmail, email, "New Q&A added to subtopic " + section.getTopic(), emailBody);
+            emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, email, "New Q&A added to subtopic " + section.getTopic(), emailBody);
             view.displayDivider();
             subscriberCounter++;
         }

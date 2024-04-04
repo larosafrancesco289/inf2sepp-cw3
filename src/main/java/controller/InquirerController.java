@@ -312,7 +312,7 @@ public class InquirerController extends Controller {
             view.displaySuccess("Successfully registered " + userEmail + " for updates on " + topic);
             view.displayDivider();
         } else {
-            view.displayError("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
+            view.displayWarning("Failed to register " + userEmail + " for updates on " + topic + ". Perhaps this email was already registered?");
             view.displayDivider();
         }
     }
