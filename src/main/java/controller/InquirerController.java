@@ -266,12 +266,12 @@ public class InquirerController extends Controller {
         view.displayInfo("\033[H\033[2J");
 
         // 3 - email all admin staff
-
+        String emailSubject = String.format("New inquiry coming from %s", userEmail);
         String emailBody = String.format(
                 "New inquiry \"%s\" was added to the system\nPlease log in to the Self Service Portal to review the inquiry.",
                 inquirySubject);
 
-        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, SharedContext.ADMIN_STAFF_EMAIL, "New inquiry added", emailBody);
+        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, SharedContext.ADMIN_STAFF_EMAIL, emailSubject, emailBody);
         view.displayDivider();
         // 4 - Add inquiry to list in SharedContext
 

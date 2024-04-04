@@ -57,8 +57,14 @@ public class StaffController extends Controller {
                 view.displayWarning("Answer cannot be empty");
             }
         } while (answer.isEmpty());
+        view.displayInfo("\033[H\033[2J");
 
-        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, inquiry.getInquirerEmail(), inquiry.getSubject(), answer);
+
+        String emailSubject = String.format("A staff have responded to your inquiry %s", inquiry.getSubject());
+        String emailBody = String.format("Answer to your in inquiry: \n%s", answer);
+
+        emailService.sendEmail(sharedContext.getCurrentUser().getEmail(), inquiry.getInquirerEmail(), emailSubject,emailBody);
+        view.displayDivider();
         view.displaySuccess("Answer sent to " + inquiry.getInquirerEmail());
         sharedContext.getInquiries().remove(inquiry);
     }

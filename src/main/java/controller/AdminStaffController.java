@@ -276,18 +276,19 @@ public class AdminStaffController extends StaffController {
      * Manages inquiries submitted by users. Lists all inquiries and allows the admin staff to select one
      * for management, which includes responding to the inquiry or redirecting it to another staff member.
      */
-    public void manageInquiries() {
-        ArrayList<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
+    public void manageInquiries() { 
+        int optionNo = 0;
 
-        if (inquiryTitles.isEmpty()) {
+        do {
+            ArrayList<String> inquiryTitles = super.getInquiryTitles(sharedContext.getInquiries());
+            if (inquiryTitles.isEmpty()) {
             view.displayDivider();
             view.displayInfo("No inquiries to manage");
             selectFromMenu(null, "return to main menu");
             return;
         }
-        view.displayDivider();
         view.displayInfo("Inquiries to manage:");
-        int optionNo = selectFromMenu(inquiryTitles, "return to main menu");
+        optionNo = selectFromMenu(inquiryTitles, "return to main menu");
 
         if (optionNo != -1) {
             Inquiry inquiry = sharedContext.getInquiries().get(optionNo - 1);
@@ -296,12 +297,18 @@ public class AdminStaffController extends StaffController {
             view.displayInquiry(inquiry);
             // need to add alternative scenarios here
             Boolean respond = view.getYesNoInput("Do you want to respond to this inquiry?");
+            view.displayInfo("\033[H\033[2J");
             if (respond) {
                 respondToInquiry(inquiry);
             } else {
-                redirectInquiry(inquiry);
+                Boolean redirect = view.getYesNoInput("Do you want to redirect this inquiry?");
+                view.displayInfo("\033[H\033[2J");
+                if (redirect) {
+                    redirectInquiry(inquiry);
+                }
             }
         }
+    } while (optionNo != -1);
     }
 
     /**
