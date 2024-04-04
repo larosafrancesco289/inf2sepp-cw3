@@ -245,7 +245,7 @@ public class InquirerController extends Controller {
             userEmail = view.getInput("Please enter your email address: ");
 
             // validate input email address
-            String emailRegex = "(.*)@(.*)";
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
             boolean valid = false;
 
             while (!valid) {
@@ -296,7 +296,7 @@ public class InquirerController extends Controller {
     private void requestFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
             userEmail = view.getInput("Please enter your email address: ");
-            String emailRegex = "(.*)@(.*)";
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
             boolean valid = false;
 
             while (!valid) {
@@ -329,7 +329,7 @@ public class InquirerController extends Controller {
     private void stopFAQUpdates(String userEmail, String topic) {
         if (userEmail == null) {
             userEmail = view.getInput("Please enter your email address: ");
-            String emailRegex = "(.*)@(.*)";
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
             boolean valid = false;
 
             while (!valid) {
