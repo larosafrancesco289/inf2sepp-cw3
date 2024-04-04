@@ -62,7 +62,7 @@ public abstract class Controller {
             }
 
             view.displayDivider();
-            String userInput = view.getInput("Please choose an option \n");
+            String userInput = view.getInput("Please choose an option: ");
             view.displayInfo("\033[H\033[2J");
             try {
                 optionNo = Integer.parseInt(userInput);

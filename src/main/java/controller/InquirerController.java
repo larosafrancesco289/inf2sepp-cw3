@@ -263,12 +263,16 @@ public class InquirerController extends Controller {
 
         inquirySubject = view.getInput("Please enter the subject of your inquiry: ");
         inquiryContent = view.getInput("Please enter your message to pass to staff members: ");
-
+        view.displayInfo("\033[H\033[2J");
 
         // 3 - email all admin staff
 
-        emailService.sendEmail(userEmail, "adminStaff", inquirySubject, inquiryContent);
+        String emailBody = String.format(
+                "New inquiry \"%s\" was added to the system\nPlease log in to the Self Service Portal to review the inquiry.",
+                inquirySubject);
 
+        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, SharedContext.ADMIN_STAFF_EMAIL, "New inquiry added", emailBody);
+        view.displayDivider();
         // 4 - Add inquiry to list in SharedContext
 
         userInquiry = new Inquiry(userEmail, inquirySubject, inquiryContent);
@@ -276,10 +280,8 @@ public class InquirerController extends Controller {
         List<Inquiry> currInquiryList = sharedContext.getInquiries();
 
         currInquiryList.add(userInquiry);
-        sharedContext.setInquiries(currInquiryList);
 
         // 5 - Confirm inquiry sent
-        view.displayInfo("\033[H\033[2J");
         view.displaySuccess("Inquiry sent.");
 
     }
