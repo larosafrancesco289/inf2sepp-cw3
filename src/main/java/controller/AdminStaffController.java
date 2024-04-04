@@ -90,7 +90,6 @@ public class AdminStaffController extends StaffController {
                 view.displayFAQ(faq, currentUser instanceof Guest);
                 view.displayDivider();
                 view.displayInfo("[-1] to return to the main menu");
-                view.displayInfo("[-2] to add a FAQ section here");
             } else {
                 sections = currentSection.getSubsections();
                 view.displayFAQSection(currentSection, currentUser instanceof Guest);
@@ -102,54 +101,33 @@ public class AdminStaffController extends StaffController {
                     topic = parent.getTopic();
                     view.displayInfo("[-1] to return to " + topic);
                 }
-                view.displayInfo("[-2] to add a FAQ subsection here");
-                view.displayInfo("[-3] to add a Q & A pair");
             }
+            view.displayInfo("[-2] to add a new Q&A");
             view.displayDivider();
             String userInput = view.getInput("Please choose an option: ");
             view.displayInfo("\033[H\033[2J");
+
+
+
             try {
                 optionNo = Integer.parseInt(userInput);
 
                 if (optionNo < 0) {
                     if (currentSection == null) {
-
                         if (optionNo < -2) {
-                            throw new NumberFormatException(); //Not in the sequence diagram but required
+                            throw new NumberFormatException(); 
                         }
                     } else {
-                        switch (optionNo) {
-                            case -1:
-                                parent = currentSection.getParent();
-                                currentSection = parent;
-                                optionNo = 0;
-                                break;
-
-                            case -3:
-                                addFAQItem(currentSection);
+                        if (optionNo == -1) {
+                            parent = currentSection.getParent();
+                            currentSection = parent;
+                            optionNo = 0;
+                            break;
                         }
                     }
-
+                    
                     if (optionNo == -2) {
-                        String new_section_topic;
-                        do {
-                            new_section_topic = view.getInput("Enter new section topic: ");
-                            if (new_section_topic.isEmpty()) {
-                                view.displayWarning("Topic cannot be empty");
-                            }
-                        } while (new_section_topic.isEmpty());
-
-                        FAQSection newSection = new FAQSection(new_section_topic);
-                        newSection.setParent(currentSection);
-
-                        if (currentSection == null) {
-                            faq.addSectionItems(newSection);
-                        } else {
-                            currentSection.addSubsection(newSection);
-                        }
-                        view.displayInfo("\033[H\033[2J");
-                        view.displaySuccess(" New section " + new_section_topic + " added!");
-                        view.displayDivider();
+                        addFAQItem(currentSection);
                     }
 
                 } else {
@@ -176,24 +154,108 @@ public class AdminStaffController extends StaffController {
      * @param section The FAQSection to which the new FAQ item will be added.
      */
     private void addFAQItem(FAQSection section) {
+        FAQ faq = sharedContext.getFaq();
         String question;
         String answer;
+        Boolean addOp = true;
+
+        if (section != null) {
+            addOp = view.getYesNoInput(
+                    "Do you want to add a subtopic for this Q&A under the current topic" + section.getTopic());
+            view.displayInfo("\033[H\033[2J");
+        }
+
+        if (addOp) {
+            String new_section_topic;
+            do {
+                new_section_topic = view.getInput("Enter name of the new topic: ");
+                if (new_section_topic.isEmpty()) {
+                    view.displayInfo("\033[H\033[2J");
+                    view.displayWarning("Topic cannot be empty");
+                }
+            } while (new_section_topic.isEmpty());
+            Boolean goodToAdd = true;
+
+            FAQSection newSection = new FAQSection(new_section_topic);
+            newSection.setParent(section);
+            if (section == null) {
+                for (FAQSection existingSection : faq.getSections()) {
+                    if (existingSection.getTopic().equals(new_section_topic)) {
+                    goodToAdd = false;
+                    section = existingSection;
+                    break;
+                    }
+                }
+                if (goodToAdd) {
+                    faq.addSectionItems(newSection);
+                }
+            } else {
+                for (FAQSection existingSection : section.getSubsections()) {
+                    if (existingSection.getTopic().equals(new_section_topic)) {
+                        goodToAdd = false;
+                        section = existingSection;
+                        break;
+                    }
+                }
+                if (goodToAdd) {
+                    section.addSubsection(newSection);
+                }
+            }
+
+            if (goodToAdd) {
+                section = newSection;
+                view.displayInfo("\033[H\033[2J");
+                view.displaySuccess(" New section " + new_section_topic + " added!");
+                view.displayDivider();
+            } else {
+                view.displayInfo("\033[H\033[2J");
+                view.displayWarning("Fail to add new subtopic, topic already exists!");
+                view.displayWarning("Adding Q&A to the exist subtopic!");
+            }
+        }
+
         do {
             question = view.getInput("Enter question: ");
             answer = view.getInput("Enter answer: ");
             view.displayInfo("\033[H\033[2J");
-            if (question.isEmpty()) {
-                view.displayWarning("Question cannot be empty");
-            } else if (answer.isEmpty()) {
+            
+            if (answer.isEmpty()) {
                 view.displayWarning("Answer cannot be empty");
+            } else if (question.isEmpty()) {
+                view.displayWarning("Question cannot be empty");
             }
+            
         } while (question.isEmpty() || answer.isEmpty());
+
+        
         section.addItem(question, answer);
-        emailService.sendEmail(SharedContext.ADMIN_STAFF_EMAIL, SharedContext.ADMIN_STAFF_EMAIL, question, "New FAQ question added");
+        String emailBody = String.format("The list of Q&A pair for subtopic: %s\n", section.getTopic());
+        String senderEmail = sharedContext.getCurrentUser().getEmail();
+        int subscriberCounter = 0;
+
+        for (FAQItem item : section.getItems()){
+            emailBody += String.format("Q: %s\n", item.getQuestion());
+            emailBody += String.format("A: %s\n\n", item.getAnswer());
+        }
+
+        emailService.sendEmail(senderEmail, SharedContext.ADMIN_STAFF_EMAIL, "New Q&A added to subtopic " + section.getTopic(), emailBody);
         view.displayDivider();
-        view.displaySuccess("\u001B[32m Added FAQ question: " + question + "\u001B[37m");
+        for (String email : sharedContext.usersSubscribedToFAQTopic(section.getTopic())) {
+            emailService.sendEmail(senderEmail, email, "New Q&A added to subtopic " + section.getTopic(), emailBody);
+            view.displayDivider();
+            subscriberCounter++;
+        }
+        view.displayDivider();
+        view.displaySuccess("\u001B[32m Added FAQ question: " + question);
+        view.displaySuccess("Emails sent to admins and " + subscriberCounter + " subscriber(s)");
         view.displayDivider();
     }
+
+
+
+
+
+
 
     /**
      * Displays all pages currently in the system. Offers the option to add a new page at the end of the listing.

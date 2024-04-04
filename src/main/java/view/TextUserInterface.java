@@ -81,7 +81,7 @@ public class TextUserInterface implements View {
      */
     @Override
     public void displayWarning(String warning) {
-        System.out.println("Warning: " + warning);
+        System.out.println("\u001B[33m Warning: " + warning + "\u001B[37m");
     }
 
     /**

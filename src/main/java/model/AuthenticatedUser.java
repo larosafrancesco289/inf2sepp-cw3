@@ -26,6 +26,7 @@ public class AuthenticatedUser extends User {
      *
      * @return the email of the authenticated user
      */
+    @Override
     public String getEmail() {
         return email;
     }
@@ -44,6 +45,7 @@ public class AuthenticatedUser extends User {
      *
      * @return the role of the authenticated user (can be "AdminStaff", "TeachingStaff", or "Student")
      */
+    @Override
     public String getRole() {
         return role;
     }

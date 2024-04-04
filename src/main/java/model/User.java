@@ -14,5 +14,14 @@ public abstract class User {
     public String getRole() {
         return "Guest";
     }
+
+        /**
+     * Retrieves the Email of the user.
+     *
+     * @return the Email of the user
+     */
+    public String getEmail(){
+        return null;
+    }
 }
 
