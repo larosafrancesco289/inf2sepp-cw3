@@ -67,6 +67,28 @@ class AnswerInquirySystemTests {
     }
 
     /**
+     * Test case: Invalid question number error message (teachingStaff)
+     * Checks for specific error message for user providing an invalid inquiry number when selecting one to answer
+     * */
+    @Test
+    void testInvalidInquiryNo() {
+        // test for error message
+
+        //setup
+        testHelper.setupMockInquiry(true);
+        testHelper.setUpLoggedInTeachingStaff();
+
+        //test
+        testHelper.mockInputOutput("2" + "\n" + "0" + "\n" + "yes" + "\n" + "\n" + "ok" + "\n" + "-1");
+        testHelper.getTeachingStaffController().manageReceivedInquiries();
+
+        //assert
+        assertTrue(testHelper.getOutContent().toString().contains("Invalid inquiry number, please enter any number up to 0, or -1 to exit"));
+
+    }
+
+
+    /**
      * Test case: Answer Inquiry success message
      * Checks for success message when a user of type AdminStaff answers an inquiry
      */
