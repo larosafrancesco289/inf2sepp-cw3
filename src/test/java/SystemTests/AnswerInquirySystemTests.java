@@ -37,7 +37,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "" + "\n" + "ok" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Answer cannot be empty"));
@@ -102,7 +102,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getOutContent().toString().contains("Answer sent to test@test.com"));
@@ -144,7 +144,7 @@ class AnswerInquirySystemTests {
         //test for admin user with at least 1 inquiry
         testHelper.setUpLoggedInAdminStaff();
 
-        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok");
+        testHelper.mockInputOutput("1" + "\n" + "yes" + "\n" + "ok" + "\n" + "-1");
         testHelper.getAdminStaffController().manageInquiries();
 
         assertTrue(testHelper.getSharedContext().getInquiries().isEmpty());
