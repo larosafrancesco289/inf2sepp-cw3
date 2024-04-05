@@ -87,15 +87,16 @@ public class InquirerController extends Controller {
                 //topic = currentSection.getTopic();
 
                 // Handeling the negative options
+                
+                if (optionNo == 0) {
+                    throw new NumberFormatException();
+                }
 
                 if (currentSection == null) {
                     if (optionNo < -1) {
                         throw new NumberFormatException(); //Not in the sequence diagram but required
                     }
                 } else {
-                    if (optionNo == 0) {
-                        throw new NumberFormatException();
-                    }
                     switch (optionNo) {
                         case -1:
                             parent = currentSection.getParent();

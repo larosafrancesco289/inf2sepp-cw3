@@ -85,6 +85,7 @@ public class AdminStaffController extends StaffController {
         int optionNo = 0;
 
         while (!(currentSection == null && optionNo == -1)) {
+
             if (currentSection == null) {
                 sections = faq.getSections();
                 view.displayFAQ(faq, currentUser instanceof Guest);
@@ -113,16 +114,14 @@ public class AdminStaffController extends StaffController {
                 optionNo = Integer.parseInt(userInput);
 
                 if (optionNo < 0) {
-                    if (currentSection == null) {
-                        if (optionNo < -2) {
-                            throw new NumberFormatException(); 
-                        }
-                    } else {
+                    if (optionNo < -2) {
+                        throw new NumberFormatException(); 
+                    }
+                    if (currentSection != null) {
                         if (optionNo == -1) {
                             parent = currentSection.getParent();
                             currentSection = parent;
                             optionNo = 0;
-                            break;
                         }
                     }
                     
