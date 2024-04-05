@@ -19,10 +19,16 @@ class ConsultFAQSystemTests {
     void cleanUp() {
         testHelper.cleanUpEnvironment();
     }
+
+     /**
+     * Setup the faq section Topic1,
+     * Topic1 contain Subtopic1.1, and QA pair a_1.1 and q_1.1
+     * Subtopic1.1 contain q_1.1.1 and a_1.1.1
+     */
     @BeforeEach
     void setUp() {
         testHelper.setUpLoggedInAdminStaff();
-        testHelper.mockInputOutput("-2\nTopic1\nq_1.1\na_1.1\n-1\n");
+        testHelper.mockInputOutput("-2\nTopic1\nq_1.1\na_1.1\n1\n-2\nyes\nSubtopic1.1\nq_1.1.1\na_1.1.1\n-1\n-1\n");
         testHelper.getAdminStaffController().manageFAQ();
         testHelper.setUpGuest();
     }
@@ -220,10 +226,31 @@ class ConsultFAQSystemTests {
      */
      
     @Test
-     void testUnSubsStudent() {
+    void testUnSubsStudent() {
         testHelper.setUpLoggedInStudent();
         testHelper.mockInputOutput("1\n-2\n-2\n-1\n-1\n");
         testHelper.getInquirerController().consultFAQ();
         assertTrue(testHelper.getOutContent().toString().contains("Successfully unregistered"));
     }
+
+    /**
+     * This test verifies that user can select a subtopic to enter
+     * 1 ts the option to go into "Topic1"
+     * 1 ts the option to go into "Subtopic1.1"
+     * -1 returns to Topic1
+     * -1 returns to main FAQ menu
+     * -1 returns to main menu
+     * if the anwser of the QA pair 1.1.1 was in the output, means the user have seccfully entered Subtopic1.1
+     * Also check if the directory "Topic1 / Subtopic1.1" was present in the out put
+     * and the system should offer options to request updates and unsubscribe for guest
+     */
+    @Test
+    void testPickSubtopic() {
+        testHelper.setUpLoggedInStudent();
+        testHelper.mockInputOutput("1\n1\n-1\n-1\n-1\n");
+        testHelper.getInquirerController().consultFAQ();
+        assertTrue(testHelper.getOutContent().toString().contains("a_1.1.1")
+        &&testHelper.getOutContent().toString().contains("Topic1 / Subtopic1.1"));
+    }
+
 }
